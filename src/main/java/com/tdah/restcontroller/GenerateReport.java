@@ -27,6 +27,7 @@ import com.tdah.model.Estudiante;
 import com.tdah.model.ResultadoEncuesta;
 import com.tdah.service.IEncuestaService;
 import com.tdah.service.IEstudianteService;
+import com.tdah.service.IReporteService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,6 +42,9 @@ public class GenerateReport {
 	@Autowired
 	IEstudianteService estudianteService;
 	
+	@Autowired
+	IReporteService reporteService;
+	
 
 	@GetMapping("/generate-report")
 	public void generateReport() throws IOException {
@@ -48,15 +52,16 @@ public class GenerateReport {
 		Encuesta encuesta = encuestaService.findAll().get(0);
 		List<DetalleEncuesta> detalleEncuestas = encuesta.getDetalleEncuestas();
 
+		reporteService.generarReporteSintomasPorGrado();
 		
 		// separamos las encuestas por grados
-		Map<String, List<DetalleEncuesta>> encuentas = dividirEncuestasPorGrado(detalleEncuestas);
-		
-		for (int i = 1; i <= 6; i++) {
-			log.info("encuesta"+i);
-			List<DetalleEncuesta> detalleEncuestaPrimerGrado = encuentas.get("encuesta"+i);
-			reportSumSintomas(detalleEncuestaPrimerGrado, i);
-		}
+//		Map<String, List<DetalleEncuesta>> encuentas = dividirEncuestasPorGrado(detalleEncuestas);
+//		
+//		for (int i = 1; i <= 6; i++) {
+//			log.info("encuesta"+i);
+//			List<DetalleEncuesta> detalleEncuestaPrimerGrado = encuentas.get("encuesta"+i);
+//			reportSumSintomas(detalleEncuestaPrimerGrado, i); //reporte sum sintomas
+//		}
 		
 	}
 	
