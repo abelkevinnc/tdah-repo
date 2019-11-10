@@ -57,6 +57,7 @@ public class EstudianteServiceImpl implements IEstudianteService{
 					.tipoDocumento(e.getTipoDocumento())
 					.numeroDocumento(e.getNumeroDocumento())
 					.fechaNacimiento(e.getFechaNacimiento())
+					.tipoFamilia(e.getTipoFamilia())
 					.build();
 			
 			estudiantes.add(est);

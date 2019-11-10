@@ -18,4 +18,5 @@ public class EstudianteDTO {
 	private String tipoDocumento;
 	private String numeroDocumento;
 	private Date fechaNacimiento;
+	private String tipoFamilia;
 }
