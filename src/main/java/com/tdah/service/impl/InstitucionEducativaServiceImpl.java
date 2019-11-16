@@ -20,4 +20,9 @@ public class InstitucionEducativaServiceImpl implements IInstitucionEducativaSer
 		return dao.findAll();
 	}
 
+	@Override
+	public InstitucionEducativa findById(int id) {
+		return dao.findById(id).get();
+	}
+
 }

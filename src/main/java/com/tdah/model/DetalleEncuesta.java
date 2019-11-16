@@ -1,6 +1,7 @@
 package com.tdah.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -47,6 +50,9 @@ public class DetalleEncuesta implements Serializable{
 	
 	private String nivelEducacion;
 	private String gradoEstudio;
+	
+	@Temporal(TemporalType.DATE)
+	private Date fechaAplicacion;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="cod_detalle_encuesta")

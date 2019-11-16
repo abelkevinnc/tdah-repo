@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tdah.model.DetalleEncuesta;
 import com.tdah.model.Encuesta;
 import com.tdah.model.Estudiante;
+import com.tdah.model.InstitucionEducativa;
 import com.tdah.model.Profesor;
 import com.tdah.model.ResultadoEncuesta;
 import com.tdah.service.IEncuestaService;
 import com.tdah.service.IEstudianteService;
+import com.tdah.service.IInstitucionEducativaService;
 import com.tdah.service.IProfesorService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -36,16 +38,28 @@ public class LoadDataRestController {
 	@Autowired
 	IProfesorService profesorService;
 	
-	
+	@Autowired
+	IInstitucionEducativaService institucionEducativaService;
 	
 	@GetMapping("/loadData")
 	public void load() {
 	
-
+//		InstitucionEducativa institucionEducativa = new InstitucionEducativa();
+//		
+//		institucionEducativa.setCodigoModular("422063");
+//		institucionEducativa.setDenominacion("38001 GUSTAVO CASTRO PANTOJA");
+//		institucionEducativa.setNivelModalidad("Primaria");
+//		institucionEducativa.setGestionDependencia("Pública - Sector Educación");
+//		institucionEducativa.setDireccion("JIRON GARCILAZO DE LA VEGA 111");
+//		institucionEducativa.setLugar("Ayacucho / Huamanga / Ayacucho");
+		
+		InstitucionEducativa newIE = institucionEducativaService.findById(1);
 		
 		Encuesta encuesta = new Encuesta();
 		encuesta.setDenominacion("DSM V");
-		encuesta.setFechaAplicacion(new Date());
+		encuesta.setFechaCreacion(new Date());
+		encuesta.setInstitucionEducativa(newIE);
+		encuesta.setEstado("EN PROCESO");
 		
 		List<DetalleEncuesta> detalleEncuestas = dataDetalleEncuesta();
 		
@@ -154,6 +168,8 @@ public class LoadDataRestController {
 				detalleEncuesta.setGradoEstudio(i+1+"°");
 				detalleEncuesta.setNivelEducacion("PRIMARIA");
 				detalleEncuesta.setResultadoEncuestas(dataResultadoEncuesta());
+				detalleEncuesta.setFechaAplicacion(new Date());
+				
 				detalleEncuestas.add(detalleEncuesta);
 				
 			}

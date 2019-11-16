@@ -111,18 +111,19 @@
                     <table class="table">
                       <tbody>
                       
+                      	<tr>
+                          <td>Institucion Educativa</td>
+                          <td th:text="${encuestaEnproceso.institucionEducativa.denominacion}"></td>
+                        </tr>
                         <tr>
                           <td>Fecha de creación: </td>
-                          <td th:text="${#dates.format(encuestaEnproceso.fechaAplicacion, 'dd-MM-yyyy')}"></td>
+                          <td th:text="${#dates.format(encuestaEnproceso.fechaCreacion, 'dd-MM-yyyy')}"></td>
                         </tr>
                         <tr>
                           <td>N° de encuestados</td>
                           <td th:text="${#lists.size(encuestaEnproceso.detalleEncuestas)}"></td>
                         </tr>
-                        <tr>
-                          <td>N° de encuestados</td>
-                          <td></td>
-                        </tr>
+                        
                       </tbody>
                     </table>
 
