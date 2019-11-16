@@ -46,11 +46,11 @@
               </div>
             </div>
             <div class="card-body">
-              <form>
+              <form th:action="@{/encuesta/registrar}" th:object="${encuesta}" method="post">
                 <div class="row">
                   <div class="col-md-6">
                     <label>Denominacion Encuesta:</label>
-                    <select class="form-control" name="denominacion">
+                    <select class="form-control" th:field="*{denominacion}">
                       <option value="undefined">---Seleccionar tipo encuesta---</option>
                       <option value="DSM-V">DSM-V</option>
                     </select>
@@ -58,7 +58,7 @@
 
                   <div class="col-md-6">
                     <label>Institución educativa:</label>
-                    <select class="form-control" name="codInstitucionEducativa">
+                    <select class="form-control" th:field="*{institucionEducativa}">
                       <option value="undefined">---Seleccionar la institución educativa---</option>
                       <option th:each="institucionEducativa : ${institucionEducativas}"
                         th:value="${institucionEducativa.codInstitucioneducativa}"
@@ -68,13 +68,15 @@
                   </div>
 
                 </div>
-              </form>
-              <br>
-              <div class="form-group row">
-                <div class="col-sm-6">
-                  <button class="btn btn-primary" role="button" onclick="result()">Registrar</button>
+                <br>
+                <div class="form-group row">
+                  <div class="col-sm-6">
+                    <input type="submit" value="Registrar" class="btn btn-secondary" />
+                  </div>
                 </div>
-              </div>
+
+              </form>
+
             </div>
           </div>
         </div>
@@ -110,8 +112,8 @@
 
                     <table class="table">
                       <tbody>
-                      
-                      	<tr>
+
+                        <tr>
                           <td>Institucion Educativa</td>
                           <td th:text="${encuestaEnproceso.institucionEducativa.denominacion}"></td>
                         </tr>
