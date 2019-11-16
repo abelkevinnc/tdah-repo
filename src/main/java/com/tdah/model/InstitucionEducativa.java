@@ -29,4 +29,6 @@ public class InstitucionEducativa  implements Serializable{
 	private String direccion;
 	private String lugar;
 	
+	
+	
 }

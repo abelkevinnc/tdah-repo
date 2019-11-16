@@ -2,12 +2,18 @@ package com.tdah.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tdah.model.Encuesta;
+import com.tdah.model.InstitucionEducativa;
+import com.tdah.service.IEncuestaService;
+import com.tdah.service.IInstitucionEducativaService;
 import com.tdah.util.ListaItems;
 
 import lombok.extern.slf4j.Slf4j;
@@ -16,10 +22,25 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping(value = "/encuesta")
 @Slf4j
 public class EncuestaController {
+	
+	@Autowired
+	IInstitucionEducativaService institucionEducativaService;
+	
+	@Autowired
+	IEncuestaService encuestaService;
+	
 	@GetMapping("/registrar")
 	public ModelAndView registrarEncuesta() {
 		log.info("registrar encuesta");
+		List<InstitucionEducativa> institucionEducativas = institucionEducativaService.findAll();
+		
+		List<Encuesta> encuestas = encuestaService.findAll();
+		
+		List<Encuesta> encuestasEnproceso = encuestas.stream().filter(e -> e.getEstado().equalsIgnoreCase("EN PROCESO")).collect(Collectors.toList());	
+		
 		ModelAndView model = new ModelAndView("encuesta/registrar-encuesta");		
+		model.addObject("institucionEducativas", institucionEducativas);
+		model.addObject("encuestasEnproceso", encuestasEnproceso);
 		return model;
 	}
 	

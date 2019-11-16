@@ -29,9 +29,12 @@ public class Encuesta implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer codEncuesta;
 	private String denominacion;
+	private String estado;
 	
 	@Temporal(TemporalType.DATE)
 	private Date fechaAplicacion;
+	
+	private InstitucionEducativa institucionEducativa;
 	
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

@@ -60,13 +60,16 @@
                     <label>Institución educativa:</label>
                     <select class="form-control" name="codInstitucionEducativa">
                       <option value="undefined">---Seleccionar la institución educativa---</option>
-                      <option value="1234">El pequeño mundo de los niños</option>
-                      <option value="1235">Mariscal Caceres</option>
+                      <option th:each="institucionEducativa : ${institucionEducativas}"
+                        th:value="${institucionEducativa.codInstitucioneducativa}"
+                        th:text="${institucionEducativa.denominacion}">
+                      </option>
                     </select>
                   </div>
 
                 </div>
               </form>
+              <br>
               <div class="form-group row">
                 <div class="col-sm-6">
                   <button class="btn btn-primary" role="button" onclick="result()">Registrar</button>
@@ -91,53 +94,51 @@
           </div>
         </div>
       </div>
-      
-      <div class="row">
-      	<div class="col-xl-4">
-          <div class="card shadow">
-            <div class="card-header bg-transparent">
-              <div class="row align-items-center">
-                <div class="col">
-                  <h6 class="text-uppercase text-muted ls-1 mb-1">INFO</h6>
-                  <h2 class="mb-0">Recomendaciones</h2>
+      <br>
+      <h5 class="heading-small text-muted">En proceso:</h5>
+      <div class="row mt-2" th:if="${not #lists.isEmpty(encuestasEnproceso)}">
+
+        <th:block th:each="encuestaEnproceso : ${encuestasEnproceso}">
+          <div class="col-xl-4">
+            <div class="card shadow border-warning">
+              <div class="card-header bg-transparent">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <h6 class="text-uppercase text-muted ls-1 mb-1"
+                      th:text="${'Encuesta '+encuestaEnproceso.denominacion}"></h6>
+                    <h4 class="mb-0">Detalles</h4>
+
+                    <table class="table">
+                      <tbody>
+                      
+                        <tr>
+                          <td>Fecha de creación: </td>
+                          <td th:text="${#dates.format(encuestaEnproceso.fechaAplicacion, 'dd-MM-yyyy')}"></td>
+                        </tr>
+                        <tr>
+                          <td>N° de encuestados</td>
+                          <td th:text="${#lists.size(encuestaEnproceso.detalleEncuestas)}"></td>
+                        </tr>
+                        <tr>
+                          <td>N° de encuestados</td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                      <button type="button" class="btn btn-success">Finalizar</button>
+                      <button type="button" class="btn btn-danger">Dar de baja</button>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="card-body">
+              <div class="card-body">
 
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-4">
-          <div class="card shadow">
-            <div class="card-header bg-transparent">
-              <div class="row align-items-center">
-                <div class="col">
-                  <h6 class="text-uppercase text-muted ls-1 mb-1">INFO</h6>
-                  <h2 class="mb-0">Recomendaciones</h2>
-                </div>
               </div>
             </div>
-            <div class="card-body">
-
-            </div>
           </div>
-        </div>
-        <div class="col-xl-4">
-          <div class="card shadow">
-            <div class="card-header bg-transparent">
-              <div class="row align-items-center">
-                <div class="col">
-                  <h6 class="text-uppercase text-muted ls-1 mb-1">INFO</h6>
-                  <h2 class="mb-0">Recomendaciones</h2>
-                </div>
-              </div>
-            </div>
-            <div class="card-body">
-
-            </div>
-          </div>
-        </div>
+        </th:block>
       </div>
       <!-- Footer -->
       <footer th:replace="fragments/footer :: footer"></footer>
