@@ -14,6 +14,6 @@ public class Profesor extends Persona implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	String codigoDocente;
+	private String codigoDocente;
 
 }
