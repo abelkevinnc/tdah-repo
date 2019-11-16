@@ -43,7 +43,6 @@ public class EstudianteController {
 	@GetMapping("/registrar")
 	public String registrarEstudiante(Map<String, Object> model) {
 		Estudiante estudiante = new Estudiante();
-		estudiante.setPrimerNombre("Raul");
 		model.put("estudiante", estudiante);
 		return "estudiante/registrar-estudiante";
 	}
