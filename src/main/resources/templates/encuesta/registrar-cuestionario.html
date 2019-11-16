@@ -27,7 +27,7 @@
     <nav th:replace="fragments/top-navbar :: top-navbar"></nav>
     <!-- End Navbar -->
     <!-- Header -->
-    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+    <div class="header bg-gradient-primary pb-5 pt-5 pt-md-8">
       <div class="container-fluid">
       </div>
     </div>
@@ -47,72 +47,75 @@
             </div>
             <div class="card-body">
 
-              <form >
-                  <div class="row">
-                      <div class="col-md-6">
-                        <label>Estudiante:</label>
-                        <select class="form-control">
-                          <option value="undefined">---Seleccionar Estudiante---</option>
-                          <option value="DNI">DNI</option>
-                          <option value="CE">CE</option>
-                          <option value="Otro">Otro</option>
-                        </select>
-                      </div>
-    
-                      <div class="col-md-6">
-                        <label>Profesor:</label>
-                        <select class="form-control" >
-                            <option value="undefined">---Seleccionar Profesor---</option>
-                            <option value="DNI">DNI</option>
-                            <option value="CE">CE</option>
-                            <option value="Otro">Otro</option>
-                          </select>
-                      </div>
-    
-                    </div>
+              <form>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label>Estudiante:</label>
+                    <select class="form-control">
+                      <option value="undefined">---Seleccionar Estudiante---</option>
+                      <option value="DNI">DNI</option>
+                      <option value="CE">CE</option>
+                      <option value="Otro">Otro</option>
+                    </select>
+                  </div>
 
-                    <div class="row">
-                        <div class="col-md-6">
-                          <label>Nivel de educación:</label>
-                          <select class="form-control">
-                            <option value="undefined">---Seleccionar nivel de educación---</option>
-                            <option value="DNI">DNI</option>
-                            <option value="CE">CE</option>
-                            <option value="Otro">Otro</option>
-                          </select>
-                        </div>
-      
-                        <div class="col-md-6">
-                          <label>Grado de estudio:</label>
-                          <select class="form-control">
-                              <option value="undefined">---Seleccionar el grado de estudio---</option>
-                              <option value="DNI">DNI</option>
-                              <option value="CE">CE</option>
-                              <option value="Otro">Otro</option>
-                            </select>
-                        </div>
-      
-                      </div>
+                  <div class="col-md-6">
+                    <label>Profesor:</label>
+                    <select class="form-control">
+                      <option value="undefined">---Seleccionar Profesor---</option>
+                      <option value="DNI">DNI</option>
+                      <option value="CE">CE</option>
+                      <option value="Otro">Otro</option>
+                    </select>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <label>Nivel de educación:</label>
+                    <select class="form-control">
+                      <option value="undefined">---Seleccionar nivel de educación---</option>
+                      <option value="DNI">DNI</option>
+                      <option value="CE">CE</option>
+                      <option value="Otro">Otro</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label>Grado de estudio:</label>
+                    <select class="form-control">
+                      <option value="undefined">---Seleccionar el grado de estudio---</option>
+                      <option value="DNI">DNI</option>
+                      <option value="CE">CE</option>
+                      <option value="Otro">Otro</option>
+                    </select>
+                  </div>
+
+                </div>
               </form>
-            
-            <th:block th:each="lista : ${listas}">
+              <br>
+
+              <h4>POR FAVOR ELEGIR UNA RESPUESTA PARA CADA ITEM</h4>
+
+              <th:block th:each="item : ${items}">
                 <section class="row">
-                  <div class="col-md-8">
-                    <p th:text="${lista.descripcionItem}"></p>
+                  <div class="col-md-8" style="text-align:justify">
+                    <p th:text="${item.numeroItem + '. ' +item.descripcionItem}"></p>
                   </div>
-                  <div class="col-md-2">
-                    <label class="radio">
-                      <input type="radio" th:name="${'item'+lista.numeroItem}" value="SI"> Si
-                    </label>
+                  <div class="col-md-2 custom-control custom-radio">
+
+                    <input th:name="${'item'+item.numeroItem}" class="custom-control-input" th:id="${'radio1_'+item.numeroItem}" type="radio" value="SI">
+                    <label class="custom-control-label" th:for="${'radio1_'+item.numeroItem}">SI</label>
                   </div>
-                  <div class="col-md-2">
-                    <label class="radio">
-                      <input type="radio" th:name="${'item'+lista.numeroItem}" value="NO"> No
-                    </label>
+                  <div class="col-md-2 custom-control custom-radio">
+                    <input th:name="${'item'+item.numeroItem}" class="custom-control-input" th:id="${'radio2_'+item.numeroItem}" type="radio" value="NO">
+                    <label class="custom-control-label" th:for="${'radio2_'+item.numeroItem}">NO</label>
                   </div>
                 </section>
+                <hr>
               </th:block>
-              
+
               <br>
               <div class="form-group row">
                 <div class="col-sm-6">
