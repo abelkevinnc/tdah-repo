@@ -19,11 +19,14 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.tdah.model.DetalleEncuesta;
 import com.tdah.model.Encuesta;
 import com.tdah.model.Estudiante;
 import com.tdah.model.InstitucionEducativa;
 import com.tdah.service.IEncuestaService;
+import com.tdah.service.IEstudianteService;
 import com.tdah.service.IInstitucionEducativaService;
+import com.tdah.service.IProfesorService;
 import com.tdah.util.Items;
 
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +41,12 @@ public class EncuestaController {
 	
 	@Autowired
 	IEncuestaService encuestaService;
+	
+	@Autowired
+	IEstudianteService estudianteService;
+	
+	@Autowired
+	IProfesorService profesorService;
 	
 	@GetMapping("/registrar")
 	public ModelAndView vistaEncuesta() {
@@ -76,17 +85,31 @@ public class EncuestaController {
 	
 	
 	@GetMapping("/registrar-cuestionario/{codEncuesta}")
-	public ModelAndView registrarCuestionario(@PathVariable(value = "codEncuesta") int codEncuesta) {
+	public ModelAndView vistaCuestionario(@PathVariable(value = "codEncuesta") int codEncuesta) {
 		log.info("registrar encuesta con id: "+ codEncuesta);
 		
 		Encuesta encuesta = encuestaService.findById(codEncuesta);
 		
+		DetalleEncuesta detalleEncuesta = new DetalleEncuesta();
+		detalleEncuesta.setNivelEducacion("PRIMARIA");
 		ModelAndView model = new ModelAndView("encuesta/registrar-cuestionario");
-		Items items = new Items();		
+		Items items = new Items();	
+		
 		model.addObject("items", items.listaItems());
-		model.addObject("encuesta", encuesta);
+		model.addObject("detalleEncuesta", detalleEncuesta);
+		model.addObject("estudiantes", estudianteService.findAll());
+		model.addObject("profesores", profesorService.findAll());
+		
 		return model;
 	}
 	
+	
+	@PostMapping("/registrar-cuestionario")
+	public String registrarCuestionario(@Valid DetalleEncuesta detalleEncuesta, BindingResult result, Model model, RedirectAttributes flash, SessionStatus status) {
+		
+		log.info(""+ detalleEncuesta.getGradoEstudio());
+		
+		return "redirect:/";
+	}
 
 }
