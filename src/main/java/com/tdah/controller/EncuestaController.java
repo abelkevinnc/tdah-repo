@@ -23,6 +23,7 @@ import com.tdah.model.DetalleEncuesta;
 import com.tdah.model.Encuesta;
 import com.tdah.model.Estudiante;
 import com.tdah.model.InstitucionEducativa;
+import com.tdah.model.ResultadoEncuesta;
 import com.tdah.service.IEncuestaService;
 import com.tdah.service.IEstudianteService;
 import com.tdah.service.IInstitucionEducativaService;
@@ -86,20 +87,26 @@ public class EncuestaController {
 	
 	@GetMapping("/registrar-cuestionario/{codEncuesta}")
 	public ModelAndView vistaCuestionario(@PathVariable(value = "codEncuesta") int codEncuesta) {
-		log.info("registrar encuesta con id: "+ codEncuesta);
+		log.info("formulario encuesta con id: "+ codEncuesta);
 		
-		Encuesta encuesta = encuestaService.findById(codEncuesta);
+		Items items = new Items();	
+		List<ResultadoEncuesta> resultadoEncuestas = new ArrayList<ResultadoEncuesta>();
+		
+		for(Items i : items.listaItems()) {
+			resultadoEncuestas.add(new ResultadoEncuesta(i.getNumeroItem(), i.getDescripcionItem()));
+		}	
 		
 		DetalleEncuesta detalleEncuesta = new DetalleEncuesta();
-		detalleEncuesta.setNivelEducacion("PRIMARIA");
-		ModelAndView model = new ModelAndView("encuesta/registrar-cuestionario");
-		Items items = new Items();	
+		detalleEncuesta.setResultadoEncuestas(resultadoEncuestas);
+		detalleEncuesta.setCodEncuesta(codEncuesta);
 		
-		model.addObject("items", items.listaItems());
+		ModelAndView model = new ModelAndView("encuesta/registrar-cuestionario");
 		model.addObject("detalleEncuesta", detalleEncuesta);
 		model.addObject("estudiantes", estudianteService.findAll());
 		model.addObject("profesores", profesorService.findAll());
+		model.addObject("resultadoEncuestas", resultadoEncuestas);
 		
+
 		return model;
 	}
 	
@@ -107,7 +114,27 @@ public class EncuestaController {
 	@PostMapping("/registrar-cuestionario")
 	public String registrarCuestionario(@Valid DetalleEncuesta detalleEncuesta, BindingResult result, Model model, RedirectAttributes flash, SessionStatus status) {
 		
-		log.info(""+ detalleEncuesta.getGradoEstudio());
+		log.info("registrar encuesta con id: "+ detalleEncuesta.getCodEncuesta());
+		int codEncuesta = detalleEncuesta.getCodEncuesta();
+		detalleEncuesta.setFechaAplicacion(new Date());
+		Encuesta encuesta = encuestaService.findById(codEncuesta);
+		
+		encuesta.agregarDetalleEncuesta(detalleEncuesta);
+		
+		encuestaService.saveOrUpdate(encuesta);
+		
+//		try {
+//			log.info("list size: "+ detalleEncuesta.getResultadoEncuestas());
+//			if(!detalleEncuesta.getResultadoEncuestas().isEmpty()) {
+//				for(ResultadoEncuesta re : detalleEncuesta.getResultadoEncuestas()) {
+//					log.info(""+re.getNumeroItem());
+//					log.info(""+re.getRespuestaItem());
+//				}
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+		
 		
 		return "redirect:/";
 	}

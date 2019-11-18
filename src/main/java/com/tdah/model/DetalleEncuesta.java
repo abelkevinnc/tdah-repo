@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -31,11 +32,6 @@ public class DetalleEncuesta implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer codDetalleencuesta;
-	
-	
-//	@ManyToOne(fetch=FetchType.LAZY)
-//	@JoinColumn(name="cod_estudiante")
-//	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 	
 	@JsonIgnoreProperties(value={"detalleEncuestas","hibernateLazyInitializer","handler"}, allowSetters=true)
 	@ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
@@ -58,5 +54,7 @@ public class DetalleEncuesta implements Serializable{
 	@JoinColumn(name="cod_detalle_encuesta")
 	private List<ResultadoEncuesta> resultadoEncuestas;
 	
+	@Transient
+	private int codEncuesta;
 	
 }

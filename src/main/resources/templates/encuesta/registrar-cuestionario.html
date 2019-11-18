@@ -48,6 +48,7 @@
             <div class="card-body">
 
               <form th:action="@{/encuesta/registrar-cuestionario}" th:object="${detalleEncuesta}" method="post">
+              	<input type="hidden" th:field="*{codEncuesta}" />
                 <div class="row">
                   <div class="col-md-6">
                     <label>Estudiante:</label>
@@ -97,6 +98,43 @@
                   </div>
 
                 </div>
+                <br>
+                <h4>POR FAVOR ELEGIR UNA RESPUESTA PARA CADA ITEM</h4>
+                <th:block th:each="resultadoEncuesta, itemStat : *{resultadoEncuestas}">
+                <section class="row">
+                  <div class="col-md-8" style="text-align:justify">
+                  <input type="hidden" th:field="*{resultadoEncuestas[__${itemStat.index}__].numeroItem}" />
+                    <p th:text="${resultadoEncuesta.numeroItem + '. ' +resultadoEncuesta.descripcionItem}"></p>
+                  </div>
+                  
+                  <div class="col-md-2 custom-control custom-radio">
+                    <input th:name="|resultadoEncuestas[${itemStat.index}].respuestaItem|" class="custom-control-input" th:id="${'radio1_'+resultadoEncuesta.numeroItem}" type="radio" value="SI">
+                    <label class="custom-control-label" th:for="${'radio1_'+resultadoEncuesta.numeroItem}">SI</label>
+                  </div>
+                  <div class="col-md-2 custom-control custom-radio">
+                    <input th:name="|resultadoEncuestas[${itemStat.index}].respuestaItem|" class="custom-control-input" th:id="${'radio2_'+resultadoEncuesta.numeroItem}" type="radio" value="NO">
+                    <label class="custom-control-label" th:for="${'radio2_'+resultadoEncuesta.numeroItem}">NO</label>
+                  </div>
+                  
+                </section>
+                <hr>
+              </th:block>
+                              <!-- <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">item</th>
+      <th scope="col">respuesta</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="resultadoEncuesta, itemStat : *{resultadoEncuestas}">
+      <th scope="row"><input type="text" th:field="*{resultadoEncuestas[__${itemStat.index}__].numeroItem}" /></th>
+      
+      <td th:text="${resultadoEncuesta.getNumeroItem()}"></td>
+      <td th:text="${resultadoEncuesta.getRespuestaItem()}"></td>
+    </tr>
+  </tbody>
+</table> -->
                 
                 <div class="form-group row">
                   <div class="col-sm-6">
@@ -106,9 +144,8 @@
               </form>
               <br>
 
-              <h4>POR FAVOR ELEGIR UNA RESPUESTA PARA CADA ITEM</h4>
 
-              <th:block th:each="item : ${items}">
+              <!-- <th:block th:each="item, itemStat : ${items}">
                 <section class="row">
                   <div class="col-md-8" style="text-align:justify">
                     <p th:text="${item.numeroItem + '. ' +item.descripcionItem}"></p>
@@ -124,7 +161,7 @@
                   </div>
                 </section>
                 <hr>
-              </th:block>
+              </th:block> -->
 
               <br>
               <div class="form-group row">

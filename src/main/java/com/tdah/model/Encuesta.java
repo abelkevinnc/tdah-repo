@@ -48,4 +48,8 @@ public class Encuesta implements Serializable{
 	private List<DetalleEncuesta> detalleEncuestas;
 	
 	
+	public void agregarDetalleEncuesta(DetalleEncuesta detalleEncuesta) {
+		this.detalleEncuestas.add(detalleEncuesta);
+	}
+	
 }
