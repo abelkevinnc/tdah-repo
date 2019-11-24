@@ -9,6 +9,19 @@
 	<div th:fragment = "mensaje_error">
 		<div class="alert alert-danger" role="alert" th:if="${mensaje_error != null}" th:text="${mensaje_error}"></div>
 	</div>
+	
+	<div th:fragment = "mensaje_exito_cuestionario">
+
+			<div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${mensaje_exito_cuestionario != null}">
+	    <span class="alert-inner--icon"><i class="ni ni-like-2"></i></span>
+	    <span class="alert-inner--text" th:text="${mensaje_exito_cuestionario}"></span>
+	    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	        <span aria-hidden="true">&times;</span>
+	    </button>
+		</div>
+	</div>
+	
+	
 
 </body>
 </html>

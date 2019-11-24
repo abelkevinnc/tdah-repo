@@ -1,5 +1,6 @@
 package com.tdah.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tdah.dto.EstudianteDTO;
+import com.tdah.model.Contacto;
 import com.tdah.model.Estudiante;
 import com.tdah.service.IEstudianteService;
 
@@ -43,20 +45,34 @@ public class EstudianteController {
 	@GetMapping("/registrar")
 	public String registrarEstudiante(Map<String, Object> model) {
 		Estudiante estudiante = new Estudiante();
+		
+		List<Contacto> contactos = new ArrayList<Contacto>();
+		
+		Contacto contacto = new Contacto();
+		contacto.setDireccion("");
+		contacto.setCorreoElectronico("");
+		contacto.setNumeroTelefonico("");
+		
+		contactos.add(contacto);
+		
+		estudiante.setContactos(contactos);
+		
 		model.put("estudiante", estudiante);
+		model.put("contactos", contactos);
 		return "estudiante/registrar-estudiante";
 	}
 	
 	@PostMapping("/registrar")
 	public String guardar(@Valid Estudiante estudiante, BindingResult result, Model model, RedirectAttributes flash, SessionStatus status) {
-		
+
 		try {
 			estudianteService.saveOrUpdate(estudiante);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return "redirect:listar";
+		return "redirect:registrar";
 	}
 
 }

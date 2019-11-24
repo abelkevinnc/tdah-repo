@@ -46,6 +46,7 @@
               </div>
             </div>
             <div class="card-body">
+              <div th:replace = "layout/mensaje :: mensaje_exito_cuestionario"></div>
 
               <form th:action="@{/encuesta/registrar-cuestionario}" th:object="${detalleEncuesta}" method="post">
               	<input type="hidden" th:field="*{codEncuesta}" />
@@ -74,7 +75,7 @@
 
                 </div>
 
-                <div class="row">
+                <div class="row mt-2">
                   <div class="col-md-6">
                     <label>Nivel de educación:</label>
                     <select class="form-control" th:field="*{nivelEducacion}">
@@ -85,7 +86,7 @@
                   </div>
 
                   <div class="col-md-6">
-                    <label>Grado de estudio:</label>
+                    <label>Grado de estudios:</label>
                     <select class="form-control" th:field="*{gradoEstudio}">
                       <option value="undefined">---Seleccionar el grado de estudio---</option>
                       <option value="1°">PRIMERO</option>
@@ -117,7 +118,7 @@
                   </div>
                   
                 </section>
-                <hr>
+                <hr class="mt-1 mb-1">
               </th:block>
                               <!-- <table class="table">
   <thead>

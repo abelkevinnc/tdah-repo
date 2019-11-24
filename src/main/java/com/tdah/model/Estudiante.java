@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -26,6 +27,11 @@ public class Estudiante extends Persona implements Serializable{
 	@JsonIgnoreProperties(value={"estudiante","hibernateLazyInitializer","handler"}, allowSetters=true)
 	@OneToMany(fetch=FetchType.EAGER, mappedBy="estudiante")
 	List<DetalleEncuesta> detalleEncuestas;
+	
+	@JsonIgnoreProperties(value={"estudiante","hibernateLazyInitializer","handler"}, allowSetters=true)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name="cod_estudiante")
+	private List<Contacto> contactos;
 	
 	public Estudiante() {
 		this.detalleEncuestas = new ArrayList<DetalleEncuesta>();

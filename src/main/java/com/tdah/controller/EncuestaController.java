@@ -105,6 +105,7 @@ public class EncuestaController {
 		model.addObject("estudiantes", estudianteService.findAll());
 		model.addObject("profesores", profesorService.findAll());
 		model.addObject("resultadoEncuestas", resultadoEncuestas);
+		model.addObject("mensaje_exito_cuestionario", "Cuestionario registrado exitosamente.");
 		
 
 		return model;
@@ -118,10 +119,16 @@ public class EncuestaController {
 		int codEncuesta = detalleEncuesta.getCodEncuesta();
 		detalleEncuesta.setFechaAplicacion(new Date());
 		Encuesta encuesta = encuestaService.findById(codEncuesta);
-		
 		encuesta.agregarDetalleEncuesta(detalleEncuesta);
+		try {
+			encuestaService.saveOrUpdate(encuesta);
+			flash.addAttribute("mensaje_exito_cuestionario", "Cuestionario registrado exitosamente.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			//flash.addAttribute("mensaje_exito_cuestionario", "Vuelva a intentarlo");
+		}
 		
-		encuestaService.saveOrUpdate(encuesta);
+		
 		
 //		try {
 //			log.info("list size: "+ detalleEncuesta.getResultadoEncuestas());

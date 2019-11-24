@@ -1,5 +1,6 @@
 package com.tdah.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tdah.dto.ProfesorDTO;
+import com.tdah.model.Contacto;
 import com.tdah.model.Profesor;
 import com.tdah.service.IProfesorService;
 
@@ -28,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ProfesorController {
 	@Autowired
 	IProfesorService profesorService;
-	
+
 	@GetMapping("/listar")
 	public ModelAndView listarProfesores() {
 		ModelAndView model = new ModelAndView("profesor/listar-profesor");
@@ -37,17 +39,30 @@ public class ProfesorController {
 		model.addObject("profesores", profesores);
 		return model;
 	}
-	
+
 	@GetMapping("/registrar")
 	public String registrarProfesor(Map<String, Object> model) {
 		Profesor profesor = new Profesor();
+
+		List<Contacto> contactos = new ArrayList<Contacto>();
+
+		Contacto contacto = new Contacto();
+		contacto.setDireccion("");
+		contacto.setCorreoElectronico("");
+		contacto.setNumeroTelefonico("");
+
+		contactos.add(contacto);
+		
+		profesor.setContactos(contactos);
 		model.put("profesor", profesor);
+		model.put("contactos", contactos);
 		return "profesor/registrar-profesor";
 	}
-	
+
 	@PostMapping("/registrar")
-	public String guardar(@Valid Profesor profesor, BindingResult result, Model model, RedirectAttributes flash, SessionStatus status) {
-		
+	public String guardar(@Valid Profesor profesor, BindingResult result, Model model, RedirectAttributes flash,
+			SessionStatus status) {
+
 		try {
 			profesorService.saveOrUpdate(profesor);
 		} catch (Exception e) {
