@@ -16,6 +16,9 @@
   <link th:href="@{/assets/js/plugins/@fortawesome/fontawesome-free/css/all.min.css}" rel="stylesheet" />
   <!-- CSS Files -->
   <link th:href="@{/assets/css/argon-dashboard.css?v=1.1.0}" rel="stylesheet" />
+
+  <!-- Owner css -->
+  <link th:href="@{/css/global.css}" rel="stylesheet" />
 </head>
 
 <body class="">
@@ -61,15 +64,17 @@
                   </thead>
                   <tbody>
                     <tr th:each="profesor : ${profesores}">
-                      <td> <img th:src="${profesor.genero} == 'M' ? @{/img/male-table.png} : @{/img/female-table.png}"></td>
+                      <td> <img th:src="${profesor.genero} == 'M' ? @{/img/male-table.png} : @{/img/female-table.png}">
+                      </td>
                       <td th:text="${profesor.primerNombre + ' ' + profesor.segundoNombre}"></td>
                       <td th:text="${profesor.apellidoPaterno + ' ' + profesor.apellidoMaterno}"></td>
                       <td th:text="${profesor.genero} == 'M' ? 'Masculino' : 'Femenino'"></td>
                       <td th:text="${profesor.tipoDocumento + ': ' + profesor.numeroDocumento}"></td>
                       <td>
-                      	<div class="btn-group" role="group" aria-label="Basic example">
+                        <div class="btn-group" role="group" aria-label="Basic example">
                           <a href="#" role="button" class="btn btn-info">Perfil</a>
-                          <a th:href="${'/profesor/editar/'+profesor.codPersona}" role="button" class="btn btn-warning">Editar</a>
+                          <a th:href="${'/profesor/editar/'+profesor.codPersona}" role="button"
+                            class="btn btn-warning">Editar</a>
                         </div>
                       </td>
                     </tr>
@@ -86,13 +91,20 @@
             <div class="card-header bg-transparent">
               <div class="row align-items-center">
                 <div class="col">
-                  <h6 class="text-uppercase text-muted ls-1 mb-1">INFO</h6>
-                  <h2 class="mb-0">Recomendaciones</h2>
+                  <h6 class="text-uppercase text-muted ls-1 mb-1"></h6>
+                  <h4 class="mb-0">INDICACIONES</h4>
                 </div>
               </div>
             </div>
             <div class="card-body">
-
+              <div class="text-justify">
+                <p>En la tabla se muestra los profesores registrados en la base de datos, puede escribir en el
+                  buscador para encontrar fácilmente un registro.</p>
+                <hr class="my-4" />
+                <p>Presiona el botón de perfil para ver los datos completos del profesor seleccionado</p>
+                <hr class="my-4" />
+                <p>Presiona el botón de editar para realizar un cambio necesario</p>
+              </div>
             </div>
           </div>
         </div>
@@ -107,13 +119,13 @@
   <script th:src="@{/assets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
   <!--   Argon JS   -->
   <script th:src="@{/assets/js/argon-dashboard.min.js?v=1.1.0}"></script>
-  
+
   <!-- datatable js -->
   <script th:src="@{/datatable/js/jquery.dataTables.min.js}"></script>
   <script th:src="@{/datatable/js/dataTables.bootstrap4.min.js}"></script>
   <script th:src="@{/datatable/js/dataTables.fixedColumns.min.js}"></script>
   <!-- fin datatable js -->
-  
+
   <!-- owner js-->
   <script th:src="@{/js/profesor/listar-profesor.js}"></script>
 </body>

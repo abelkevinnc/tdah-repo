@@ -1,0 +1,23 @@
+#footer {
+	position: fixed;
+	height: 10px;
+	bottom: 0px;
+	left: 255px;
+	right: 5px;
+	margin-bottom: 15px;
+	background-color: #F8F9FE;
+	padding: 0px;
+}
+
+#footer-login {
+	position: fixed;
+	height: 10px;
+	bottom: 0px;
+	right: 5px;
+	margin-bottom: 10px;
+	padding: 0px;
+}
+
+body {
+	margin-bottom: 60px;
+}
