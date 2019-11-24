@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.support.SessionStatus;
@@ -69,6 +70,19 @@ public class ProfesorController {
 			e.printStackTrace();
 		}
 		return "redirect:listar";
+	}
+	
+	@GetMapping("/editar/{id}")
+	public String editarEstudiante(@PathVariable(value = "id") Integer id, Map<String, Object> model, RedirectAttributes flash) {
+
+		Profesor profesor = profesorService.findById(id);
+		
+		if (profesor == null) {
+			flash.addFlashAttribute("error", "El profesor no existe en la base de datos");
+			return "redirect:/listar";
+		}
+		model.put("profesor", profesor);
+		return "profesor/editar-profesor";
 	}
 
 }

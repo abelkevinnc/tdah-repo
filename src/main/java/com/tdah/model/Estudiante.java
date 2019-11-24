@@ -23,6 +23,7 @@ public class Estudiante extends Persona implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private String tipoFamilia;
+	private String estado;
 	
 	@JsonIgnoreProperties(value={"estudiante","hibernateLazyInitializer","handler"}, allowSetters=true)
 	@OneToMany(fetch=FetchType.EAGER, mappedBy="estudiante")

@@ -61,8 +61,7 @@
                       <th scope="col">Apellidos</th>
                       <th scope="col">Genero</th>
                       <th scope="col">F.N</th>
-                      <th scope="col">Tipo doc.</th>
-                      <th scope="col">N. doc.</th>
+                      <th scope="col">Tipo y N° doc.</th>
                       <th scope="col"></th>
                     </tr>
                   </thead>
@@ -75,12 +74,11 @@
                       <td th:text="${estudiante.apellidoPaterno + ' ' + estudiante.apellidoMaterno}"></td>
                       <td th:text="${estudiante.genero} == 'M' ? 'Masculino' : 'Femenino'"></td>
                       <td th:text="${#dates.format(estudiante.fechaNacimiento, 'dd-MM-yyyy')}"></td>
-                      <td th:text="${estudiante.tipoDocumento}"></td>
-                      <td th:text="${estudiante.numeroDocumento}"></td>
+                      <td th:text="${estudiante.tipoDocumento + ': ' + estudiante.numeroDocumento}"></td>
                       <td>
                       	<div class="btn-group" role="group" aria-label="Basic example">
                           <a href="#" role="button" class="btn btn-info">Perfil</a>
-                          <a href="#" role="button" class="btn btn-warning">Editar</a>
+                          <a th:href="${'/estudiante/editar/'+estudiante.codPersona}" role="button" class="btn btn-warning">Editar</a>
                         </div>
                       </td>
                       

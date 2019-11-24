@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>
-    Registrar profesor
+    Editar profesor
   </title>
   <!-- Favicon -->
   <link th:href="@{/assets/img/brand/favicon.png}" rel="icon" type="image/png">
@@ -39,7 +39,7 @@
               <div class="row align-items-center">
                 <div class="col">
                   <h5 class="text-uppercase text-light ls-1 mb-1"></h5>
-                  <h4 class="mb-0">FORMULARIO DATOS PERSONALES DEL PROFESOR</h4>
+                  <h4 class="mb-0">DATOS PERSONALES DEL PROFESOR</h4>
                 </div>
                 <div class="col">
                 </div>
@@ -48,6 +48,7 @@
             <div class="card-body">
 
               <form th:action="@{/profesor/registrar}" th:object="${profesor}" method="post">
+              <input type="hidden" th:field="*{codPersona}"/> <!-- codigoo del profesor a editar -->
                 <div class="row">
                   <div class="col-md-6">
                     <label>Primer nombre:</label>
@@ -193,8 +194,7 @@
                 <br>
                 <div class="form-group row">
                   <div class="col-sm-6">
-                    <!-- <button class="btn btn-primary" role="button">Registrar</button> -->
-                    <input type="submit" value="Registrar" class="btn btn-secondary" />
+                    <input type="submit" value="Editar" class="btn btn-warning" />
                   </div>
                 </div>
               </form>

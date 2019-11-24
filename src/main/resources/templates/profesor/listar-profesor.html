@@ -55,8 +55,7 @@
                       <th scope="col">Nombres</th>
                       <th scope="col">Apellidos</th>
                       <th scope="col">Genero</th>
-                      <th scope="col">Tipo doc.</th>
-                      <th scope="col">N. doc.</th>
+                      <th scope="col">Tipo y N° doc.</th>
                       <th scope="col"></th>
                     </tr>
                   </thead>
@@ -66,12 +65,11 @@
                       <td th:text="${profesor.primerNombre + ' ' + profesor.segundoNombre}"></td>
                       <td th:text="${profesor.apellidoPaterno + ' ' + profesor.apellidoMaterno}"></td>
                       <td th:text="${profesor.genero} == 'M' ? 'Masculino' : 'Femenino'"></td>
-                      <td th:text="${profesor.tipoDocumento}"></td>
-                      <td th:text="${profesor.numeroDocumento}"></td>
+                      <td th:text="${profesor.tipoDocumento + ': ' + profesor.numeroDocumento}"></td>
                       <td>
                       	<div class="btn-group" role="group" aria-label="Basic example">
                           <a href="#" role="button" class="btn btn-info">Perfil</a>
-                          <a href="#" role="button" class="btn btn-warning">Editar</a>
+                          <a th:href="${'/profesor/editar/'+profesor.codPersona}" role="button" class="btn btn-warning">Editar</a>
                         </div>
                       </td>
                     </tr>
