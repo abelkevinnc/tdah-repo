@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -19,14 +20,14 @@
 
 <body class="">
   <!-- inicio sidebar -->
-	<nav th:replace="fragments/sidebar :: sidebar"></nav>
-	<!-- fin sidebar -->
+  <nav th:replace="fragments/sidebar :: sidebar"></nav>
+  <!-- fin sidebar -->
   <div class="main-content">
     <!-- Navbar -->
     <nav th:replace="fragments/top-navbar :: top-navbar"></nav>
     <!-- End Navbar -->
     <!-- Header -->
-    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+    <div class="header bg-gradient-primary pb-5 pt-5 pt-md-8">
       <div class="container-fluid">
       </div>
     </div>
@@ -37,7 +38,7 @@
             <div class="card-header bg-transparent">
               <div class="row align-items-center">
                 <div class="col">
-                  <h6 class="text-uppercase text-light ls-1 mb-1">LISTA DE ESTUDIANTES</h6>
+                  <h4 class="text-uppercase text-light ls-1 mb-1">LISTA DE PROFESORES REGISTRADOS</h4>
                   <h2 class="mb-0"></h2>
                 </div>
                 <div class="col">
@@ -45,27 +46,40 @@
               </div>
             </div>
             <div class="card-body">
-				Aqui va la lista de estudiantes
-				
-				<!-- inicio tabla -->
-				<div class="table-responsive">
-              <table class="table align-items-center table-striped">
-                <thead class="thead-light">
-                  <tr>
-                    <th scope="col">Nombres</th>
-                    <th scope="col">Apellidos</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr th:each="estudiante : ${estudiantes}">
-                  	<td th:text="${estudiante.primerNombre}"></td>
-                  	<td th:text="${estudiante.segundoNombre}"></td>
-                  </tr>
-                </tbody>
-              </table>
+              <!-- inicio tabla -->
+              <div class="table-responsive">
+                <table id="tableProfesores" class="table align-items-center table-striped table-bordered table-hover">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col"></th>
+                      <th scope="col">Nombres</th>
+                      <th scope="col">Apellidos</th>
+                      <th scope="col">Genero</th>
+                      <th scope="col">Tipo doc.</th>
+                      <th scope="col">N. doc.</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr th:each="profesor : ${profesores}">
+                      <td> <img th:src="${profesor.genero} == 'M' ? @{/img/male-table.png} : @{/img/female-table.png}"></td>
+                      <td th:text="${profesor.primerNombre + ' ' + profesor.segundoNombre}"></td>
+                      <td th:text="${profesor.apellidoPaterno + ' ' + profesor.apellidoMaterno}"></td>
+                      <td th:text="${profesor.genero} == 'M' ? 'Masculino' : 'Femenino'"></td>
+                      <td th:text="${profesor.tipoDocumento}"></td>
+                      <td th:text="${profesor.numeroDocumento}"></td>
+                      <td>
+                      	<div class="btn-group" role="group" aria-label="Basic example">
+                          <a href="#" role="button" class="btn btn-info">Perfil</a>
+                          <a href="#" role="button" class="btn btn-warning">Editar</a>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-				<!-- fin tabla -->
-				
+              <!-- fin tabla -->
+
             </div>
           </div>
         </div>
@@ -95,6 +109,15 @@
   <script th:src="@{/assets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
   <!--   Argon JS   -->
   <script th:src="@{/assets/js/argon-dashboard.min.js?v=1.1.0}"></script>
+  
+  <!-- datatable js -->
+  <script th:src="@{/datatable/js/jquery.dataTables.min.js}"></script>
+  <script th:src="@{/datatable/js/dataTables.bootstrap4.min.js}"></script>
+  <script th:src="@{/datatable/js/dataTables.fixedColumns.min.js}"></script>
+  <!-- fin datatable js -->
+  
+  <!-- owner js-->
+  <script th:src="@{/js/profesor/listar-profesor.js}"></script>
 </body>
 
 </html>
