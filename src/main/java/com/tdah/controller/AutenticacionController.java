@@ -51,7 +51,7 @@ public class AutenticacionController {
 		
 		if(usuarioLogueado != null) {
 			session.setAttribute("usuario_sesion", usuarioLogueado);
-			return "redirect:/";
+			return "redirect:/home";
 		} else {
 			flash.addFlashAttribute("mensaje_error","Credenciales incorrectas, vuelva a intentarlo.");
 			return "redirect:/autenticacion/login";
