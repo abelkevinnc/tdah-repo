@@ -1,5 +1,6 @@
 package com.tdah.controller;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class AutenticacionController {
 	IUsuarioService usuarioService;
 	
 	@GetMapping("/login")
-	public String vistaLogin(@RequestParam(value = "error", required = false) String error, Model model) {
+	public String getLogin(@RequestParam(value = "error", required = false) String error, Model model) {
 		log.info("login");
 		if(error!=null) {
 			model.addAttribute("mensaje_error","Usuario y/o clave incorrectos");
@@ -38,24 +39,32 @@ public class AutenticacionController {
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@Valid Usuario usuario, BindingResult result, RedirectAttributes flash) {
+	public String postLogin(@Valid Usuario usuario, BindingResult result, RedirectAttributes flash, Model model, HttpSession session) {
 		log.info(""+usuario);
 		
-		Usuario usuarioRegistrado = new Usuario();
+		Usuario usuarioLogueado = new Usuario();
 		try {
-			usuarioRegistrado = usuarioService.usuarioLogin(usuario.getNombreUsuario(), usuario.getClave());
+			usuarioLogueado = usuarioService.usuarioLogin(usuario.getNombreUsuario(), usuario.getClave());
 		} catch (Exception e) {
 			log.error(""+ e.getMessage());
 		}
 		
-		if(usuarioRegistrado != null) {
-			return "redirect:/encuesta/registrar";
+		if(usuarioLogueado != null) {
+			session.setAttribute("usuario_sesion", usuarioLogueado);
+			return "redirect:/";
 		} else {
 			flash.addFlashAttribute("mensaje_error","Credenciales incorrectas, vuelva a intentarlo.");
 			return "redirect:/autenticacion/login";
 		}
 		
 		
+	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	public String cerrarSesion(HttpSession session) {
+		log.info("logout!");
+		//session.removeAttribute("usuario_sesion");
+		return "redirect:/autenticacion/login";
 	}
 
 }
