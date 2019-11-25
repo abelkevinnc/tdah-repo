@@ -51,7 +51,7 @@ public class AutenticacionController {
 		
 		if(usuarioLogueado != null) {
 			session.setAttribute("usuario_sesion", usuarioLogueado);
-			return "redirect:/home";
+			return "redirect:/";
 		} else {
 			flash.addFlashAttribute("mensaje_error","Credenciales incorrectas, vuelva a intentarlo.");
 			return "redirect:/autenticacion/login";
@@ -63,7 +63,7 @@ public class AutenticacionController {
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	public String cerrarSesion(HttpSession session) {
 		log.info("logout!");
-		//session.removeAttribute("usuario_sesion");
+		session.removeAttribute("usuario_sesion");
 		return "redirect:/autenticacion/login";
 	}
 
