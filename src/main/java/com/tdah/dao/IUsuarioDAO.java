@@ -9,5 +9,7 @@ public interface IUsuarioDAO extends JpaRepository<Usuario, Integer>{
 	
 	@Query(value="select * from usuario where nombre_usuario =?1 and clave =?2", nativeQuery=true)
 	Usuario usuarioLogin(String nombreUsuario, String clave);
-
+	
+	@Query(value = "select * from usuario where nombre_usuario=?1", nativeQuery=true)
+	Usuario getUserByUsername(String nombreUsuario);
 }

@@ -3,8 +3,10 @@ package com.tdah.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +18,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tdah.model.DetalleEncuesta;
 import com.tdah.model.Encuesta;
-import com.tdah.model.Estudiante;
 import com.tdah.model.InstitucionEducativa;
 import com.tdah.model.ResultadoEncuesta;
+import com.tdah.model.Usuario;
 import com.tdah.service.IEncuestaService;
 import com.tdah.service.IEstudianteService;
 import com.tdah.service.IInstitucionEducativaService;
@@ -50,65 +51,70 @@ public class EncuestaController {
 	IProfesorService profesorService;
 	
 	@GetMapping("/registrar")
-	public ModelAndView vistaEncuesta() {
-		log.info("registrar encuesta");
-		List<InstitucionEducativa> institucionEducativas = institucionEducativaService.findAll();
+	public String getRegistrarEncuesta(Map<String, Object> model, HttpSession session) {
+		log.info("Encuesta controller: registrar encuesta");
+		if(session.getAttribute("usuarioSesion") != null) {
+			List<InstitucionEducativa> institucionEducativas = institucionEducativaService.findAll();
+			
+			List<Encuesta> encuestas = encuestaService.findAll();
+			List<Encuesta> encuestasEnproceso = encuestas.stream().filter(e -> e.getEstado().equalsIgnoreCase("EN PROCESO")).collect(Collectors.toList());	
+			
+			Encuesta encuesta = new Encuesta();	
+			model.put("institucionEducativas", institucionEducativas);
+			model.put("encuestasEnproceso", encuestasEnproceso);
+			model.put("encuesta", encuesta);
+			model.put("usuarioSesion", (Usuario) session.getAttribute("usuarioSesion"));
+			
+			return "encuesta/registrar-encuesta";
+		}
 		
-		List<Encuesta> encuestas = encuestaService.findAll();
-		List<Encuesta> encuestasEnproceso = encuestas.stream().filter(e -> e.getEstado().equalsIgnoreCase("EN PROCESO")).collect(Collectors.toList());	
+		return "autenticacion/login";
 		
-		Encuesta encuesta = new Encuesta();
-		
-		ModelAndView model = new ModelAndView("encuesta/registrar-encuesta");		
-		model.addObject("institucionEducativas", institucionEducativas);
-		model.addObject("encuestasEnproceso", encuestasEnproceso);
-		model.addObject("encuesta", encuesta);
-		return model;
 	}
 	
 	@PostMapping("/registrar")
-	public String registrarEncuesta(@Valid Encuesta encuesta, BindingResult result, Model model, RedirectAttributes flash, SessionStatus status) {
+	public String postRegistrarEncuesta(@Valid Encuesta encuesta, BindingResult result, Model model, RedirectAttributes flash, SessionStatus status) {
 	
-		log.info("registrar encuesta");
-		log.info(""+ encuesta.getInstitucionEducativa().getDenominacion()); 
-		
 		encuesta.setEstado("EN PROCESO");
 		encuesta.setFechaCreacion(new Date());
-		 
 		try {
 			encuestaService.saveOrUpdate(encuesta);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return "redirect:/";
+		return "redirect:registrar";
 	}
 	
 	
 	@GetMapping("/registrar-cuestionario/{codEncuesta}")
-	public ModelAndView vistaCuestionario(@PathVariable(value = "codEncuesta") int codEncuesta) {
-		log.info("formulario encuesta con id: "+ codEncuesta);
+	public String vistaCuestionario(@PathVariable(value = "codEncuesta") int codEncuesta, Map<String, Object> model, HttpSession session) {
+		log.info("Encuesta controller: registrar cuestionario para la encuesta con id: "+ codEncuesta);
 		
-		Items items = new Items();	
-		List<ResultadoEncuesta> resultadoEncuestas = new ArrayList<ResultadoEncuesta>();
-		
-		for(Items i : items.listaItems()) {
-			resultadoEncuestas.add(new ResultadoEncuesta(i.getNumeroItem(), i.getDescripcionItem()));
-		}	
-		
-		DetalleEncuesta detalleEncuesta = new DetalleEncuesta();
-		detalleEncuesta.setResultadoEncuestas(resultadoEncuestas);
-		detalleEncuesta.setCodEncuesta(codEncuesta);
-		
-		ModelAndView model = new ModelAndView("encuesta/registrar-cuestionario");
-		model.addObject("detalleEncuesta", detalleEncuesta);
-		model.addObject("estudiantes", estudianteService.findAll());
-		model.addObject("profesores", profesorService.findAll());
-		model.addObject("resultadoEncuestas", resultadoEncuestas);
-		model.addObject("mensaje_exito_cuestionario", "Cuestionario registrado exitosamente.");
-		
+		if(session.getAttribute("usuarioSesion") != null) {
+			Items items = new Items();	
+			List<ResultadoEncuesta> resultadoEncuestas = new ArrayList<ResultadoEncuesta>();
+			
+			for(Items i : items.listaItems()) {
+				resultadoEncuestas.add(new ResultadoEncuesta(i.getNumeroItem(), i.getDescripcionItem()));
+			}	
+			
+			DetalleEncuesta detalleEncuesta = new DetalleEncuesta();
+			detalleEncuesta.setResultadoEncuestas(resultadoEncuestas);
+			detalleEncuesta.setCodEncuesta(codEncuesta);
+			
+			model.put("detalleEncuesta", detalleEncuesta);
+			model.put("estudiantes", estudianteService.findAll());
+			model.put("profesores", profesorService.findAll());
+			model.put("resultadoEncuestas", resultadoEncuestas);
+			model.put("mensaje_exito_cuestionario", "Cuestionario registrado exitosamente.");
+			model.put("usuarioSesion", (Usuario) session.getAttribute("usuarioSesion"));
 
-		return model;
+			return "encuesta/registrar-cuestionario";
+		}
+		
+		return "autenticacion/login";
+		
 	}
 	
 	

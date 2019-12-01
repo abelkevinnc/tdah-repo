@@ -22,7 +22,7 @@
                 <img alt="Image placeholder" th:src="@{/img/user.png}">
               </span>
               <div class="media-body ml-2 d-none d-lg-block">
-                <span class="mb-0 text-sm  font-weight-bold" th:text="${usuario_sesion.nombreUsuario}"></span>
+                <span class="mb-0 text-sm  font-weight-bold" th:text="${usuarioSesion.nombreUsuario}"></span>
               </div>
             </div>
           </a>
@@ -47,7 +47,7 @@
               <span>Support</span>
             </a>
             <div class="dropdown-divider"></div>
-            <form id="logoutForm" th:action="@{/autenticacion/logout}" method="post">
+            <form id="logoutForm" th:action="@{/logout}" method="post">
               <a href="#" class="dropdown-item" onclick="document.getElementById('logoutForm').submit();">
                 <i class="ni ni-button-power"></i>
                 <span>Cerrar Sesión</span>

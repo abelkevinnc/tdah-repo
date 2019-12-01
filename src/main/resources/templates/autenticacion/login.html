@@ -77,14 +77,14 @@
               <div class="text-center text-muted mb-4">
                 <small>Ingresa con tus credenciales</small>
               </div>
-              <form role="form" th:action="@{/autenticacion/login}" th:object="${usuario}" method="post">
+              <form role="form" th:action="@{/autenticacion/login}" method="post">
                 <div class="form-group mb-3">
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
                     <input class="form-control" placeholder="Correo electrónico o usuario" type="text"
-                      th:field="*{nombreUsuario}" onkeyup="ok_inputText()">
+                      id="username" name="username" onkeyup="ok_inputText()">
                   </div>
                 </div>
                 <div class="form-group">
@@ -92,7 +92,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Clave" type="password" th:field="*{clave}"
+                    <input class="form-control" placeholder="Clave" type="password" id="password" name="password"
                       onkeyup="ok_inputText()">
                   </div>
                 </div>

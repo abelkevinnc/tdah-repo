@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tdah.dto.ProfesorDTO;
 import com.tdah.model.Contacto;
 import com.tdah.model.Profesor;
+import com.tdah.model.Usuario;
 import com.tdah.service.IProfesorService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,35 +34,48 @@ public class ProfesorController {
 	IProfesorService profesorService;
 
 	@GetMapping("/listar")
-	public ModelAndView listarProfesores() {
-		ModelAndView model = new ModelAndView("profesor/listar-profesor");
-		log.info("list profesores");
-		List<ProfesorDTO> profesores = profesorService.listarProfesoresFront();
-		model.addObject("profesores", profesores);
-		return model;
+	public String listarProfesores(Map<String, Object> model, HttpSession session) {
+		log.info("Profesor controller: listar profesores");
+		
+		if(session.getAttribute("usuarioSesion") != null) {
+			List<ProfesorDTO> profesores = profesorService.listarProfesoresFront();
+			model.put("profesores", profesores);
+			model.put("usuarioSesion",(Usuario) session.getAttribute("usuarioSesion"));
+			return "profesor/listar-profesor";
+		}
+		return "autenticacion/login";
 	}
 
 	@GetMapping("/registrar")
-	public String registrarProfesor(Map<String, Object> model) {
-		Profesor profesor = new Profesor();
-
-		List<Contacto> contactos = new ArrayList<Contacto>();
-
-		Contacto contacto = new Contacto();
-		contacto.setDireccion("");
-		contacto.setCorreoElectronico("");
-		contacto.setNumeroTelefonico("");
-
-		contactos.add(contacto);
+	public String getRegistrarProfesor(Map<String, Object> model, HttpSession session) {
+		log.info("Profesor controller: registrar profesor");
 		
-		profesor.setContactos(contactos);
-		model.put("profesor", profesor);
-		model.put("contactos", contactos);
-		return "profesor/registrar-profesor";
+		if(session.getAttribute("usuarioSesion") != null) {
+			Profesor profesor = new Profesor();
+
+			List<Contacto> contactos = new ArrayList<Contacto>();
+	
+			Contacto contacto = new Contacto();
+			contacto.setDireccion("");
+			contacto.setCorreoElectronico("");
+			contacto.setNumeroTelefonico("");
+	
+			contactos.add(contacto);
+			
+			profesor.setContactos(contactos);
+			model.put("profesor", profesor);
+			model.put("contactos", contactos);
+			model.put("usuarioSesion",(Usuario) session.getAttribute("usuarioSesion"));
+			
+			return "profesor/registrar-profesor";
+		}
+		
+		return "autenticar/login";
+		
 	}
 
 	@PostMapping("/registrar")
-	public String guardar(@Valid Profesor profesor, BindingResult result, Model model, RedirectAttributes flash,
+	public String postRegistrarProfesor(@Valid Profesor profesor, BindingResult result, Model model, RedirectAttributes flash,
 			SessionStatus status) {
 
 		try {
@@ -73,16 +87,21 @@ public class ProfesorController {
 	}
 	
 	@GetMapping("/editar/{id}")
-	public String editarEstudiante(@PathVariable(value = "id") Integer id, Map<String, Object> model, RedirectAttributes flash) {
-
-		Profesor profesor = profesorService.findById(id);
+	public String editarEstudiante(@PathVariable(value = "id") Integer id, Map<String, Object> model, RedirectAttributes flash, HttpSession session) {
+		log.info("Profesor controller: editar profesor");
+		if(session.getAttribute("usuarioSesion") != null) {
+			Profesor profesor = profesorService.findById(id);
 		
-		if (profesor == null) {
-			flash.addFlashAttribute("error", "El profesor no existe en la base de datos");
-			return "redirect:/listar";
+			if (profesor == null) {
+				flash.addFlashAttribute("error", "El profesor no existe en la base de datos");
+				return "redirect:/listar";
+			}
+			model.put("profesor", profesor);
+			model.put("usuarioSesion", (Usuario) session.getAttribute("usuarioSesion"));
+			return "profesor/editar-profesor";
 		}
-		model.put("profesor", profesor);
-		return "profesor/editar-profesor";
+		
+		return "autenticacion/login";
 	}
 
 }

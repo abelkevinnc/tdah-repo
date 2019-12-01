@@ -28,7 +28,7 @@ public class AutenticacionController {
 	
 	@GetMapping("/login")
 	public String getLogin(@RequestParam(value = "error", required = false) String error, Model model) {
-		log.info("login");
+		log.info("Inicio Login controller");
 		if(error!=null) {
 			model.addAttribute("mensaje_error","Usuario y/o clave incorrectos");
 		}	
@@ -39,7 +39,8 @@ public class AutenticacionController {
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String postLogin(@Valid Usuario usuario, BindingResult result, RedirectAttributes flash, Model model, HttpSession session) {
+	public String postLogin(Usuario usuario, Model model, BindingResult result, RedirectAttributes flash, HttpSession session) {
+		
 		log.info(""+usuario);
 		
 		Usuario usuarioLogueado = new Usuario();
@@ -60,11 +61,11 @@ public class AutenticacionController {
 		
 	}
 	
-	@RequestMapping(value = "/logout", method = RequestMethod.POST)
-	public String cerrarSesion(HttpSession session) {
-		log.info("logout!");
-		session.removeAttribute("usuario_sesion");
-		return "redirect:/autenticacion/login";
-	}
+//	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+//	public String cerrarSesion(HttpSession session) {
+//		log.info("logout!");
+//		session.removeAttribute("usuario_sesion");
+//		return "redirect:/autenticacion/login";
+//	}
 
 }

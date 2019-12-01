@@ -43,4 +43,9 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		return dao.usuarioLogin(nombreUsuario, clave);
 	}
 
+	@Override
+	public Usuario getUserByUsername(String nombreUsuario) {
+		return dao.getUserByUsername(nombreUsuario);
+	}
+
 }
