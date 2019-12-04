@@ -121,7 +121,7 @@ public class EncuestaController {
 	@PostMapping("/registrar-cuestionario")
 	public String registrarCuestionario(@Valid DetalleEncuesta detalleEncuesta, BindingResult result, Model model, RedirectAttributes flash, SessionStatus status) {
 		
-		log.info("registrar encuesta con id: "+ detalleEncuesta.getCodEncuesta());
+		log.info("registrar cuestionario para la encuesta con id: "+ detalleEncuesta.getCodEncuesta());
 		int codEncuesta = detalleEncuesta.getCodEncuesta();
 		detalleEncuesta.setFechaAplicacion(new Date());
 		Encuesta encuesta = encuestaService.findById(codEncuesta);
