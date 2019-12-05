@@ -78,7 +78,7 @@
                       <td th:text="${estudiante.tipoDocumento + ': ' + estudiante.numeroDocumento}"></td>
                       <td>
                       	<div class="btn-group" role="group" aria-label="Basic example">
-                          <a href="#" role="button" class="btn btn-info">Perfil</a>
+                          <button type="button" class="btn btn-info" th:onclick="|verPerfil(${estudiante.codPersona})|">Perfil</button>
                           <a th:href="${'/estudiante/editar/'+estudiante.codPersona}" role="button" class="btn btn-warning">Editar</a>
                         </div>
                       </td>
