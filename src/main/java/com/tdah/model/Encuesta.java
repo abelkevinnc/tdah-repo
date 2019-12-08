@@ -34,8 +34,12 @@ public class Encuesta implements Serializable{
 	private String denominacion;
 	private String estado;
 	
+	
 	@Temporal(TemporalType.DATE)
 	private Date fechaCreacion;
+	
+	@Temporal(TemporalType.DATE)
+	private Date fechaFinalizacion;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="cod_institucioneducativa")

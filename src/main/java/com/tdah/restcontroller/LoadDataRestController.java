@@ -58,6 +58,7 @@ public class LoadDataRestController {
 		Encuesta encuesta = new Encuesta();
 		encuesta.setDenominacion("DSM V");
 		encuesta.setFechaCreacion(new Date());
+		encuesta.setFechaFinalizacion(new Date());
 		encuesta.setInstitucionEducativa(newIE);
 		encuesta.setEstado("EN PROCESO");
 		
@@ -91,24 +92,26 @@ public class LoadDataRestController {
 		return listProfesores;
 	}
 	
-	public List<Estudiante> dataEstudiante(int total) {
+	public List<Estudiante> dataEstudiante(int total, int numeroOrden) {
 		List<Estudiante> listEstudiantes = new ArrayList<Estudiante>();
 		for(int i = 1; i <= total; i++) {
 			Map<String, Object> randomData = generateRandomData();
 			
 			Estudiante estudiante = new Estudiante();
 			
-			estudiante.setPrimerNombre("primernombre_estudiante_"+i);
-			estudiante.setSegundoNombre("segundonombre_estudiante_"+i);
-			estudiante.setApellidoPaterno("apellidopaterno_estudiante_"+i);
-			estudiante.setApellidoMaterno("apellidomaterno_estudiante_"+i);
+			estudiante.setPrimerNombre("primernombre_estudiante_"+numeroOrden);
+			estudiante.setSegundoNombre("segundonombre_estudiante_"+numeroOrden);
+			estudiante.setApellidoPaterno("apellidopaterno_estudiante_"+numeroOrden);
+			estudiante.setApellidoMaterno("apellidomaterno_estudiante_"+numeroOrden);
 			estudiante.setTipoDocumento("DNI");
 			estudiante.setNumeroDocumento("" + randomData.get("randomDni"));
 			estudiante.setFechaNacimiento(new Date());
 			estudiante.setGenero(randomData.get("randomGenero").toString());
 			estudiante.setTipoFamilia(randomData.get("randomTipoFamilia").toString());
+			estudiante.setEstado("ACTIVO");
 			
 			listEstudiantes.add(estudiante);
+			numeroOrden++;
 		}
 		
 		return listEstudiantes;
@@ -150,13 +153,13 @@ public class LoadDataRestController {
 		List<DetalleEncuesta> detalleEncuestas =  new ArrayList<DetalleEncuesta>();
 		
 		List<Profesor> profesores1 = dataProfesor(6);
-		
+		int numeroOrden = 1;
 		for (int i = 0; i < 6; i++) {
 			Profesor prof = profesorService.saveOrUpdate(profesores1.get(i));
 			
 			int randomCantidadalumnos = new Random().nextInt(12 - 8) + 8;
-			List<Estudiante> estudiantes1 = dataEstudiante(randomCantidadalumnos);
-			
+			List<Estudiante> estudiantes1 = dataEstudiante(randomCantidadalumnos, numeroOrden);
+			numeroOrden += randomCantidadalumnos;
 			for (int j = 0; j < randomCantidadalumnos; j++) {
 				//Estudiante est = estudianteService.saveOrUpdate(estudiantes1.get(j));
 				

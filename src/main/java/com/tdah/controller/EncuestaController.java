@@ -63,10 +63,13 @@ public class EncuestaController {
 			
 			List<Encuesta> encuestas = encuestaService.findAll();
 			List<Encuesta> encuestasEnproceso = encuestas.stream().filter(e -> e.getEstado().equalsIgnoreCase("EN PROCESO")).collect(Collectors.toList());	
+			List<Encuesta> encuestasFinalizadas = encuestas.stream().filter(e -> e.getEstado().equalsIgnoreCase("FINALIZADO")).collect(Collectors.toList());	
+			
 			
 			Encuesta encuesta = new Encuesta();	
 			model.put("institucionEducativas", institucionEducativas);
 			model.put("encuestasEnproceso", encuestasEnproceso);
+			model.put("encuestasFinalizadas", encuestasFinalizadas);
 			model.put("encuesta", encuesta);
 			model.put("usuarioSesion", (Usuario) session.getAttribute("usuarioSesion"));
 			
@@ -147,6 +150,7 @@ public class EncuestaController {
 		log.info("Encuesta controller: encuesta operacion");
 		try {
 			Encuesta encuesta = encuestaService.findById(Integer.parseInt(r.getParameter("codEncuesta")));
+			encuesta.setFechaFinalizacion(new Date());
 			encuesta.setEstado(r.getParameter("tipoOperacion"));			
 			encuestaService.saveOrUpdate(encuesta);
 			map.put("status", "true");

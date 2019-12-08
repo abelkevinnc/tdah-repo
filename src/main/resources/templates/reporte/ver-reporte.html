@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>
+    Reporte
+  </title>
+  <!-- Favicon -->
+  <link th:href="@{/assets/img/brand/favicon.png}" rel="icon" type="image/png">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+  <!-- Icons -->
+  <link th:href="@{/assets/js/plugins/nucleo/css/nucleo.css}" rel="stylesheet" />
+  <link th:href="@{/assets/js/plugins/@fortawesome/fontawesome-free/css/all.min.css}" rel="stylesheet" />
+  <!-- CSS Files -->
+  <link th:href="@{/assets/css/argon-dashboard.css?v=1.1.0}" rel="stylesheet" />
+
+  <!-- Owner css -->
+  <link th:href="@{/css/global.css}" rel="stylesheet" />
+
+</head>
+
+<body class="">
+  <!-- inicio sidebar -->
+  <nav th:replace="fragments/sidebar :: sidebar"></nav>
+  <!-- fin sidebar -->
+  <div class="main-content">
+    <!-- Navbar -->
+    <nav th:replace="fragments/top-navbar :: top-navbar"></nav>
+    <!-- End Navbar -->
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-5 pt-5 pt-md-8">
+      <div class="container-fluid">
+      </div>
+    </div>
+    <div class="container-fluid mt--7">
+      <div class="row">
+        <div class="col-xl-12 mb-5 mb-xl-0">
+          <div class="card shadow">
+            <div class="card-header bg-transparent">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h6 class="text-uppercase text-light ls-1 mb-1"></h6>
+                  <h4 class="mb-0">REPORTES</h4>
+                </div>
+                <div class="col">
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row mt-2 text-center" th:if="${not #lists.isEmpty(encuestasFinalizadas)}">
+
+        <th:block th:each="encuestaFinalizada : ${encuestasFinalizadas}">
+          <div class="col-xl-12 mt-2">
+            <div class="card shadow border-success">
+              <div class="card-header bg-transparent">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <h4 class="text-uppercase text-muted ls-1 mb-1"
+                      th:text="${'Encuesta '+encuestaFinalizada.denominacion}"></h4>
+                    <h4 class="mb-0">Detalles</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body text-center">
+              <table class="table">
+                      <tbody>
+
+                        <tr>
+                          <td>Institucion Educativa</td>
+                          <td th:text="${encuestaFinalizada.institucionEducativa.denominacion}"></td>
+                        </tr>
+                        <tr>
+                          <td>Fecha de creación: </td>
+                          <td th:text="${#dates.format(encuestaFinalizada.fechaCreacion, 'dd-MM-yyyy')}"></td>
+                        </tr>
+                        <tr>
+                          <td>Fecha de finalización: </td>
+                          <td th:text="${#dates.format(encuestaFinalizada.fechaFinalizacion, 'dd-MM-yyyy')}"></td>
+                        </tr>
+                        <tr>
+                          <td>N° de encuestados</td>
+                          <td th:text="${#lists.size(encuestaFinalizada.detalleEncuestas)}"></td>
+                        </tr>
+                        
+                      </tbody>
+                    </table>
+
+              </div>
+            </div>
+          </div>
+        </th:block>
+      </div>
+            
+              <div class="nav-wrapper">
+                <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-icons-text-1-tab" data-toggle="tab"
+                      href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true"><i
+                        class="ni ni-cloud-upload-96 mr-2"></i>Según grado</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab"
+                      href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false"><i
+                        class="ni ni-bell-55 mr-2"></i>Según género</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-3-tab" data-toggle="tab"
+                      href="#tabs-icons-text-3" role="tab" aria-controls="tabs-icons-text-3" aria-selected="false"><i
+                        class="ni ni-calendar-grid-58 mr-2"></i>Según tipo de familia</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="card shadow">
+                <div class="card-body">
+                  <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel"
+                      aria-labelledby="tabs-icons-text-1-tab">
+                      <p class="description">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt
+                        tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles
+                        vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth.</p>
+                      <p class="description">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt
+                        tofu stumptown aliqua, retro synth master cleanse.</p>
+                    </div>
+                    <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel"
+                      aria-labelledby="tabs-icons-text-2-tab">
+                      <p class="description">Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip
+                        placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate
+                        nisi qui.</p>
+                    </div>
+                    <div class="tab-pane fade" id="tabs-icons-text-3" role="tabpanel"
+                      aria-labelledby="tabs-icons-text-3-tab">
+                      <p class="description">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt
+                        tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles
+                        vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer th:replace="fragments/footer :: footer"></footer>
+      <!-- end footer -->
+    </div>
+  </div>
+  <!--   Core   -->
+  <script th:src="@{/assets/js/plugins/jquery/dist/jquery.min.js}"></script>
+  <script th:src="@{/assets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+  <!--   Argon JS   -->
+  <script th:src="@{/assets/js/argon-dashboard.min.js?v=1.1.0}"></script>
+
+  <!-- owner js-->
+
+
+</body>
+
+</html>

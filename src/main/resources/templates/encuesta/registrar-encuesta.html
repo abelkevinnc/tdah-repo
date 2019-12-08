@@ -16,6 +16,10 @@
   <link th:href="@{/assets/js/plugins/@fortawesome/fontawesome-free/css/all.min.css}" rel="stylesheet" />
   <!-- CSS Files -->
   <link th:href="@{/assets/css/argon-dashboard.css?v=1.1.0}" rel="stylesheet" />
+  
+  <!-- Owner css -->
+  <link th:href="@{/css/global.css}" rel="stylesheet" />
+  
 </head>
 
 <body class="">
@@ -86,7 +90,7 @@
               <div class="row align-items-center">
                 <div class="col">
                   <h6 class="text-uppercase text-muted ls-1 mb-1"></h6>
-                  <h4 class="mb-0">INDICACI0NES</h4>
+                  <h4 class="mb-0">INDICACIONES</h4>
                 </div>
               </div>
             </div>
@@ -104,7 +108,7 @@
           </div>
         </div>
       </div>
-      <br>
+      <hr class="mt-2">
       <h5 class="heading-small text-muted">En proceso:</h5>
       <div class="row mt-2" th:if="${not #lists.isEmpty(encuestasEnproceso)}">
 
@@ -144,6 +148,56 @@
                       <a th:href="${'/encuesta/registrar-cuestionario/'+encuestaEnproceso.codEncuesta}" role="button" class="btn btn-sm btn-info">Encuestar</a>
                       <button type="button" class="btn btn-sm btn-success" th:onclick="|operacionEncuesta(${encuestaEnproceso.codEncuesta},'FINALIZADO')|">Finalizar</button>
                       <button type="button" class="btn btn-sm btn-danger" th:onclick="|operacionEncuesta(${encuestaEnproceso.codEncuesta},'BAJA')|">Dar de baja</button>
+                    </div>
+
+              </div>
+            </div>
+          </div>
+        </th:block>
+      </div>
+      
+      <br>
+      <h5 class="heading-small text-muted">Finalizadas:</h5>
+      <div class="row mt-2" th:if="${not #lists.isEmpty(encuestasFinalizadas)}">
+
+        <th:block th:each="encuestaFinalizada : ${encuestasFinalizadas}">
+          <div class="col-xl-4 mt-2">
+            <div class="card shadow border-success">
+              <div class="card-header bg-transparent">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <h4 class="text-uppercase text-muted ls-1 mb-1"
+                      th:text="${'Encuesta '+encuestaFinalizada.denominacion}"></h4>
+                    <h4 class="mb-0">Detalles</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body text-center">
+              <table class="table">
+                      <tbody>
+
+                        <tr>
+                          <td>Institucion Educativa</td>
+                          <td th:text="${encuestaFinalizada.institucionEducativa.denominacion}"></td>
+                        </tr>
+                        <tr>
+                          <td>Fecha de creación: </td>
+                          <td th:text="${#dates.format(encuestaFinalizada.fechaCreacion, 'dd-MM-yyyy')}"></td>
+                        </tr>
+                        <tr>
+                          <td>Fecha de finalización: </td>
+                          <td th:text="${#dates.format(encuestaFinalizada.fechaFinalizacion, 'dd-MM-yyyy')}"></td>
+                        </tr>
+                        <tr>
+                          <td>N° de encuestados</td>
+                          <td th:text="${#lists.size(encuestaFinalizada.detalleEncuestas)}"></td>
+                        </tr>
+                        
+                      </tbody>
+                    </table>
+
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                      <a th:href="${'/encuesta/registrar-cuestionario/'+encuestaFinalizada.codEncuesta}" role="button" class="btn btn-sm btn-info">Ver reporte</a>
                     </div>
 
               </div>
