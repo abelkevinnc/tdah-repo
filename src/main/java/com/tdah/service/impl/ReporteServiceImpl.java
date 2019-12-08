@@ -246,7 +246,7 @@ public class ReporteServiceImpl implements IReporteService{
 		
 		
 		String denominacionArchivo = utilSintoma.get("denominacion_archivo"); 
-		pdfDoc.writeToFile(new File("E:\\"+denominacionArchivo+".pdf"));
+		pdfDoc.writeToFile(new File("E:\\2019\\PROYECTO-TESIS\\REPORTE\\"+denominacionArchivo+".pdf"));
 	}
 
 	

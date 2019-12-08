@@ -12,6 +12,7 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,13 +23,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api")
 @Slf4j
 public class ReporteRestController {
-	@GetMapping("/encuestas/ver-pdf")
-	public void verEncuestaPdf(HttpServletResponse response) {
-		
+	@GetMapping("/encuestas/ver-pdf/{codEncuesta}")
+	public void verEncuestaPdf(@PathVariable(value = "codEncuesta") Integer codEncuesta, HttpServletResponse response) {
+		log.info("Reporte Rest Controller: Reporte"+ codEncuesta);
 		InputStream ie = null;
 		try {
 			ie = getArchivo("documento","abel.pdf");
-			log.info("success");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

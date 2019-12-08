@@ -50,16 +50,16 @@
               </div>
             </div>
             <div class="card-body">
-              <div class="row mt-2 text-center" th:if="${not #lists.isEmpty(encuestasFinalizadas)}">
+              <div class="row mt-2 text-center">
 
-        <th:block th:each="encuestaFinalizada : ${encuestasFinalizadas}">
+
           <div class="col-xl-12 mt-2">
             <div class="card shadow border-success">
               <div class="card-header bg-transparent">
                 <div class="row align-items-center">
                   <div class="col">
                     <h4 class="text-uppercase text-muted ls-1 mb-1"
-                      th:text="${'Encuesta '+encuestaFinalizada.denominacion}"></h4>
+                      th:text="${'Encuesta '+encuesta.denominacion}"></h4>
                     <h4 class="mb-0">Detalles</h4>
                   </div>
                 </div>
@@ -70,19 +70,19 @@
 
                         <tr>
                           <td>Institucion Educativa</td>
-                          <td th:text="${encuestaFinalizada.institucionEducativa.denominacion}"></td>
+                          <td th:text="${encuesta.institucionEducativa.denominacion}"></td>
                         </tr>
                         <tr>
                           <td>Fecha de creación: </td>
-                          <td th:text="${#dates.format(encuestaFinalizada.fechaCreacion, 'dd-MM-yyyy')}"></td>
+                          <td th:text="${#dates.format(encuesta.fechaCreacion, 'dd-MM-yyyy')}"></td>
                         </tr>
                         <tr>
                           <td>Fecha de finalización: </td>
-                          <td th:text="${#dates.format(encuestaFinalizada.fechaFinalizacion, 'dd-MM-yyyy')}"></td>
+                          <td th:text="${#dates.format(encuesta.fechaFinalizacion, 'dd-MM-yyyy')}"></td>
                         </tr>
                         <tr>
                           <td>N° de encuestados</td>
-                          <td th:text="${#lists.size(encuestaFinalizada.detalleEncuestas)}"></td>
+                          <td th:text="${#lists.size(encuesta.detalleEncuestas)}"></td>
                         </tr>
                         
                       </tbody>
@@ -91,7 +91,7 @@
               </div>
             </div>
           </div>
-        </th:block>
+
       </div>
             
               <div class="nav-wrapper">
@@ -121,8 +121,7 @@
                       <p class="description">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt
                         tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles
                         vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth.</p>
-                      <p class="description">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt
-                        tofu stumptown aliqua, retro synth master cleanse.</p>
+                      <object th:data="${baseUrllocal}" type="application/pdf" width="750" height="500"></object>
                     </div>
                     <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel"
                       aria-labelledby="tabs-icons-text-2-tab">

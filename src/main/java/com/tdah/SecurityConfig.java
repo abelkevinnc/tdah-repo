@@ -34,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
+		.headers().frameOptions().sameOrigin().and()
 		.authorizeRequests()
 		.antMatchers("/assets/**","/css/**","/datatable/*","/img/**","/js/**","/api/**").permitAll()
 		.antMatchers("/**").access("hasRole('ROLE_ADMINISTRADOR') or hasRole('ROLE_DIRECTOR')")

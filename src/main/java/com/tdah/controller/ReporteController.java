@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tdah.model.Encuesta;
@@ -36,16 +37,18 @@ public class ReporteController {
 	@Autowired
 	IProfesorService profesorService;
 	
-	@GetMapping("/ver")
-	public String verEncuesta(Map<String, Object> model, HttpSession session) {
+	@GetMapping("/ver/{codEncuesta}")
+	public String verEncuesta(@PathVariable(value = "codEncuesta") Integer codEncuesta, Map<String, Object> model, HttpSession session) {
 		log.info("Reporte controller: ver reporte");
 		
 		if(session.getAttribute("usuarioSesion") != null) {
-			List<Encuesta> encuestas = encuestaService.findAll();
-			List<Encuesta> encuestasFinalizadas = encuestas.stream().filter(e -> e.getEstado().equalsIgnoreCase("FINALIZADO")).collect(Collectors.toList());
-			
-			model.put("encuestasFinalizadas", encuestasFinalizadas);
+			Encuesta encuesta = encuestaService.findById(codEncuesta);
+		
+			String baseUrllocal = "http://localhost:8080/api/encuestas/ver-pdf/" + codEncuesta;
+//			String baseUrlheroku = "";
+			model.put("encuesta", encuesta);
 			model.put("usuarioSesion",(Usuario) session.getAttribute("usuarioSesion"));
+			model.put("baseUrllocal", baseUrllocal);
 			
 			return "reporte/ver-reporte";
 		}
