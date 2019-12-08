@@ -2,10 +2,12 @@ package com.tdah.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -17,11 +19,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tdah.model.DetalleEncuesta;
 import com.tdah.model.Encuesta;
+import com.tdah.model.Estudiante;
 import com.tdah.model.InstitucionEducativa;
 import com.tdah.model.ResultadoEncuesta;
 import com.tdah.model.Usuario;
@@ -107,7 +112,7 @@ public class EncuestaController {
 			model.put("estudiantes", estudianteService.findAll());
 			model.put("profesores", profesorService.findAll());
 			model.put("resultadoEncuestas", resultadoEncuestas);
-			model.put("mensaje_exito_cuestionario", "Cuestionario registrado exitosamente.");
+			//model.put("mensaje_exito_cuestionario", "Cuestionario registrado exitosamente.");
 			model.put("usuarioSesion", (Usuario) session.getAttribute("usuarioSesion"));
 
 			return "encuesta/registrar-cuestionario";
@@ -121,7 +126,7 @@ public class EncuestaController {
 	@PostMapping("/registrar-cuestionario")
 	public String registrarCuestionario(@Valid DetalleEncuesta detalleEncuesta, BindingResult result, Model model, RedirectAttributes flash, SessionStatus status) {
 		
-		log.info("registrar cuestionario para la encuesta con id: "+ detalleEncuesta.getCodEncuesta());
+		log.info("Encuesta controller: registrar cuestionario para la encuesta con id: "+ detalleEncuesta.getCodEncuesta());
 		int codEncuesta = detalleEncuesta.getCodEncuesta();
 		detalleEncuesta.setFechaAplicacion(new Date());
 		Encuesta encuesta = encuestaService.findById(codEncuesta);
@@ -133,23 +138,24 @@ public class EncuestaController {
 			e.printStackTrace();
 			//flash.addAttribute("mensaje_exito_cuestionario", "Vuelva a intentarlo");
 		}
+		return "redirect:/encuesta/registrar";
+	}
+	
+	@RequestMapping(value = "/operacion", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> postEstudianteById(HttpServletRequest r) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		log.info("Encuesta controller: encuesta operacion");
+		try {
+			Encuesta encuesta = encuestaService.findById(Integer.parseInt(r.getParameter("codEncuesta")));
+			encuesta.setEstado(r.getParameter("tipoOperacion"));			
+			encuestaService.saveOrUpdate(encuesta);
+			map.put("status", "true");
+		} catch (Exception e) {
+			map.put("status", "false");
+		}
 		
-		
-		
-//		try {
-//			log.info("list size: "+ detalleEncuesta.getResultadoEncuestas());
-//			if(!detalleEncuesta.getResultadoEncuestas().isEmpty()) {
-//				for(ResultadoEncuesta re : detalleEncuesta.getResultadoEncuestas()) {
-//					log.info(""+re.getNumeroItem());
-//					log.info(""+re.getRespuestaItem());
-//				}
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-		
-		
-		return "redirect:/";
+		return map;
+	
 	}
 
 }

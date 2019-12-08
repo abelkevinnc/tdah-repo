@@ -1,14 +1,20 @@
-console.log("reg encuesta");
-function result() {
-    let totalItems = 18;
-    
-    for (i = 1; i <= totalItems; i++){
-        let radio = document.getElementsByName("item" + i)
-        for (j = 0; j < radio.length; j++) {
-            if (radio[j].checked) {
-                console.log(radio[j].value);
-            }
-        }
-    } 
-    
+function operacionEncuesta(codEncuesta, tipoOperacion) {
+	
+	const data = new FormData();
+	data.append('codEncuesta', codEncuesta);
+	data.append('tipoOperacion', tipoOperacion);
+
+	fetch('/encuesta/operacion', {
+			method: 'POST',
+			body: data
+		})
+		.then(response => response.json())
+		.then((json) => {
+			console.log('Respuesta /encuesta/operacion: ', json)
+			if (json.status === "true") {
+				location.reload();
+			}
+		})
+		.catch((error) => console.log("Error: " + error.message))
+
 }
