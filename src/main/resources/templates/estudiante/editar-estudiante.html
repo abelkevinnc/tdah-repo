@@ -189,11 +189,11 @@
                  </th:block>
 
                 <br>
-                <div class="form-group row">
-                  <div class="col-sm-6">
-                    <input type="submit" value="Editar" class="btn btn-warning" />
-                  </div>
-                </div>
+                
+                <div class="d-flex justify-content-between">
+				    <input type="submit" value="Editar" class="btn btn-sm btn-info mr-4" />
+				    <a th:href="@{/estudiante/listar}" class="btn btn-sm btn-danger float-right">Cancelar</a>
+				</div>
               </form>
 
             </div>
@@ -204,12 +204,18 @@
             <div class="card-header bg-transparent">
               <div class="row align-items-center">
                 <div class="col">
-                  <h6 class="text-uppercase text-muted ls-1 mb-1">INFO</h6>
-                  <h2 class="mb-0">Recomendaciones</h2>
+                  <h6 class="text-uppercase text-muted ls-1 mb-1"></h6>
+                  <h2 class="mb-0">INDICACIONES</h2>
                 </div>
               </div>
             </div>
             <div class="card-body">
+
+              <div class="text-justify">
+                <p>En el formulario pre-cargado, puede editar los datos personales del estudiante.</p>
+                <hr class="my-4" />
+                <p>Asegúrese de modificar solo los campos necesarios.</p>
+              </div>
 
             </div>
           </div>
