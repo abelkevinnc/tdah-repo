@@ -17,7 +17,7 @@ function verPerfil(codPersona) {
 		})
 		.then(response => response.json())
 		.then((json) => {
-			console.log('this is the json data', json)
+			console.log('Respuesta /estudiante/estudianteById: ', json)
 
 			if (json.status === "true") {
 				let estudiante = json.estudiante;

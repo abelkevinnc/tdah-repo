@@ -78,7 +78,7 @@
                       <td th:text="${estudiante.tipoDocumento + ': ' + estudiante.numeroDocumento}"></td>
                       <td>
                       	<div class="btn-group" role="group" aria-label="Basic example">
-                          <button type="button" class="btn btn-sm btn-info" th:onclick="|verPerfil(${estudiante.codPersona})|" data-toggle="modal" data-target="#modal-default">Perfil</button>
+                          <button type="button" class="btn btn-sm btn-info" th:onclick="|verPerfil(${estudiante.codPersona})|" data-toggle="modal" data-target="#modal-perfil-estudiante">Perfil</button>
                           <a th:href="${'/estudiante/editar/'+estudiante.codPersona}" role="button" class="btn btn-sm btn-warning">Editar</a>
                         </div>
                       </td>
@@ -117,7 +117,7 @@
       
       <!-- modal -->
       <div class="col-md-4">
-          <div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default"
+          <div class="modal fade" id="modal-perfil-estudiante" tabindex="-1" role="dialog" aria-labelledby="modal-perfil-estudiante"
               aria-hidden="true">
               <div class="modal-dialog modal-lg modal-dialog-centered modal-" role="document">
                   <div class="modal-content">
