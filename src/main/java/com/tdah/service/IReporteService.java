@@ -1,6 +1,11 @@
 package com.tdah.service;
 
-public interface IReporteService {
-	void generarReporteSintomasPorGrado();
+import java.util.List;
+
+import com.tdah.model.Reporte;
+
+public interface IReporteService extends ICRUD<Reporte> {
+	void generarReporteSintomasPorGrado(Integer codEncuesta);
 	void generarReporteSintomasIndividualesPorGrado();
+	List<Reporte> getByEncuestaId(Integer codEncuesta);
 };

@@ -13,13 +13,16 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
 import org.springframework.stereotype.Service;
 
 import com.orsonpdf.PDFDocument;
 import com.orsonpdf.PDFGraphics2D;
 import com.orsonpdf.Page;
+import com.tdah.dao.IReporteDAO;
 import com.tdah.model.DetalleEncuesta;
 import com.tdah.model.Encuesta;
+import com.tdah.model.Reporte;
 import com.tdah.model.ResultadoEncuesta;
 import com.tdah.service.IEncuestaService;
 import com.tdah.service.IEstudianteService;
@@ -37,13 +40,16 @@ public class ReporteServiceImpl implements IReporteService{
 	@Autowired
 	IEstudianteService estudianteService;
 	
+	@Autowired
+	IReporteDAO reporteDAO;
+	
 	@Override
-	public void generarReporteSintomasPorGrado() {
+	public void generarReporteSintomasPorGrado(Integer codEncuesta) {
 
-		Encuesta encuesta = encuestaService.findAll().get(0);
+		Encuesta encuesta = encuestaService.findById(codEncuesta);
 		List<DetalleEncuesta> detalleEncuestas = encuesta.getDetalleEncuestas();
 		Map<String, List<DetalleEncuesta>> encuentasXgrado = dividirEncuestasPorGrado(detalleEncuestas);
-		Map<String,List<Double>> promedios = new HashMap();
+		Map<String,List<Double>> promedios = new HashMap<String, List<Double>>();
 		
 		List<Double> promedioDa = new ArrayList<Double>();
 		List<Double> promedioH = new ArrayList<Double>();
@@ -78,12 +84,17 @@ public class ReporteServiceImpl implements IReporteService{
 		
 		for (int i = 0; i < 3; i++) {
 			final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-			Map<String, String> utilReporteSintomasPorGrado = getUtilReporteSintomasPorGrado(i);
+			Map<String, String> utilReporteSintomasPorGrado = getUtilReporteSintomasPorGrado(i, codEncuesta);
 			for (int j = 0; j < numeroGrados; j++) {
 				List<Double> prom = promedios.get("promedio"+utilReporteSintomasPorGrado.get("abreviacion"));
 				dataset.addValue(prom.get(j), utilReporteSintomasPorGrado.get("sintoma"), (j+1)+"G");	
 			}
-			exportPdf(dataset, getUtilReporteSintomasPorGrado(i));
+			exportPdf(dataset, utilReporteSintomasPorGrado);
+			//guardar nombre de los reportes en la bd
+			Reporte reporte = new Reporte();
+			reporte.setCodEncuesta(codEncuesta);
+			reporte.setDenominacionArchivo(utilReporteSintomasPorGrado.get("denominacion_archivo")+".pdf");
+			reporteDAO.save(reporte);
 		}
 			
 		
@@ -116,7 +127,7 @@ public class ReporteServiceImpl implements IReporteService{
 		
 	}
 	
-	private Map<String, String> getUtilReporteSintomasPorGrado(int num) {
+	private Map<String, String> getUtilReporteSintomasPorGrado(int num, int codEncuesta) {
 		Map<String, String> utilReporteSintomasPorGrado = new HashMap<>();
 		
 		switch (num) {
@@ -124,20 +135,20 @@ public class ReporteServiceImpl implements IReporteService{
 			utilReporteSintomasPorGrado.put("abreviacion", "DA");
 			utilReporteSintomasPorGrado.put("sintoma", "Deficit de atencion");
 			utilReporteSintomasPorGrado.put("titulo_pdf", "Reporte promedio deficit de atencion");
-			utilReporteSintomasPorGrado.put("denominacion_archivo", "REPORTE_PROMEDIO_DA");
+			utilReporteSintomasPorGrado.put("denominacion_archivo", "REPORTE_PROMEDIO_DA_"+codEncuesta);
 			
 			break;
 		case 1:
 			utilReporteSintomasPorGrado.put("abreviacion", "H");
 			utilReporteSintomasPorGrado.put("sintoma", "Hiperactividad");
 			utilReporteSintomasPorGrado.put("titulo_pdf", "Reporte promedio hiperactividad");
-			utilReporteSintomasPorGrado.put("denominacion_archivo", "REPORTE_PROMEDIO_H");
+			utilReporteSintomasPorGrado.put("denominacion_archivo", "REPORTE_PROMEDIO_H_"+codEncuesta);
 			break;
 		case 2:
 			utilReporteSintomasPorGrado.put("abreviacion", "I");
 			utilReporteSintomasPorGrado.put("sintoma", "Impulsividad");
 			utilReporteSintomasPorGrado.put("titulo_pdf", "Reporte promedio impulsividad");
-			utilReporteSintomasPorGrado.put("denominacion_archivo", "REPORTE_PROMEDIO_I");
+			utilReporteSintomasPorGrado.put("denominacion_archivo", "REPORTE_PROMEDIO_I_"+codEncuesta);
 			break;
 		default:
 			break;
@@ -247,6 +258,33 @@ public class ReporteServiceImpl implements IReporteService{
 		
 		String denominacionArchivo = utilSintoma.get("denominacion_archivo"); 
 		pdfDoc.writeToFile(new File("E:\\2019\\PROYECTO-TESIS\\REPORTE\\"+denominacionArchivo+".pdf"));
+	}
+
+	@Override
+	public List<Reporte> findAll() {
+		return reporteDAO.findAll();
+	}
+
+	@Override
+	public Reporte saveOrUpdate(Reporte obj) {
+
+		return reporteDAO.save(obj);
+	}
+
+	@Override
+	public Reporte findById(int id) {
+		return reporteDAO.findById(id).get();
+	}
+
+	@Override
+	public void delete(int id) {
+		reporteDAO.deleteById(id);
+		
+	}
+
+	@Override
+	public List<Reporte> getByEncuestaId(Integer codEncuesta) {
+		return reporteDAO.getByEncuestaId(codEncuesta);
 	}
 
 	

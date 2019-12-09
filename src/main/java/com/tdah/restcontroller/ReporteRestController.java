@@ -28,7 +28,7 @@ public class ReporteRestController {
 		log.info("Reporte Rest Controller: Reporte"+ codEncuesta);
 		InputStream ie = null;
 		try {
-			ie = getArchivo("documento","abel.pdf");
+			ie = getArchivo("REPORTE_PROMEDIO_DA_1.pdf");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -36,7 +36,7 @@ public class ReporteRestController {
 		if(ie != null) {
 			try {
 				byte[] data = getArrayFromInputStream(ie);
-				streamReport(response, data, "abel.pdf");
+				streamReport(response, data, "REPORTE_PROMEDIO_DA_1.pdf");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -57,7 +57,7 @@ public class ReporteRestController {
         response.getOutputStream().close();
     }
 	
-	public InputStream getArchivo(String tipo_archivo, String titulo_archivo) {
+	public InputStream getArchivo(String titulo_archivo) {
 
 		InputStream inputStream = null;
 		FTPClient cliente = new FTPClient();

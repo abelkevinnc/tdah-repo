@@ -52,7 +52,7 @@ public class GenerateReport {
 		Encuesta encuesta = encuestaService.findAll().get(0);
 		List<DetalleEncuesta> detalleEncuestas = encuesta.getDetalleEncuestas();
 
-		reporteService.generarReporteSintomasPorGrado();
+		reporteService.generarReporteSintomasPorGrado(1);
 		
 		// separamos las encuestas por grados
 //		Map<String, List<DetalleEncuesta>> encuentas = dividirEncuestasPorGrado(detalleEncuestas);
