@@ -25,6 +25,7 @@ public class Reporte implements Serializable{
 	
 	private int codEncuesta;
 	private String denominacionArchivo;
+	private int codOrden;
 	
 
 }

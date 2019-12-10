@@ -1,5 +1,6 @@
 package com.tdah.service.impl;
 
+import java.awt.Color;
 import java.awt.Rectangle;
 import java.io.File;
 import java.util.ArrayList;
@@ -10,7 +11,9 @@ import java.util.stream.Collectors;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
@@ -94,6 +97,7 @@ public class ReporteServiceImpl implements IReporteService{
 			Reporte reporte = new Reporte();
 			reporte.setCodEncuesta(codEncuesta);
 			reporte.setDenominacionArchivo(utilReporteSintomasPorGrado.get("denominacion_archivo")+".pdf");
+			reporte.setCodOrden(i+1);
 			reporteDAO.save(reporte);
 		}
 			
@@ -246,6 +250,17 @@ public class ReporteServiceImpl implements IReporteService{
 		JFreeChart barChart = ChartFactory.createBarChart(utilSintoma.get("titulo_pdf"), "Sintomas", "Puntaje", dataset,
 				PlotOrientation.VERTICAL, true, true, false);
 
+		/* Get instance of CategoryPlot */
+		CategoryPlot plot = barChart.getCategoryPlot();
+
+		/* Change Bar colors */
+		BarRenderer renderer = (BarRenderer) plot.getRenderer();
+
+		renderer.setSeriesPaint(0, Color.BLUE);
+
+		renderer.setDrawBarOutline(false);
+		renderer.setItemMargin(0);
+		
 		PDFDocument pdfDoc = new PDFDocument();
 		pdfDoc.setTitle("Reportes Sistema TDAH");
 		pdfDoc.setAuthor("Abel Kevin Nuñez Chavez");
@@ -253,7 +268,7 @@ public class ReporteServiceImpl implements IReporteService{
 		Page page = pdfDoc.createPage(new Rectangle(612, 468));
 		PDFGraphics2D g2 = page.getGraphics2D();
 
-		barChart.draw(g2, new Rectangle(0, 0, 612, 468));
+		barChart.draw(g2, new Rectangle(18, 20, 562, 418));
 		
 		
 		String denominacionArchivo = utilSintoma.get("denominacion_archivo"); 
