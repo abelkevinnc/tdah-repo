@@ -28,7 +28,7 @@ public class ReporteRestController {
 		log.info("Reporte Rest Controller: Reporte"+ codEncuesta);
 		InputStream ie = null;
 		try {
-			ie = getArchivo("REPORTE_PROMEDIO_DA_1.pdf");
+			ie = getArchivo("REPORTE_PROMEDIO_DA_GENERO_1.pdf");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -36,7 +36,7 @@ public class ReporteRestController {
 		if(ie != null) {
 			try {
 				byte[] data = getArrayFromInputStream(ie);
-				streamReport(response, data, "REPORTE_PROMEDIO_DA_1.pdf");
+				streamReport(response, data, "REPORTE_PROMEDIO_DA_GENERO_1.pdf");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -55,6 +55,8 @@ public class ReporteController {
 				// generar reportes
 				log.info("se procede a generar reportes");
 				reporteService.generarReporteSintomasPorGrado(codEncuesta);
+				reporteService.generarReporteSintomasPorGenero(codEncuesta);
+				reporteService.generarReporteSintomasPorTipoFamilia(codEncuesta);
 			}
 			
 			
