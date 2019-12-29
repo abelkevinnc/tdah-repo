@@ -121,19 +121,34 @@
                       <p class="description">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt
                         tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles
                         vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth.</p>
-                      <object th:data="${baseUrllocal}" type="application/pdf" width="750" height="1000"></object>
+                        <div class="text-center">
+	                        <th:block th:each="urlReporte: *{urlReportes1}">
+	                        	<object th:data="${urlReporte}" type="application/pdf" width="750" height="650"></object>
+	                        </th:block>
+                        </div>
+                      
                     </div>
                     <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel"
                       aria-labelledby="tabs-icons-text-2-tab">
                       <p class="description">Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip
                         placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate
                         nisi qui.</p>
+                        <div class="text-center">
+	                        <th:block th:each="urlReporte: *{urlReportes2}">
+	                        	<object th:data="${urlReporte}" type="application/pdf" width="750" height="650"></object>
+	                        </th:block>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="tabs-icons-text-3" role="tabpanel"
                       aria-labelledby="tabs-icons-text-3-tab">
                       <p class="description">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt
                         tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles
                         vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth.</p>
+                        <div class="text-center">
+	                        <th:block th:each="urlReporte: *{urlReportes3}">
+	                        	<object th:data="${urlReporte}" type="application/pdf" width="750" height="650"></object>
+	                        </th:block>
+                        </div>
                     </div>
                   </div>
                 </div>

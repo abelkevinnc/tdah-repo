@@ -97,7 +97,7 @@ public class ReporteServiceImpl implements IReporteService{
 			Reporte reporte = new Reporte();
 			reporte.setCodEncuesta(codEncuesta);
 			reporte.setDenominacionArchivo(utilReporteSintomasPorGrado.get("denominacion_archivo")+".pdf");
-			reporte.setCodOrden(i+1);
+			reporte.setCodOrden(1);
 			reporteDAO.save(reporte);
 		}
 			
@@ -416,7 +416,7 @@ public class ReporteServiceImpl implements IReporteService{
 					Reporte reporte = new Reporte();
 					reporte.setCodEncuesta(codEncuesta);
 					reporte.setDenominacionArchivo(utilReporteSintomasPorGenero.get("denominacion_archivo")+".pdf");
-					reporte.setCodOrden(i+1);
+					reporte.setCodOrden(2);
 					reporteDAO.save(reporte);
 				}
 		
@@ -502,7 +502,7 @@ public class ReporteServiceImpl implements IReporteService{
 					Reporte reporte = new Reporte();
 					reporte.setCodEncuesta(codEncuesta);
 					reporte.setDenominacionArchivo(utilReporteSintomasPorTF.get("denominacion_archivo")+".pdf");
-					reporte.setCodOrden(i+1);
+					reporte.setCodOrden(3);
 					reporteDAO.save(reporte);
 				}
 		

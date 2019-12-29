@@ -10,11 +10,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.tdah.model.Reporte;
+import com.tdah.service.IReporteService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,12 +27,17 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api")
 @Slf4j
 public class ReporteRestController {
+	
+	@Autowired
+	IReporteService reporteService;
+	
 	@GetMapping("/encuestas/ver-pdf/{codEncuesta}")
 	public void verEncuestaPdf(@PathVariable(value = "codEncuesta") Integer codEncuesta, HttpServletResponse response) {
 		log.info("Reporte Rest Controller: Reporte"+ codEncuesta);
+		Reporte reporte = reporteService.findById(codEncuesta);
 		InputStream ie = null;
 		try {
-			ie = getArchivo("REPORTE_PROMEDIO_DA_GENERO_1.pdf");
+			ie = getArchivo(reporte.getDenominacionArchivo());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -36,7 +45,7 @@ public class ReporteRestController {
 		if(ie != null) {
 			try {
 				byte[] data = getArrayFromInputStream(ie);
-				streamReport(response, data, "REPORTE_PROMEDIO_DA_GENERO_1.pdf");
+				streamReport(response, data, reporte.getDenominacionArchivo());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

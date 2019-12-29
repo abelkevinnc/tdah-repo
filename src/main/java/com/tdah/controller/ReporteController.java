@@ -1,5 +1,6 @@
 package com.tdah.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -59,12 +60,26 @@ public class ReporteController {
 				reporteService.generarReporteSintomasPorTipoFamilia(codEncuesta);
 			}
 			
+			List<String> urlReportes1 = new ArrayList<>();
+			List<String> urlReportes2 = new ArrayList<>();
+			List<String> urlReportes3 = new ArrayList<>();
 			
-			String baseUrllocal = "http://localhost:8080/api/encuestas/ver-pdf/" + codEncuesta;
+			for(Reporte r: reportes) {
+				if(r.getCodOrden() == 1) {
+					urlReportes1.add("http://localhost:8080/api/encuestas/ver-pdf/"+r.getCodReporte());
+				} else if (r.getCodOrden() == 2) {
+					urlReportes2.add("http://localhost:8080/api/encuestas/ver-pdf/"+r.getCodReporte());
+				} else {
+					urlReportes3.add("http://localhost:8080/api/encuestas/ver-pdf/"+r.getCodReporte());
+				}
+			}
+			
 //			String baseUrlheroku = "";
 			model.put("encuesta", encuesta);
 			model.put("usuarioSesion",(Usuario) session.getAttribute("usuarioSesion"));
-			model.put("baseUrllocal", baseUrllocal);
+			model.put("urlReportes1", urlReportes1);
+			model.put("urlReportes2", urlReportes2);
+			model.put("urlReportes3", urlReportes3);
 			
 			return "reporte/ver-reporte";
 		}
