@@ -1,6 +1,8 @@
 package com.tdah.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +21,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tdah.model.Contacto;
+import com.tdah.model.Rol;
 import com.tdah.model.Usuario;
 import com.tdah.service.IUsuarioService;
 
@@ -54,6 +57,7 @@ public class UsuarioController {
 		if(session.getAttribute("usuarioSesion") != null) {
 			
 			Usuario usuario = new Usuario();
+			Rol rol = new Rol();
 			List<Contacto> contactos = new ArrayList<Contacto>();
 			
 			Contacto contacto = new Contacto();
@@ -64,9 +68,11 @@ public class UsuarioController {
 			contactos.add(contacto);
 			
 			usuario.setContactos(contactos);
+			usuario.setRol(rol);
 			usuario.setClave("sistematdah");//clave por defecto
 			model.put("usuario", usuario);
 			model.put("contactos", contactos);
+			model.put("rol", rol);
 			model.put("usuarioSesion", (Usuario) session.getAttribute("usuarioSesion"));
 			return "usuario/registrar-usuario";
 		}
@@ -80,9 +86,20 @@ public class UsuarioController {
 
 		log.info("Usuario controller: registrar usuario POST");
 		try {
+			usuario.setFechaRegistro(new Date());
+			
 			String clave = usuario.getClave();
 			String claveEncriptada = encoder.encode(clave);
 			usuario.setClave(claveEncriptada);
+			
+			Rol rol = usuario.getRol();
+			rol.setFechaRegistro(new Date());
+			
+			Calendar calendar = Calendar.getInstance();
+			calendar.add(Calendar.DAY_OF_YEAR, 30);  
+			
+			rol.setFechaRenovacion(calendar.getTime());
+			
 			usuarioService.saveOrUpdate(usuario);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -38,6 +39,13 @@ public class Usuario implements Serializable{
 	private String nombreUsuario;
 	private String clave;
 	
+	private Date fechaRegistro;
+	
+	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "rol_id")
+    private Rol rol;
+	
 	//datos personales
 	
 	private String primerNombre;
@@ -50,6 +58,7 @@ public class Usuario implements Serializable{
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date fechaNacimiento;
+	
 	
 	@JsonIgnoreProperties(value={"usuario","hibernateLazyInitializer","handler"}, allowSetters=true)
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

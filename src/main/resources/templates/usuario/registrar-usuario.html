@@ -220,6 +220,21 @@
                   </div>
 
                 </div>
+                
+                <div class="row">
+				
+					<div class="col-md-6">
+	                    <label>Rol:</label>
+	                    <select class="form-control" th:field="*{rol.rolUsuario}">
+	                      <option value="undefined">---Seleccionar un rol---</option>
+	                      <option value="ROLE_ADMINISTRADOR">ADMINISTRADOR</option>
+	                      <option value="ROLE_DIRECTOR">DIRECTOR</option>
+	                      <option value="ROLE_PROFESOR">PROFESOR</option>
+	                    </select>
+	                </div>
+
+                </div>
+                
 				
                 <br>
                 <div class="form-group row">
