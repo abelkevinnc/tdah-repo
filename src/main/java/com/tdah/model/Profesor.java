@@ -1,6 +1,7 @@
 package com.tdah.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -27,5 +28,9 @@ public class Profesor extends Persona implements Serializable{
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name="cod_profesor")
 	private List<Contacto> contactos;
+	
+	public Profesor() {
+		this.contactos = new ArrayList<Contacto>();
+	}
 
 }

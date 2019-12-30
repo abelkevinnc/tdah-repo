@@ -70,11 +70,12 @@ public class ReporteRestController {
 
 		InputStream inputStream = null;
 		FTPClient cliente = new FTPClient();
-		if (conectar(cliente, "localhost", "ftpserver", "123456")) {
+		if (conectar(cliente, "localhost", "ftpserver", "123456", titulo_archivo)) {
 			try {
 				cliente.changeWorkingDirectory("/");
 				inputStream = cliente.retrieveFileStream(titulo_archivo);
 				System.out.println(inputStream);
+				cliente.disconnect();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -83,7 +84,7 @@ public class ReporteRestController {
 	}
 	
 	
-	public boolean conectar(FTPClient cliente, String server, String user, String password) {
+	public boolean conectar(FTPClient cliente, String server, String user, String password, String titulo) {
 		try {
 			// Conectarse e identificarse.
 			cliente.connect(server, 21);
@@ -103,6 +104,7 @@ public class ReporteRestController {
 				}
 			} else {
 				System.err.println("Usuario o contraseña incorrectos.");
+				//getArchivo(titulo);
 				return false;
 			}
 

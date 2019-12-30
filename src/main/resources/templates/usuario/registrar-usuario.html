@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>
+    Registrar usuario
+  </title>
+  <!-- Favicon -->
+  <link th:href="@{/assets/img/brand/favicon.png}" rel="icon" type="image/png">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+  <!-- Icons -->
+  <link th:href="@{/assets/js/plugins/nucleo/css/nucleo.css}" rel="stylesheet" />
+  <link th:href="@{/assets/js/plugins/@fortawesome/fontawesome-free/css/all.min.css}" rel="stylesheet" />
+  <!-- CSS Files -->
+  <link th:href="@{/assets/css/argon-dashboard.css?v=1.1.0}" rel="stylesheet" />
+
+  <!-- Owner css -->
+  <link th:href="@{/css/global.css}" rel="stylesheet" />
+</head>
+
+<body class="">
+  <!-- inicio sidebar -->
+  <nav th:replace="fragments/sidebar :: sidebar"></nav>
+  <!-- fin sidebar -->
+  <div class="main-content">
+    <!-- Navbar -->
+    <nav th:replace="fragments/top-navbar :: top-navbar"></nav>
+    <!-- End Navbar -->
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-5 pt-5 pt-md-8">
+      <div class="container-fluid">
+      </div>
+    </div>
+    <div class="container-fluid mt--7">
+      <div class="row">
+        <div class="col-xl-8 mb-5 mb-xl-0">
+          <div class="card shadow">
+            <div class="card-header bg-transparent">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h5 class="text-uppercase text-light ls-1 mb-1"></h5>
+                  <h4 class="mb-0">FORMULARIO DATOS PERSONALES DEL USUARIO</h4>
+                </div>
+                <div class="col">
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+
+              <form th:action="@{/usuario/registrar}" th:object="${usuario}" method="post">
+                <div class="row">
+                  <div class="col-md-6">
+                    <label>Primer nombre:</label>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">@</span>
+                      </div>
+                      <input type="text" class="form-control" placeholder="Primer nombre" name="primerNombre"
+                        th:field="*{primerNombre}">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label>Segundo nombre:</label>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">@</span>
+                      </div>
+                      <input type="text" class="form-control" placeholder="Segundo nombre" name="segundoNombre"
+                        th:field="*{segundoNombre}">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label>Apellido paterno:</label>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">@</span>
+                      </div>
+                      <input type="text" class="form-control" placeholder="Apellido paterno" name="apellidoPaterno"
+                        th:field="*{apellidoPaterno}">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label>Apellido materno:</label>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">@</span>
+                      </div>
+                      <input type="text" class="form-control" placeholder="Apellido materno" name="apellidoMaterno"
+                        th:field="*{apellidoMaterno}">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+
+                  <div class="col-md-6">
+                    <label>Genero:</label>
+                    <div class="input-group mb-3">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="genero" value="M" th:field="*{genero}">
+                        <label for="genero" class="form-check-label">Masculino</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="genero" value="F" th:field="*{genero}">
+                        <label for="genero" class="form-check-label">Femenino</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label>Fecha de nacimiento:</label>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">@</span>
+                      </div>
+                      <input type="date" class="form-control" name="fechaNacimiento" th:field="*{fechaNacimiento}">
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  
+
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <label>Tipo de documento:</label>
+                    <select class="form-control" name="tipoDocumento" th:field="*{tipoDocumento}">
+                      <option value="undefined">---Seleccionar tipo documento---</option>
+                      <option value="DNI">DNI</option>
+                      <option value="CE">CE</option>
+                      <option value="Otro">Otro</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label>Número de documento:</label>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">@</span>
+                      </div>
+                      <input type="text" class="form-control" placeholder="Número de documento" name="numeroDocumento"
+                        th:field="*{numeroDocumento}">
+                    </div>
+                  </div>
+
+                </div>
+
+                <h6 class="heading-small mb-0">CONTACTO</h6>
+				<hr class="mb-3 mt-0">
+                <th:block th:each="contacto, itemStat : *{contactos}">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label>Dirección:</label>
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">@</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Dirección"
+                          th:field="*{contactos[__${itemStat.index}__].direccion}">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label>Correo electrónico:</label>
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">@</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Correo electrónico"
+                          th:field="*{contactos[__${itemStat.index}__].correoElectronico}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label>Número de teléfono:</label>
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">@</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Número de teléfono"
+                          th:field="*{contactos[__${itemStat.index}__].numeroTelefonico}">
+                      </div>
+                    </div>
+                  </div>
+
+
+                </th:block>
+
+				<h6 class="heading-small mb-0">CREDENCIALES DEL SISTEMA</h6>
+				<hr class="mb-3 mt-0">
+				
+				<div class="row">
+				
+					<div class="col-md-6">
+	                    <label>Nombre de usuario:</label>
+	                    <div class="input-group mb-3">
+	                      <div class="input-group-prepend">
+	                        <span class="input-group-text">@</span>
+	                      </div>
+	                      <input type="text" class="form-control" placeholder="Nombre de usuario" name="nombreUsuario"
+	                        th:field="*{nombreUsuario}">
+	                    </div>
+	                  </div>
+
+
+                  <div class="col-md-6">
+                    <label>Clave (por defecto):</label>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">@</span>
+                      </div>
+                      <input type="text" class="form-control" placeholder="Clave" name="clave"
+                        th:field="*{clave}">
+                    </div>
+                  </div>
+
+                </div>
+				
+                <br>
+                <div class="form-group row">
+                  <div class="col-sm-6">
+                    <!-- <button class="btn btn-primary" role="button">Registrar</button> -->
+                    <input type="submit" value="Registrar" class="btn btn-secondary" />
+                  </div>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-4">
+          <div class="card shadow">
+            <div class="card-header bg-transparent">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h6 class="text-uppercase text-muted ls-1 mb-1"></h6>
+                  <h4 class="mb-0">INDICACIONES</h4>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+
+              <div class="text-justify">
+                <p>En el formulario registre correctamente los datos personales del estudiante.</p>
+                <hr class="my-4" />
+                <p>Para el campo tipo de familia, deberá confirmar con algún familiar o apoderado.</p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Footer -->
+      <footer th:replace="fragments/footer :: footer"></footer>
+      <!-- end footer -->
+    </div>
+  </div>
+  <!--   Core   -->
+  <script th:src="@{/assets/js/plugins/jquery/dist/jquery.min.js}"></script>
+  <script th:src="@{/assets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+  <!--   Argon JS   -->
+  <script th:src="@{/assets/js/argon-dashboard.min.js?v=1.1.0}"></script>
+</body>
+
+</html>

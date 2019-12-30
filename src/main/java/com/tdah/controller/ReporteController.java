@@ -74,8 +74,10 @@ public class ReporteController {
 				}
 			}
 			
+			int numEncuestados = encuesta.getDetalleEncuestas().size()/18;
 //			String baseUrlheroku = "";
 			model.put("encuesta", encuesta);
+			model.put("numEncuestados", numEncuestados);
 			model.put("usuarioSesion",(Usuario) session.getAttribute("usuarioSesion"));
 			model.put("urlReportes1", urlReportes1);
 			model.put("urlReportes2", urlReportes2);

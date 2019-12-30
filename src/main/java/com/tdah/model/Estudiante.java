@@ -36,6 +36,7 @@ public class Estudiante extends Persona implements Serializable{
 	
 	public Estudiante() {
 		this.detalleEncuestas = new ArrayList<DetalleEncuesta>();
+		this.contactos = new ArrayList<Contacto>();
 	}
 	
 	
