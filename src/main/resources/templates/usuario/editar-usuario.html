@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>
-    Registrar usuario
+    Editar usuario
   </title>
   <!-- Favicon -->
   <link th:href="@{/assets/img/brand/favicon.png}" rel="icon" type="image/png">
@@ -16,9 +16,6 @@
   <link th:href="@{/assets/js/plugins/@fortawesome/fontawesome-free/css/all.min.css}" rel="stylesheet" />
   <!-- CSS Files -->
   <link th:href="@{/assets/css/argon-dashboard.css?v=1.1.0}" rel="stylesheet" />
-
-  <!-- Owner css -->
-  <link th:href="@{/css/global.css}" rel="stylesheet" />
 </head>
 
 <body class="">
@@ -42,7 +39,7 @@
               <div class="row align-items-center">
                 <div class="col">
                   <h5 class="text-uppercase text-light ls-1 mb-1"></h5>
-                  <h4 class="mb-0">FORMULARIO DATOS PERSONALES DEL USUARIO</h4>
+                  <h4 class="mb-0">DATOS PERSONALES DEL USUARIO</h4>
                 </div>
                 <div class="col">
                 </div>
@@ -51,6 +48,9 @@
             <div class="card-body">
 
               <form th:action="@{/usuario/registrar}" th:object="${usuario}" method="post">
+              <input type="hidden" th:field="*{codUsuario}"/> <!-- codigo del usuario a editar -->
+              <input type="hidden" th:field="*{rol.codRol}"/> <!-- codigo del rol del usuario a editar -->
+              
                 <div class="row">
                   <div class="col-md-6">
                     <label>Primer nombre:</label>
@@ -153,6 +153,7 @@
                 <h6 class="heading-small mb-0">CONTACTO</h6>
 				<hr class="mb-3 mt-0">
                 <th:block th:each="contacto, itemStat : *{contactos}">
+                  <input type="hidden" th:field="*{contactos[__${itemStat.index}__].codContacto}"/> <!-- codigo del contacto del usuario a editar -->
                   <div class="row">
                     <div class="col-md-6">
                       <label>Dirección:</label>
@@ -198,31 +199,29 @@
 				
 					<div class="col-md-6">
 	                    <label>Nombre de usuario:</label>
+	                    <input type="hidden" class="form-control" th:field="*{nombreUsuario}">
 	                    <div class="input-group mb-3">
 	                      <div class="input-group-prepend">
 	                        <span class="input-group-text">@</span>
 	                      </div>
-	                      <input type="text" class="form-control" placeholder="Nombre de usuario" name="nombreUsuario"
-	                        th:field="*{nombreUsuario}">
+	                      <input type="text" class="form-control" th:value="${usuario.nombreUsuario}" disabled>  
 	                    </div>
 	                  </div>
+	                  
 
 
-                  <div class="col-md-6">
-                    <label>Clave (por defecto):</label>
-                    <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">@</span>
-                      </div>
-                      <input type="text" class="form-control" placeholder="Clave" name="clave"
-                        th:field="*{clave}">
+                    <div class="col-md-6">
+	                    <label>Estado:</label>
+	                    <select class="form-control" th:field="*{estado}">
+	                      <option value="undefined">---Seleccionar estado---</option>
+	                      <option value="ACTIVO">ACTIVO</option>
+	                      <option value="INACTIVO">INACTIVO</option>
+	                    </select>
                     </div>
-                  </div>
 
                 </div>
                 
                 <div class="row">
-				
 					<div class="col-md-6">
 	                    <label>Rol:</label>
 	                    <select class="form-control" th:field="*{rol.rolUsuario}">
@@ -242,7 +241,6 @@
 	                      <input type="date" class="form-control" name="fechaNacimiento" th:field="*{rol.fechaRenovacion}">
 	                    </div>
 	                </div>
-
                 </div>
                 
 				
@@ -250,7 +248,7 @@
                 <div class="form-group row">
                   <div class="col-sm-6">
                     <!-- <button class="btn btn-primary" role="button">Registrar</button> -->
-                    <input type="submit" value="Registrar" class="btn btn-secondary" />
+                    <input type="submit" value="Editar" class="btn btn-secondary" />
                   </div>
                 </div>
               </form>
@@ -269,13 +267,11 @@
               </div>
             </div>
             <div class="card-body">
-
-              <div class="text-justify">
-                <p>En el formulario registre correctamente los datos personales del estudiante.</p>
-                <hr class="my-4" />
-                <p>Para el campo tipo de familia, deberá confirmar con algún familiar o apoderado.</p>
-              </div>
-
+				<div class="text-justify">
+	                <p>En el formulario pre-cargado, puede editar los datos personales del profesor.</p>
+	                <hr class="my-4" />
+	                <p>Asegúrese de modificar solo los campos necesarios.</p>
+	            </div>
             </div>
           </div>
         </div>

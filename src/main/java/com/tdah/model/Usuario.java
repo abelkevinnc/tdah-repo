@@ -39,7 +39,10 @@ public class Usuario implements Serializable{
 	private String nombreUsuario;
 	private String clave;
 	
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date fechaRegistro;
+	private String estado;
 	
 	
 	@OneToOne(cascade = CascadeType.ALL)

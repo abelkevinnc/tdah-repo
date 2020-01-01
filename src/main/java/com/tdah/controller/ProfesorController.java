@@ -24,7 +24,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tdah.dto.ProfesorDTO;
 import com.tdah.model.Contacto;
-import com.tdah.model.Estudiante;
 import com.tdah.model.Profesor;
 import com.tdah.model.Usuario;
 import com.tdah.service.IProfesorService;
