@@ -3,6 +3,9 @@ package com.tdah.service.impl;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.security.InvalidKeyException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,9 +19,14 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
 import org.springframework.stereotype.Service;
 
+import com.microsoft.azure.storage.CloudStorageAccount;
+import com.microsoft.azure.storage.StorageException;
+import com.microsoft.azure.storage.file.CloudFile;
+import com.microsoft.azure.storage.file.CloudFileClient;
+import com.microsoft.azure.storage.file.CloudFileDirectory;
+import com.microsoft.azure.storage.file.CloudFileShare;
 import com.orsonpdf.PDFDocument;
 import com.orsonpdf.PDFGraphics2D;
 import com.orsonpdf.Page;
@@ -332,7 +340,41 @@ public class ReporteServiceImpl implements IReporteService{
 		
 		
 		String denominacionArchivo = utilSintoma.get("denominacion_archivo"); 
-		pdfDoc.writeToFile(new File("D:\\PROYECTO-TESIS\\REPORTES\\"+denominacionArchivo+".pdf"));
+		
+		//crear una carpeta temporal
+		String pathTemp = "pathTemp";
+		
+		File directorio = new File(pathTemp);
+		if(directorio.exists()) {
+			//log.info("El directorio ya existe.");
+		} else {
+			if(directorio.mkdir()) {
+				log.info("carpeta creada con nombre: "+ pathTemp);
+			}
+		}
+		
+		
+		pdfDoc.writeToFile(new File(pathTemp + "\\" + denominacionArchivo + ".pdf"));
+		
+		//enviar a azure
+		String storageConnectionString = "DefaultEndpointsProtocol=https;" + "AccountName=abelazure;"
+				+ "AccountKey=KWTYBQBfPAO7TCD26CDYSZ/4cinUducXKTiHomDcqUySl8wFGzVtf7+HsUlyuKtw21kbhl+rwXyl4Lep0erZfw==";
+		try {
+			CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
+			CloudFileClient fileClient = storageAccount.createCloudFileClient();
+			CloudFileShare share = fileClient.getShareReference("reportes");
+			CloudFileDirectory rootDir = share.getRootDirectoryReference();
+			
+			// Define the path to a local file.
+		    final String filePath = pathTemp + "\\" + denominacionArchivo + ".pdf";
+			
+			CloudFile cloudFile = rootDir.getFileReference(denominacionArchivo + ".pdf");
+		    cloudFile.uploadFromFile(filePath);
+			
+		} catch (InvalidKeyException | URISyntaxException | StorageException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
