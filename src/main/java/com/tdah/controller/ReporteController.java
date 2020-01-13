@@ -62,6 +62,7 @@ public class ReporteController {
 				
 				//se debe eliminar la carpeta temporal
 				
+				
 				String pathTemp = "pathTemp";
 				
 				File directorio = new File(pathTemp);

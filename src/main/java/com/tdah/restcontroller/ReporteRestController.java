@@ -36,18 +36,19 @@ public class ReporteRestController {
 	
 	@GetMapping("/encuestas/ver-pdf/{codEncuesta}")
 	public void verEncuestaPdf(@PathVariable(value = "codEncuesta") Integer codReporte, HttpServletResponse response) {
-		log.info("Reporte Rest Controller: Reporte"+ codReporte);
+		log.info("Reporte Rest Controller: Reporte "+ codReporte);
 		Reporte reporte = reporteService.findById(codReporte);
 		CloudFile file = null;
 		
 		//crear una carpeta temporal y traer el fichero
 		String pathTempD = "pathTempD";
+		File directorio = new File(pathTempD);
 		try {
 			
 			//aqui lo nuevo de azure
 			file = azureStorageService.downloadFile(reporte.getDenominacionArchivo());
 			
-			File directorio = new File(pathTempD);
+			
 			if(directorio.exists()) {
 				//log.info("El directorio ya existe.");
 			} else {
@@ -63,27 +64,25 @@ public class ReporteRestController {
 			
 			Path path = Paths.get(pathTempD);
 			byte[] bArray = Files.readAllBytes(path);
+			
+			File[] ficheros = directorio.listFiles();
+			 
+			for (int x=0;x<ficheros.length;x++) {
+				ficheros[x].delete();
+			}				
+			 
+			if (directorio.delete())
+			 log.info("El fichero ha sido borrado correctamente");
+			else
+			 log.info("El fichero no se ha podido borrar");
+			
+			
+			
 	        streamReport(response, bArray, reporte.getDenominacionArchivo());
 		
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			
-			File directorio = new File(pathTempD);
-			if(directorio.exists()) {
-				log.info("El directorio existe.");
-				File[] ficheros = directorio.listFiles();
-				 
-				for (int x=0;x<ficheros.length;x++) {
-					ficheros[x].delete();
-				}				
-				 
-				if (directorio.delete())
-				 System.out.println("El fichero "+pathTempD+" ha sido borrado correctamente");
-				else
-				 System.out.println("El fichero no se ha podido borrar");
-			}
 		}
 
 	}
