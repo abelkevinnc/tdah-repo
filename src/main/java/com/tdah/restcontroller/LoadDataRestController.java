@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tdah.model.Contacto;
 import com.tdah.model.DetalleEncuesta;
 import com.tdah.model.Encuesta;
 import com.tdah.model.Estudiante;
@@ -85,11 +86,25 @@ public class LoadDataRestController {
 			profesor.setFechaNacimiento(new Date());
 			profesor.setGenero(randomData.get("randomGenero").toString());
 			profesor.setCodigoDocente("" + randomData.get("randomDni"));
+			profesor.setContactos(getContactos());
 			
 			listProfesores.add(profesor);
 		}
 		
 		return listProfesores;
+	}
+	
+	
+	private List<Contacto> getContactos() {
+		List<Contacto> contactos = new ArrayList<>();
+		Contacto contacto = new Contacto();
+		
+		contacto.setCorreoElectronico("prueba@gmail.com");
+		contacto.setDireccion("Calle de prueba");
+		contacto.setNumeroTelefonico("987654321");
+		contactos.add(contacto);
+		
+		return contactos;
 	}
 	
 	public List<Estudiante> dataEstudiante(int total, int numeroOrden) {
@@ -109,6 +124,7 @@ public class LoadDataRestController {
 			estudiante.setGenero(randomData.get("randomGenero").toString());
 			estudiante.setTipoFamilia(randomData.get("randomTipoFamilia").toString());
 			estudiante.setEstado("ACTIVO");
+			estudiante.setContactos(getContactos());
 			
 			listEstudiantes.add(estudiante);
 			numeroOrden++;
