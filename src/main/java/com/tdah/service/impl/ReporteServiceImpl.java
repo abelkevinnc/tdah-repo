@@ -3,6 +3,9 @@ package com.tdah.service.impl;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.security.InvalidKeyException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,9 +19,14 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
 import org.springframework.stereotype.Service;
 
+import com.microsoft.azure.storage.CloudStorageAccount;
+import com.microsoft.azure.storage.StorageException;
+import com.microsoft.azure.storage.file.CloudFile;
+import com.microsoft.azure.storage.file.CloudFileClient;
+import com.microsoft.azure.storage.file.CloudFileDirectory;
+import com.microsoft.azure.storage.file.CloudFileShare;
 import com.orsonpdf.PDFDocument;
 import com.orsonpdf.PDFGraphics2D;
 import com.orsonpdf.Page;
@@ -97,7 +105,7 @@ public class ReporteServiceImpl implements IReporteService{
 			Reporte reporte = new Reporte();
 			reporte.setCodEncuesta(codEncuesta);
 			reporte.setDenominacionArchivo(utilReporteSintomasPorGrado.get("denominacion_archivo")+".pdf");
-			reporte.setCodOrden(i+1);
+			reporte.setCodOrden(1);
 			reporteDAO.save(reporte);
 		}
 			
@@ -131,6 +139,36 @@ public class ReporteServiceImpl implements IReporteService{
 		
 	}
 	
+	private Map<String, String> getUtilReporteSintomasPorGenero(int num, int codEncuesta) {
+		Map<String, String> utilReporteSintomasPorGenero = new HashMap<>();
+		switch (num) {
+		case 0:
+			utilReporteSintomasPorGenero.put("abreviacion", "DA");
+			utilReporteSintomasPorGenero.put("sintoma", "Deficit de atencion");
+			utilReporteSintomasPorGenero.put("titulo_pdf", "Reporte promedio deficit de atencion por genero");
+			utilReporteSintomasPorGenero.put("denominacion_archivo", "REPORTE_PROMEDIO_DA_GENERO_"+codEncuesta);
+			
+			break;
+		case 1:
+			utilReporteSintomasPorGenero.put("abreviacion", "H");
+			utilReporteSintomasPorGenero.put("sintoma", "Hiperactividad");
+			utilReporteSintomasPorGenero.put("titulo_pdf", "Reporte promedio hiperactividad por genero");
+			utilReporteSintomasPorGenero.put("denominacion_archivo", "REPORTE_PROMEDIO_H_GENERO_"+codEncuesta);
+			break;
+		case 2:
+			utilReporteSintomasPorGenero.put("abreviacion", "I");
+			utilReporteSintomasPorGenero.put("sintoma", "Impulsividad");
+			utilReporteSintomasPorGenero.put("titulo_pdf", "Reporte promedio impulsividad por genero");
+			utilReporteSintomasPorGenero.put("denominacion_archivo", "REPORTE_PROMEDIO_I_GENERO_"+codEncuesta);
+			break;
+		default:
+			break;
+		}
+		
+		return utilReporteSintomasPorGenero;
+		
+	}
+	
 	private Map<String, String> getUtilReporteSintomasPorGrado(int num, int codEncuesta) {
 		Map<String, String> utilReporteSintomasPorGrado = new HashMap<>();
 		
@@ -139,26 +177,56 @@ public class ReporteServiceImpl implements IReporteService{
 			utilReporteSintomasPorGrado.put("abreviacion", "DA");
 			utilReporteSintomasPorGrado.put("sintoma", "Deficit de atencion");
 			utilReporteSintomasPorGrado.put("titulo_pdf", "Reporte promedio deficit de atencion");
-			utilReporteSintomasPorGrado.put("denominacion_archivo", "REPORTE_PROMEDIO_DA_"+codEncuesta);
+			utilReporteSintomasPorGrado.put("denominacion_archivo", "REPORTE_PROMEDIO_DA_GRADO_"+codEncuesta);
 			
 			break;
 		case 1:
 			utilReporteSintomasPorGrado.put("abreviacion", "H");
 			utilReporteSintomasPorGrado.put("sintoma", "Hiperactividad");
 			utilReporteSintomasPorGrado.put("titulo_pdf", "Reporte promedio hiperactividad");
-			utilReporteSintomasPorGrado.put("denominacion_archivo", "REPORTE_PROMEDIO_H_"+codEncuesta);
+			utilReporteSintomasPorGrado.put("denominacion_archivo", "REPORTE_PROMEDIO_H_GRADO_"+codEncuesta);
 			break;
 		case 2:
 			utilReporteSintomasPorGrado.put("abreviacion", "I");
 			utilReporteSintomasPorGrado.put("sintoma", "Impulsividad");
 			utilReporteSintomasPorGrado.put("titulo_pdf", "Reporte promedio impulsividad");
-			utilReporteSintomasPorGrado.put("denominacion_archivo", "REPORTE_PROMEDIO_I_"+codEncuesta);
+			utilReporteSintomasPorGrado.put("denominacion_archivo", "REPORTE_PROMEDIO_I_GRADO_"+codEncuesta);
 			break;
 		default:
 			break;
 		}
 		
 		return utilReporteSintomasPorGrado;
+	}
+	
+	private Map<String, String> getUtilReporteSintomasPorTF(int num, int codEncuesta) {
+		Map<String, String> utilReporteSintomasPorGenero = new HashMap<>();
+		switch (num) {
+		case 0:
+			utilReporteSintomasPorGenero.put("abreviacion", "DA");
+			utilReporteSintomasPorGenero.put("sintoma", "Deficit de atencion");
+			utilReporteSintomasPorGenero.put("titulo_pdf", "Reporte deficit de atencion por tipo de familia (promedio)");
+			utilReporteSintomasPorGenero.put("denominacion_archivo", "REPORTE_PROMEDIO_DA_TF_"+codEncuesta);
+			
+			break;
+		case 1:
+			utilReporteSintomasPorGenero.put("abreviacion", "H");
+			utilReporteSintomasPorGenero.put("sintoma", "Hiperactividad");
+			utilReporteSintomasPorGenero.put("titulo_pdf", "Reporte hiperactividad por tipo de familia (promedio)");
+			utilReporteSintomasPorGenero.put("denominacion_archivo", "REPORTE_PROMEDIO_H_TF_"+codEncuesta);
+			break;
+		case 2:
+			utilReporteSintomasPorGenero.put("abreviacion", "I");
+			utilReporteSintomasPorGenero.put("sintoma", "Impulsividad");
+			utilReporteSintomasPorGenero.put("titulo_pdf", "Reporte impulsividad por tipo de familia (promedio)");
+			utilReporteSintomasPorGenero.put("denominacion_archivo", "REPORTE_PROMEDIO_I_TF_"+codEncuesta);
+			break;
+		default:
+			break;
+		}
+		
+		return utilReporteSintomasPorGenero;
+		
 	}
 
 	private Map<String, String> getSintoma(int grado, int num) {
@@ -272,7 +340,41 @@ public class ReporteServiceImpl implements IReporteService{
 		
 		
 		String denominacionArchivo = utilSintoma.get("denominacion_archivo"); 
-		pdfDoc.writeToFile(new File("E:\\2019\\PROYECTO-TESIS\\REPORTE\\"+denominacionArchivo+".pdf"));
+		
+		//crear una carpeta temporal
+		String pathTemp = "pathTemp";
+		
+		File directorio = new File(pathTemp);
+		if(directorio.exists()) {
+			//log.info("El directorio ya existe.");
+		} else {
+			if(directorio.mkdir()) {
+				log.info("carpeta creada con nombre: "+ pathTemp);
+			}
+		}
+		
+		
+		pdfDoc.writeToFile(new File(pathTemp + "\\" + denominacionArchivo + ".pdf"));
+		
+		//enviar a azure
+		String storageConnectionString = "DefaultEndpointsProtocol=https;" + "AccountName=abelazure;"
+				+ "AccountKey=KWTYBQBfPAO7TCD26CDYSZ/4cinUducXKTiHomDcqUySl8wFGzVtf7+HsUlyuKtw21kbhl+rwXyl4Lep0erZfw==";
+		try {
+			CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
+			CloudFileClient fileClient = storageAccount.createCloudFileClient();
+			CloudFileShare share = fileClient.getShareReference("reportes");
+			CloudFileDirectory rootDir = share.getRootDirectoryReference();
+			
+			// Define the path to a local file.
+		    final String filePath = pathTemp + "\\" + denominacionArchivo + ".pdf";
+			
+			CloudFile cloudFile = rootDir.getFileReference(denominacionArchivo + ".pdf");
+		    cloudFile.uploadFromFile(filePath);
+			
+		} catch (InvalidKeyException | URISyntaxException | StorageException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -300,6 +402,177 @@ public class ReporteServiceImpl implements IReporteService{
 	@Override
 	public List<Reporte> getByEncuestaId(Integer codEncuesta) {
 		return reporteDAO.getByEncuestaId(codEncuesta);
+	}
+
+	@Override
+	public void generarReporteSintomasPorGenero(Integer codEncuesta) {
+		Encuesta encuesta = encuestaService.findById(codEncuesta);
+		List<DetalleEncuesta> detalleEncuestas = encuesta.getDetalleEncuestas();
+		Map<String, List<DetalleEncuesta>> encuestasXGenero = dividirEncuestasPorGenero(detalleEncuestas);
+
+		
+		Map<String,List<Double>> promedios = new HashMap<String, List<Double>>();
+		
+		List<Double> promedioDa = new ArrayList<Double>();
+		List<Double> promedioH = new ArrayList<Double>();
+		List<Double> promedioI = new ArrayList<Double>();
+		
+		for (int i = 0; i < 2; i++) {
+			List<DetalleEncuesta> detalleEncuesta = encuestasXGenero.get("encuesta"+(i+1));
+			Double sumPuntajeda = 0.0;
+			Double sumPuntajeh = 0.0;
+			Double sumPuntajei = 0.0;
+			for (int j = 0; j < detalleEncuesta.size(); j++) {
+				List<ResultadoEncuesta> resultadoEncuestas = detalleEncuesta.get(j).getResultadoEncuestas();
+				Map<String, Integer> sumSintomas = sintomasSeleccionadasPorAlumno(resultadoEncuestas);
+				
+				sumPuntajeda += sumSintomas.get("sumDA");
+				sumPuntajeh += sumSintomas.get("sumH");
+				sumPuntajei += sumSintomas.get("sumI");
+			}
+			//retorna el promedio de todo el grupo encuestado
+			
+			promedioDa.add(sumPuntajeda/detalleEncuesta.size());
+			promedioH.add(sumPuntajeh/detalleEncuesta.size());
+			promedioI.add(sumPuntajei/detalleEncuesta.size());
+			
+		}
+		
+		promedios.put("promedioDA", promedioDa);
+		promedios.put("promedioH", promedioH);
+		promedios.put("promedioI", promedioI);
+		
+		//numero de genero
+				int numeroGenero = 2;
+				
+				for (int i = 0; i < 3; i++) {
+					final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+					Map<String, String> utilReporteSintomasPorGenero = getUtilReporteSintomasPorGenero(i, codEncuesta);
+					for (int j = 0; j < numeroGenero; j++) {
+						List<Double> prom = promedios.get("promedio"+utilReporteSintomasPorGenero.get("abreviacion"));
+						if(j==0) dataset.addValue(prom.get(j), utilReporteSintomasPorGenero.get("sintoma"), "M");	
+						else dataset.addValue(prom.get(j), utilReporteSintomasPorGenero.get("sintoma"), "F");	
+					}
+					exportPdf(dataset, utilReporteSintomasPorGenero);
+					//guardar nombre de los reportes en la bd
+					Reporte reporte = new Reporte();
+					reporte.setCodEncuesta(codEncuesta);
+					reporte.setDenominacionArchivo(utilReporteSintomasPorGenero.get("denominacion_archivo")+".pdf");
+					reporte.setCodOrden(2);
+					reporteDAO.save(reporte);
+				}
+		
+	}
+	
+	private Map<String, List<DetalleEncuesta>> dividirEncuestasPorGenero(List<DetalleEncuesta> detalleEncuestas) {
+		Map<String, List<DetalleEncuesta>> encuentas = new HashMap<>();
+		
+		List<DetalleEncuesta> encuestadosM = detalleEncuestas
+				.stream()
+				.filter(de -> de.getEstudiante().getGenero().equalsIgnoreCase("M"))
+				.collect(Collectors.toList());
+		
+		List<DetalleEncuesta> encuestadosF = detalleEncuestas
+				.stream()
+				.filter(de -> de.getEstudiante().getGenero().equalsIgnoreCase("F"))
+				.collect(Collectors.toList());
+		
+		encuentas.put("encuesta1", encuestadosM);
+		encuentas.put("encuesta2", encuestadosF);
+		
+		return encuentas;
+	}
+
+	@Override
+	public void generarReporteSintomasPorTipoFamilia(Integer codEncuesta) {
+		Encuesta encuesta = encuestaService.findById(codEncuesta);
+		List<DetalleEncuesta> detalleEncuestas = encuesta.getDetalleEncuestas();
+		Map<String, List<DetalleEncuesta>> encuestasXTipoFamilia = dividirEncuestasPorTipoFamilia(detalleEncuestas);
+
+		
+		Map<String,List<Double>> promedios = new HashMap<String, List<Double>>();
+		
+		List<Double> promedioDa = new ArrayList<Double>();
+		List<Double> promedioH = new ArrayList<Double>();
+		List<Double> promedioI = new ArrayList<Double>();
+		
+		for (int i = 0; i < 3; i++) {
+			List<DetalleEncuesta> detalleEncuesta = encuestasXTipoFamilia.get("encuesta"+(i+1));
+			Double sumPuntajeda = 0.0;
+			Double sumPuntajeh = 0.0;
+			Double sumPuntajei = 0.0;
+			for (int j = 0; j < detalleEncuesta.size(); j++) {
+				List<ResultadoEncuesta> resultadoEncuestas = detalleEncuesta.get(j).getResultadoEncuestas();
+				Map<String, Integer> sumSintomas = sintomasSeleccionadasPorAlumno(resultadoEncuestas);
+				
+				sumPuntajeda += sumSintomas.get("sumDA");
+				sumPuntajeh += sumSintomas.get("sumH");
+				sumPuntajei += sumSintomas.get("sumI");
+			}
+			//retorna el promedio de todo el grupo encuestado separados por tipo de familia
+			
+			promedioDa.add(sumPuntajeda/detalleEncuesta.size());
+			promedioH.add(sumPuntajeh/detalleEncuesta.size());
+			promedioI.add(sumPuntajei/detalleEncuesta.size());
+			
+		}
+		
+		promedios.put("promedioDA", promedioDa);
+		promedios.put("promedioH", promedioH);
+		promedios.put("promedioI", promedioI);
+		
+		//numero de tipos de familia
+				int numeroTF = 3;
+				
+				for (int i = 0; i < 3; i++) {
+					final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+					Map<String, String> utilReporteSintomasPorTF = getUtilReporteSintomasPorTF(i, codEncuesta);
+					for (int j = 0; j < numeroTF; j++) {
+						List<Double> prom = promedios.get("promedio"+utilReporteSintomasPorTF.get("abreviacion"));
+						if(j==0) {
+							dataset.addValue(prom.get(j), utilReporteSintomasPorTF.get("sintoma"), "TF A");	
+						}
+						else if(j==1) {
+							dataset.addValue(prom.get(j), utilReporteSintomasPorTF.get("sintoma"), "TF B");	
+						}
+						else if(j==2) {
+							dataset.addValue(prom.get(j), utilReporteSintomasPorTF.get("sintoma"), "TF C");	
+						}
+					}
+					exportPdf(dataset, utilReporteSintomasPorTF);
+					//guardar nombre de los reportes en la bd
+					Reporte reporte = new Reporte();
+					reporte.setCodEncuesta(codEncuesta);
+					reporte.setDenominacionArchivo(utilReporteSintomasPorTF.get("denominacion_archivo")+".pdf");
+					reporte.setCodOrden(3);
+					reporteDAO.save(reporte);
+				}
+		
+	}
+	
+	private Map<String, List<DetalleEncuesta>> dividirEncuestasPorTipoFamilia(List<DetalleEncuesta> detalleEncuestas) {
+		Map<String, List<DetalleEncuesta>> encuentas = new HashMap<>();
+		
+		List<DetalleEncuesta> encuestadosA = detalleEncuestas
+				.stream()
+				.filter(de -> de.getEstudiante().getTipoFamilia().equalsIgnoreCase("A"))
+				.collect(Collectors.toList());
+		
+		List<DetalleEncuesta> encuestadosB = detalleEncuestas
+				.stream()
+				.filter(de -> de.getEstudiante().getTipoFamilia().equalsIgnoreCase("B"))
+				.collect(Collectors.toList());
+		
+		List<DetalleEncuesta> encuestadosC = detalleEncuestas
+				.stream()
+				.filter(de -> de.getEstudiante().getTipoFamilia().equalsIgnoreCase("C"))
+				.collect(Collectors.toList());
+		
+		encuentas.put("encuesta1", encuestadosA);
+		encuentas.put("encuesta2", encuestadosB);
+		encuentas.put("encuesta3", encuestadosC);
+		
+		return encuentas;
 	}
 
 	

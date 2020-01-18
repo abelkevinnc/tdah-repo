@@ -73,6 +73,11 @@
                           <td th:text="${encuesta.institucionEducativa.denominacion}"></td>
                         </tr>
                         <tr>
+                          <td>Docente responsable</td>
+                          <td th:text="${encuesta.detalleEncuestas[0].profesor.primerNombre + ' ' +encuesta.detalleEncuestas[0].profesor.apellidoPaterno + ' ' +encuesta.detalleEncuestas[0].profesor.apellidoMaterno}"></td>
+                        </tr>
+                        
+                        <tr>
                           <td>Fecha de creación: </td>
                           <td th:text="${#dates.format(encuesta.fechaCreacion, 'dd-MM-yyyy')}"></td>
                         </tr>
@@ -82,7 +87,7 @@
                         </tr>
                         <tr>
                           <td>N° de encuestados</td>
-                          <td th:text="${#lists.size(encuesta.detalleEncuestas)}"></td>
+                          <td th:text="${numEncuestados}"></td>
                         </tr>
                         
                       </tbody>
@@ -118,22 +123,31 @@
                   <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel"
                       aria-labelledby="tabs-icons-text-1-tab">
-                      <p class="description">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt
-                        tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles
-                        vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth.</p>
-                      <object th:data="${baseUrllocal}" type="application/pdf" width="750" height="1000"></object>
+                      <p class="description">Reporte según síntoma por grado (promedio).</p>
+                        <div class="text-center">
+	                        <th:block th:each="urlReporte: *{urlReportes1}">
+	                        	<object th:data="${urlReporte}" type="application/pdf" width="750" height="650"></object>
+	                        </th:block>
+                        </div>
+                      
                     </div>
                     <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel"
                       aria-labelledby="tabs-icons-text-2-tab">
-                      <p class="description">Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip
-                        placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate
-                        nisi qui.</p>
+                      <p class="description">Reporte según síntoma por género (promedio).</p>
+                        <div class="text-center">
+	                        <th:block th:each="urlReporte: *{urlReportes2}">
+	                        	<object th:data="${urlReporte}" type="application/pdf" width="750" height="650"></object>
+	                        </th:block>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="tabs-icons-text-3" role="tabpanel"
                       aria-labelledby="tabs-icons-text-3-tab">
-                      <p class="description">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt
-                        tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles
-                        vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth.</p>
+                      <p class="description">Reporte según síntoma por tipo de familia (promedio).</p>
+                        <div class="text-center">
+	                        <th:block th:each="urlReporte: *{urlReportes3}">
+	                        	<object th:data="${urlReporte}" type="application/pdf" width="750" height="650"></object>
+	                        </th:block>
+                        </div>
                     </div>
                   </div>
                 </div>

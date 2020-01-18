@@ -42,7 +42,7 @@
             <div class="card-header bg-transparent">
               <div class="row align-items-center">
                 <div class="col">
-                  <h4 class="text-uppercase text-light ls-1 mb-1">LISTA DE USUARIOS REGISTRADOS</h4>
+                  <h4 class="text-uppercase ls-1 mb-1">LISTA DE USUARIOS REGISTRADOS</h4>
                   <h2 class="mb-0"></h2>
                 </div>
                 <div class="col">
@@ -52,7 +52,39 @@
             <div class="card-body">
 
               <!-- inicio tabla -->
-              
+              <div class="table-responsive">
+                <table id="tableUsuarios" class="table align-items-center table-striped table-bordered table-hover">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col"></th>
+                      <th scope="col">Nombres</th>
+                      <th scope="col">Apellidos</th>
+                      <th scope="col">Genero</th>
+                      <th scope="col">Tipo y N° doc.</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr th:each="usuario : ${usuarios}">
+                      <td> <img th:src="${usuario.genero} == 'M' ? @{/img/male-table.png} : @{/img/female-table.png}">
+                      </td>
+                      <td th:text="${usuario.primerNombre + ' ' + usuario.segundoNombre}"></td>
+                      <td th:text="${usuario.apellidoPaterno + ' ' + usuario.apellidoMaterno}"></td>
+                      <td th:text="${usuario.genero} == 'M' ? 'Masculino' : 'Femenino'"></td>
+                      <td th:text="${usuario.tipoDocumento + ': ' + usuario.numeroDocumento}"></td>
+                      <td>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" class="btn btn-sm btn-info"
+                            th:onclick="|verPerfil(${usuario.codUsuario})|" data-toggle="modal"
+                            data-target="#modal-perfil-usuario">Perfil</button>
+                          <a th:href="${'/usuario/editar/'+usuario.codUsuario}" role="button"
+                            class="btn btn-sm btn-warning">Editar</a>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
               <!-- fin tabla -->
 
             </div>
@@ -69,17 +101,68 @@
               </div>
             </div>
             <div class="card-body">
-                  <div class="text-justify">
-                    <p>En la tabla se muestra todos los estudiantes registrados en la base de datos, puede escribir en el buscador para encontrar fácilmente a un estudiante.</p>
-                    <hr class="my-4" />
-                    <p>Presiona el botón de perfil para ver los datos completos del estudiante seleccionado</p>
-                    <hr class="my-4" />
-                    <p>Presiona el botón de editar para realizar un cambio necesario</p>
-                  </div>
+              <div class="text-justify">
+                <p>En la tabla se muestra todos los usuarios registrados en la base de datos, puede escribir en el
+                  buscador para encontrar fácilmente a un usuario.</p>
+                <hr class="my-4" />
+                <p>Presiona el botón de perfil para ver los datos completos del usuario seleccionado</p>
+                <hr class="my-4" />
+                <p>Presiona el botón de editar para realizar un cambio necesario</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- modal -->
+      <div class="col-md-4">
+        <div class="modal fade" id="modal-perfil-usuario" tabindex="-1" role="dialog"
+          aria-labelledby="modal-perfil-usuario" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered modal-" role="document">
+            <div class="modal-content">
+
+              <div class="modal-header">
+                <h6 class="modal-title" id="modal-title-default">PERFIL DEL USUARIO</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+
+              <div class="modal-body">
+                <div class="card card-profile shadow">
+                  <div class="row justify-content-center">
+                    <div class="col-lg-3 order-lg-2">
+                      <div class="card-profile-image">
+                        <a href="#">
+                          <img src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+                    <div class="d-flex justify-content-between">
+                    </div>
+                  </div>
+                  <div class="card-body mt-5 pt-0 pt-md-4" id="perfilBody">
+
+                  </div>
+                </div>
+
+
+
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-danger  ml-auto" data-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+      <!-- fin modal -->
       <!-- Footer -->
       <footer th:replace="fragments/footer :: footer"></footer>
       <!-- end footer -->
@@ -96,7 +179,7 @@
   <script th:src="@{/datatable/js/dataTables.bootstrap4.min.js}"></script>
   <script th:src="@{/datatable/js/dataTables.fixedColumns.min.js}"></script>
   <!-- fin datatable js -->
-  
+
   <!-- owner js-->
   <script th:src="@{/js/usuario/listar-usuario.js}"></script>
 </body>

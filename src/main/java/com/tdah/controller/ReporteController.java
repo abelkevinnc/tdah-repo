@@ -1,5 +1,7 @@
 package com.tdah.controller;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -55,14 +57,53 @@ public class ReporteController {
 				// generar reportes
 				log.info("se procede a generar reportes");
 				reporteService.generarReporteSintomasPorGrado(codEncuesta);
+				reporteService.generarReporteSintomasPorGenero(codEncuesta);
+				reporteService.generarReporteSintomasPorTipoFamilia(codEncuesta);
+				
+				//se debe eliminar la carpeta temporal
+				
+				
+				String pathTemp = "pathTemp";
+				
+				File directorio = new File(pathTemp);
+				if(directorio.exists()) {
+					log.info("El directorio existe.");
+					File[] ficheros = directorio.listFiles();
+					 
+					for (int x=0;x<ficheros.length;x++) {
+						ficheros[x].delete();
+					}				
+					 
+					if (directorio.delete())
+					 System.out.println("El fichero "+pathTemp+" ha sido borrado correctamente");
+					else
+					 System.out.println("El fichero no se ha podido borrar");
+				}	
+				
 			}
 			
+			List<String> urlReportes1 = new ArrayList<>();
+			List<String> urlReportes2 = new ArrayList<>();
+			List<String> urlReportes3 = new ArrayList<>();
 			
-			String baseUrllocal = "http://localhost:8080/api/encuestas/ver-pdf/" + codEncuesta;
+			for(Reporte r: reportes) {
+				if(r.getCodOrden() == 1) {
+					urlReportes1.add("http://localhost:8080/api/encuestas/ver-pdf/"+r.getCodReporte());
+				} else if (r.getCodOrden() == 2) {
+					urlReportes2.add("http://localhost:8080/api/encuestas/ver-pdf/"+r.getCodReporte());
+				} else {
+					urlReportes3.add("http://localhost:8080/api/encuestas/ver-pdf/"+r.getCodReporte());
+				}
+			}
+			
+			int numEncuestados = encuesta.getDetalleEncuestas().size()/18;
 //			String baseUrlheroku = "";
 			model.put("encuesta", encuesta);
+			model.put("numEncuestados", numEncuestados);
 			model.put("usuarioSesion",(Usuario) session.getAttribute("usuarioSesion"));
-			model.put("baseUrllocal", baseUrllocal);
+			model.put("urlReportes1", urlReportes1);
+			model.put("urlReportes2", urlReportes2);
+			model.put("urlReportes3", urlReportes3);
 			
 			return "reporte/ver-reporte";
 		}
