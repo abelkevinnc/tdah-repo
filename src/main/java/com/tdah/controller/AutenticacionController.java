@@ -61,11 +61,5 @@ public class AutenticacionController {
 		
 	}
 	
-//	@RequestMapping(value = "/logout", method = RequestMethod.POST)
-//	public String cerrarSesion(HttpSession session) {
-//		log.info("logout!");
-//		session.removeAttribute("usuario_sesion");
-//		return "redirect:/autenticacion/login";
-//	}
 
 }
