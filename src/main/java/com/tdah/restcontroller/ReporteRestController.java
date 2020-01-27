@@ -65,16 +65,16 @@ public class ReporteRestController {
 			Path path = Paths.get(pathTempD);
 			byte[] bArray = Files.readAllBytes(path);
 			
-			File[] ficheros = directorio.listFiles();
-			 
-			for (int x=0;x<ficheros.length;x++) {
-				ficheros[x].delete();
-			}				
-			 
-			if (directorio.delete())
-			 log.info("El fichero ha sido borrado correctamente");
-			else
-			 log.info("El fichero no se ha podido borrar");
+//			File[] ficheros = directorio.listFiles();
+//			 
+//			for (int x=0;x<ficheros.length;x++) {
+//				ficheros[x].delete();
+//			}				
+//			 
+//			if (directorio.delete())
+//			 log.info("El fichero ha sido borrado correctamente");
+//			else
+//			 log.info("El fichero no se ha podido borrar");
 			
 			
 			

@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.tdah.model.Usuario;
@@ -22,8 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserSecurityServiceImpl implements UserDetailsService{
 	
-	@Autowired
-	private BCryptPasswordEncoder encoder;
+//	@Autowired
+//	private BCryptPasswordEncoder encoder;
 	
 	@Autowired
 	private IUsuarioService usuarioService;
@@ -38,8 +37,6 @@ public class UserSecurityServiceImpl implements UserDetailsService{
 		if (usuario == null) {
             throw new UsernameNotFoundException("Usuario no encontrado.");
         }
-		
-		//String claveEncriptada = "$2a$10$KhTn69Tlt68luXvVs3qZhOOrO7TMTXViBamNex/Ub4A7NKkiaSd7u";
 
 		//ROL POR DEFECTO
 		List<GrantedAuthority> roles = new ArrayList<>();

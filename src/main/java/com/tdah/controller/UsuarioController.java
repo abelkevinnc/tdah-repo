@@ -1,7 +1,6 @@
 package com.tdah.controller;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,7 +25,6 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tdah.model.Contacto;
-import com.tdah.model.Profesor;
 import com.tdah.model.Rol;
 import com.tdah.model.Usuario;
 import com.tdah.service.IUsuarioService;
@@ -42,7 +40,7 @@ public class UsuarioController {
 	IUsuarioService usuarioService;
 	
 	@Autowired
-	private BCryptPasswordEncoder encoder;
+	private PasswordEncoder encoder;
 
 	@GetMapping("/listar")
 	public String listarUsuarios(Map<String, Object> model, HttpSession session) {
