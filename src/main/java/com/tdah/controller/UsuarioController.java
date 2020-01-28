@@ -28,6 +28,7 @@ import com.tdah.model.Contacto;
 import com.tdah.model.Rol;
 import com.tdah.model.Usuario;
 import com.tdah.service.IUsuarioService;
+import com.tdah.util.DatosRecuperacion;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -162,6 +163,24 @@ public class UsuarioController {
 		
 		return map;
 	
+	}
+	
+	@GetMapping("/recuperar-credencial")
+	public String recuperarClaveGet(Map<String, Object> model, HttpSession session) {
+		log.info("usuario controller: recuperar credencial");
+		if(session.getAttribute("usuarioSesion") != null) {
+			
+			DatosRecuperacion datos = new DatosRecuperacion();
+			
+			
+			model.put("datos", datos);
+			model.put("usuarios", usuarioService.findAll());
+			model.put("usuarioSesion", (Usuario) session.getAttribute("usuarioSesion"));
+			return "usuario/recuperar-credencial";
+		}
+		
+		return "autenticacion/login";
+		
 	}
 	
 }
