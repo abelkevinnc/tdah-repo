@@ -101,6 +101,12 @@
 			<artifactId>azure-storage</artifactId>
 			<version>8.6.0</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.twilio.sdk</groupId>
+			<artifactId>twilio</artifactId>
+			<version>7.42.0</version>
+		</dependency>
 
 
 
