@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>
-    Listar usuarios
+    LOGIN
   </title>
   <!-- Favicon -->
   <link th:href="@{/assets/img/brand/favicon.png}" rel="icon" type="image/png">
@@ -14,342 +14,141 @@
   <!-- Icons -->
   <link th:href="@{/assets/js/plugins/nucleo/css/nucleo.css}" rel="stylesheet" />
   <link th:href="@{/assets/js/plugins/@fortawesome/fontawesome-free/css/all.min.css}" rel="stylesheet" />
-
   <!-- CSS Files -->
   <link th:href="@{/assets/css/argon-dashboard.css?v=1.1.0}" rel="stylesheet" />
-
-  <!-- Owner css -->
-  <link th:href="@{/css/global.css}" rel="stylesheet" />
 </head>
 
-<body class="">
-  <!-- inicio sidebar -->
-  <nav th:replace="fragments/sidebar :: sidebar"></nav>
-  <!-- fin sidebar -->
+<body class="bg-default">
   <div class="main-content">
     <!-- Navbar -->
-    <nav th:replace="fragments/top-navbar :: top-navbar"></nav>
-    <!-- End Navbar -->
-    <!-- Header -->
-    <div class="header bg-gradient-primary pb-5 pt-5 pt-md-8">
-      <div class="container-fluid">
-      </div>
-    </div>
-    <div class="container-fluid mt--7">
-      <div class="row">
-        <div class="col-xl-8 mb-5 mb-xl-0">
-          <div class="card shadow">
-            <div class="card-header bg-transparent">
-              <div class="row align-items-center">
-                <div class="col">
-                  <h4 class="text-uppercase ls-1 mb-1">RECUPERAR CLAVE DE ACCESO AL SISTEMA</h4>
-                  <h2 class="mb-0"></h2>
-                </div>
-                <div class="col">
-                </div>
+    <nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
+      <div class="container px-4">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-main"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar-collapse-main">
+          <!-- Collapse header -->
+          <div class="navbar-collapse-header d-md-none">
+            <div class="row">
+              <div class="col-6 collapse-brand">
+                <a href="../index.html">
+                  <img th:src="@{/assets/img/brand/blue.png}">
+                </a>
               </div>
-            </div>
-            <div class="card-body">
-				<form th:action="@{/usuario/registrar}" th:object="${usuario}" method="post">
-                <div class="row">
-                  <div class="col-md-6">
-                    <label>Primer nombre:</label>
-                    <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">@</span>
-                      </div>
-                      <input type="text" class="form-control" placeholder="Primer nombre" name="primerNombre"
-                        th:field="*{primerNombre}">
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <label>Segundo nombre:</label>
-                    <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">@</span>
-                      </div>
-                      <input type="text" class="form-control" placeholder="Segundo nombre" name="segundoNombre"
-                        th:field="*{segundoNombre}">
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <label>Apellido paterno:</label>
-                    <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">@</span>
-                      </div>
-                      <input type="text" class="form-control" placeholder="Apellido paterno" name="apellidoPaterno"
-                        th:field="*{apellidoPaterno}">
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <label>Apellido materno:</label>
-                    <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">@</span>
-                      </div>
-                      <input type="text" class="form-control" placeholder="Apellido materno" name="apellidoMaterno"
-                        th:field="*{apellidoMaterno}">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-
-                  <div class="col-md-6">
-                    <label>Genero:</label>
-                    <div class="input-group mb-3">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="genero" value="M" th:field="*{genero}">
-                        <label for="genero" class="form-check-label">Masculino</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="genero" value="F" th:field="*{genero}">
-                        <label for="genero" class="form-check-label">Femenino</label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <label>Fecha de nacimiento:</label>
-                    <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">@</span>
-                      </div>
-                      <input type="date" class="form-control" name="fechaNacimiento" th:field="*{fechaNacimiento}">
-                    </div>
-                  </div>
-
-                </div>
-
-                <div class="row">
-                  
-
-                </div>
-
-                <div class="row">
-                  <div class="col-md-6">
-                    <label>Tipo de documento:</label>
-                    <select class="form-control" name="tipoDocumento" th:field="*{tipoDocumento}">
-                      <option value="undefined">---Seleccionar tipo documento---</option>
-                      <option value="DNI">DNI</option>
-                      <option value="CE">CE</option>
-                      <option value="Otro">Otro</option>
-                    </select>
-                  </div>
-
-                  <div class="col-md-6">
-                    <label>Número de documento:</label>
-                    <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">@</span>
-                      </div>
-                      <input type="text" class="form-control" placeholder="Número de documento" name="numeroDocumento"
-                        th:field="*{numeroDocumento}">
-                    </div>
-                  </div>
-
-                </div>
-
-                <h6 class="heading-small mb-0">CONTACTO</h6>
-				<hr class="mb-3 mt-0">
-                <th:block th:each="contacto, itemStat : *{contactos}">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label>Dirección:</label>
-                      <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">@</span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="Dirección"
-                          th:field="*{contactos[__${itemStat.index}__].direccion}">
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <label>Correo electrónico:</label>
-                      <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">@</span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="Correo electrónico"
-                          th:field="*{contactos[__${itemStat.index}__].correoElectronico}">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label>Número de teléfono:</label>
-                      <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">@</span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="Número de teléfono"
-                          th:field="*{contactos[__${itemStat.index}__].numeroTelefonico}">
-                      </div>
-                    </div>
-                  </div>
-
-
-                </th:block>
-
-				<h6 class="heading-small mb-0">CREDENCIALES DEL SISTEMA</h6>
-				<hr class="mb-3 mt-0">
-				
-				<div class="row">
-				
-					<div class="col-md-6">
-	                    <label>Nombre de usuario:</label>
-	                    <div class="input-group mb-3">
-	                      <div class="input-group-prepend">
-	                        <span class="input-group-text">@</span>
-	                      </div>
-	                      <input type="text" class="form-control" placeholder="Nombre de usuario" name="nombreUsuario"
-	                        th:field="*{nombreUsuario}">
-	                    </div>
-	                  </div>
-
-
-                  <div class="col-md-6">
-                    <label>Clave (por defecto):</label>
-                    <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">@</span>
-                      </div>
-                      <input type="text" class="form-control" placeholder="Clave" name="clave"
-                        th:field="*{clave}">
-                    </div>
-                  </div>
-
-                </div>
-                
-                <div class="row">
-				
-					<div class="col-md-6">
-	                    <label>Rol:</label>
-	                    <select class="form-control" th:field="*{rol.rolUsuario}">
-	                      <option value="undefined">---Seleccionar un rol---</option>
-	                      <option value="ROLE_ADMINISTRADOR">ADMINISTRADOR</option>
-	                      <option value="ROLE_DIRECTOR">DIRECTOR</option>
-	                      <option value="ROLE_PROFESOR">PROFESOR</option>
-	                    </select>
-	                </div>
-	                
-	                <div class="col-md-6">
-	                    <label>Fecha de renovación:</label>
-	                    <div class="input-group mb-3">
-	                      <div class="input-group-prepend">
-	                        <span class="input-group-text">@</span>
-	                      </div>
-	                      <input type="date" class="form-control" name="fechaNacimiento" th:field="*{rol.fechaRenovacion}">
-	                    </div>
-	                </div>
-
-                </div>
-                
-				
-                <br>
-                <div class="form-group row">
-                  <div class="col-sm-6">
-                    <!-- <button class="btn btn-primary" role="button">Registrar</button> -->
-                    <input type="submit" value="Registrar" class="btn btn-secondary" />
-                  </div>
-                </div>
-              </form>
-
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-4">
-          <div class="card shadow">
-            <div class="card-header bg-transparent">
-              <div class="row align-items-center">
-                <div class="col">
-                  <h6 class="text-uppercase text-muted ls-1 mb-1"></h6>
-                  <h4 class="mb-0">INDICACIONES</h4>
-                </div>
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="text-justify">
-                <p>Ingresar el nombre de usuario del sistema</p>
-                <hr class="my-4" />
-                <p>Ingresar el número de celular correspondiente al usuario</p>
-                <hr class="my-4" />
-                <p>Ingresar el código de verificación recibido</p>
-                <hr class="my-4" />
-                <p>Luego de validar el código, proceda a cambiar su clave de acceso</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- modal -->
-      <div class="col-md-4">
-        <div class="modal fade" id="modal-perfil-usuario" tabindex="-1" role="dialog"
-          aria-labelledby="modal-perfil-usuario" aria-hidden="true">
-          <div class="modal-dialog modal-lg modal-dialog-centered modal-" role="document">
-            <div class="modal-content">
-
-              <div class="modal-header">
-                <h6 class="modal-title" id="modal-title-default">PERFIL DEL USUARIO</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span>
+              <div class="col-6 collapse-close">
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse-main"
+                  aria-controls="sidenav-main" aria-expanded="false" aria-label="Toggle sidenav">
+                  <span></span>
+                  <span></span>
                 </button>
               </div>
-
-              <div class="modal-body">
-                <div class="card card-profile shadow">
-                  <div class="row justify-content-center">
-                    <div class="col-lg-3 order-lg-2">
-                      <div class="card-profile-image">
-                        <a href="#">
-                          <img src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-                    <div class="d-flex justify-content-between">
-                    </div>
-                  </div>
-                  <div class="card-body mt-5 pt-0 pt-md-4" id="perfilBody">
-
-                  </div>
-                </div>
-
-
-
-              </div>
-
-              <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-danger  ml-auto" data-dismiss="modal">Cerrar</button>
-              </div>
+            </div>
+          </div>
+          <!-- Navbar items -->
+        </div>
+      </div>
+    </nav>
+    <!-- Header -->
+    <div class="header bg-gradient-primary py-7 py-lg-5">
+      <div class="container">
+        <div class="header-body text-center mb-7">
+          <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-6">
+              <h1 class="text-white">Bienvenido!</h1>
+              <p class="text-lead text-light">Está aplicación ha sido creada como apoyo al diagnóstico del TDAH.</p>
             </div>
           </div>
         </div>
-
-
-
       </div>
-      <!-- fin modal -->
-      <!-- Footer -->
-      <footer th:replace="fragments/footer :: footer"></footer>
-      <!-- end footer -->
+      <div class="separator separator-bottom separator-skew zindex-100">
+        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1"
+          xmlns="http://www.w3.org/2000/svg">
+          <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
+        </svg>
+      </div>
     </div>
+    <!-- Page content -->
+    <div class="container mt--8 pb-3">
+      <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+          <div class="card bg-secondary shadow border-0">
+            <div class="card-body px-lg-5 py-lg-5">
+              <div class="text-center text-muted mb-4">
+                <small>Escriba los datos necesarios para recuperar su clave de acceso</small>
+              </div>
+              <form th:action="@{/usuario/recuperar-credencial}" th:object="${datos}" method="post">
+                <div class="form-group">
+                  <div class="input-group input-group-alternative mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Nombre de usuario" type="text" th:field="*{nombreUsuario}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group input-group-alternative mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-mobile-button"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Número de celular" type="text" th:field="*{numeroTelefono}">
+                  </div>
+                </div>
+                
+                <div class="row my-4">
+                  <div class="col-12">
+                        <small class="text-muted"><a th:href="@{/autenticacion/login}">Iniciar sesión.</a></small>
+
+                  </div>
+                </div>
+                <div class="text-center">
+                  <input type="submit" value="Recibir código" class="btn btn-primary mt-4" />
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 
+    <footer class="py-5">
+      <div class="container">
+        <div class="row align-items-center justify-content-xl-between">
+          <div class="col-xl-6">
+            <div class="copyright text-center text-xl-left text-muted">
+              © 2018 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Creative Tim</a>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+              <li class="nav-item">
+                <a href="https://www.creative-tim.com" class="nav-link" target="_blank">Creative Tim</a>
+              </li>
+              <li class="nav-item">
+                <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">About Us</a>
+              </li>
+              <li class="nav-item">
+                <a href="http://blog.creative-tim.com" class="nav-link" target="_blank">Blog</a>
+              </li>
+              <li class="nav-item">
+                <a href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md" class="nav-link" target="_blank">MIT License</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+     -->
   </div>
   <!--   Core   -->
   <script th:src="@{/assets/js/plugins/jquery/dist/jquery.min.js}"></script>
   <script th:src="@{/assets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
   <!--   Argon JS   -->
   <script th:src="@{/assets/js/argon-dashboard.min.js?v=1.1.0}"></script>
+  
+  <!--   Owner JS   -->
+  <script th:src="@{/js/autenticacion/login.js}"></script>
 
-  <!-- datatable js -->
-  <script th:src="@{/datatable/js/jquery.dataTables.min.js}"></script>
-  <script th:src="@{/datatable/js/dataTables.bootstrap4.min.js}"></script>
-  <script th:src="@{/datatable/js/dataTables.fixedColumns.min.js}"></script>
-  <!-- fin datatable js -->
-
-  <!-- owner js-->
 </body>
 
 </html>

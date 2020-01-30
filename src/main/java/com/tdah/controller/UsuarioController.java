@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.tdah.model.Contacto;
 import com.tdah.model.Rol;
 import com.tdah.model.Usuario;
+import com.tdah.service.ISendSmsService;
 import com.tdah.service.IUsuarioService;
 import com.tdah.util.DatosRecuperacion;
 
@@ -41,7 +43,10 @@ public class UsuarioController {
 	IUsuarioService usuarioService;
 	
 	@Autowired
-	private PasswordEncoder encoder;
+	PasswordEncoder encoder;
+	
+	@Autowired
+	ISendSmsService sendSmsService;
 
 	@GetMapping("/listar")
 	public String listarUsuarios(Map<String, Object> model, HttpSession session) {
@@ -93,8 +98,6 @@ public class UsuarioController {
 
 		log.info("Usuario controller: registrar usuario POST");
 		try {
-			//cuando es editar
-			
 			if(usuario.getCodUsuario() == null) {
 				usuario.setEstado("ACTIVO");
 				String clave = usuario.getClave();
@@ -108,15 +111,6 @@ public class UsuarioController {
 				usuario.setFechaRegistro(usuarioProvisional.getFechaRegistro());
 //				usuario.setRol(usuarioService.findById(usuario.getCodUsuario()).get);
 			}
-
-			
-			
-			
-//			Calendar calendar = Calendar.getInstance();
-//			calendar.add(Calendar.DAY_OF_YEAR, 30);  
-//			
-//			rol.setFechaRenovacion(calendar.getTime());
-			
 			usuarioService.saveOrUpdate(usuario);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -167,20 +161,40 @@ public class UsuarioController {
 	
 	@GetMapping("/recuperar-credencial")
 	public String recuperarClaveGet(Map<String, Object> model, HttpSession session) {
-		log.info("usuario controller: recuperar credencial");
-		if(session.getAttribute("usuarioSesion") != null) {
-			
-			DatosRecuperacion datos = new DatosRecuperacion();
-			
-			
-			model.put("datos", datos);
-			model.put("usuarios", usuarioService.findAll());
-			model.put("usuarioSesion", (Usuario) session.getAttribute("usuarioSesion"));
-			return "usuario/recuperar-credencial";
+		log.info("usuario controller: recuperar credencial GET");
+		DatosRecuperacion datos = new DatosRecuperacion();
+		model.put("datos", datos);
+		return "usuario/recuperar-credencial";
+		
+	}
+	
+	@PostMapping("/recuperar-credencial")
+	public String recuperarClavePost(@Valid DatosRecuperacion datos, BindingResult result, Model model, RedirectAttributes flash, SessionStatus status) {
+
+		log.info("Usuario controller: recuperar credencial POST");
+		
+		Usuario usuario = usuarioService.getUserByUsername(datos.getNombreUsuario());
+		
+		UUID uuid = UUID.randomUUID();
+		String randomId = uuid.toString();
+		
+		String codigoEnvio = randomId.substring(randomId.length() - 4).toUpperCase();
+		
+		if(usuario != null) {
+			log.info("usuario correcto");
+			if(usuario.getContactos().get(0).getNumeroTelefonico().equals(datos.getNumeroTelefono())) {
+				log.info("usuario y numeros correctos");
+				log.info("código de envío: " + codigoEnvio);
+				sendSmsService.enviarSms(codigoEnvio, usuario.getContactos().get(0).getNumeroTelefonico());
+			} else {
+				log.info("numero incorrecto");
+			}
+		} else {
+			log.info("usuario no registrado en la bd");
 		}
 		
-		return "autenticacion/login";
 		
+		return "autenticacion/login";
 	}
 	
 }
