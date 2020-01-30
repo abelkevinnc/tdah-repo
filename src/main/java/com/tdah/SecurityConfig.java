@@ -35,8 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http
 		.headers().frameOptions().sameOrigin().and()
 		.authorizeRequests()
-		.antMatchers("/assets/**","/css/**","/datatable/*","/img/**","/js/**","/api/**").permitAll()
-		.antMatchers("/**").access("hasRole('ROLE_ADMINISTRADOR') or hasRole('ROLE_DIRECTOR')")
+		.antMatchers("/assets/**","/css/**","/datatable/*","/img/**","/js/**","/api/**","/usuario/**").permitAll()
+//.antMatchers("/**").access("hasRole('ROLE_ADMINISTRADOR') or hasRole('ROLE_DIRECTOR')")
 		
 		.anyRequest()
 		.authenticated()
