@@ -26,6 +26,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tdah.model.Contacto;
+import com.tdah.model.Estudiante;
 import com.tdah.model.Rol;
 import com.tdah.model.Usuario;
 import com.tdah.service.ISendSmsService;
@@ -168,33 +169,82 @@ public class UsuarioController {
 		
 	}
 	
-	@PostMapping("/recuperar-credencial")
-	public String recuperarClavePost(@Valid DatosRecuperacion datos, BindingResult result, Model model, RedirectAttributes flash, SessionStatus status) {
-
+//	@PostMapping("/recuperar-credencial")
+//	public String recuperarClavePost(@Valid DatosRecuperacion datos, BindingResult result, Model model, RedirectAttributes flash, SessionStatus status) {
+//
+//		log.info("Usuario controller: recuperar credencial POST");
+//		
+//		Usuario usuario = usuarioService.getUserByUsername(datos.getNombreUsuario());
+//		
+//		UUID uuid = UUID.randomUUID();
+//		String randomId = uuid.toString();
+//		
+//		String codigoEnvio = randomId.substring(randomId.length() - 4).toUpperCase();
+//		
+//		if(usuario != null) {
+//			if(usuario.getContactos().get(0).getNumeroTelefonico().equals(datos.getNumeroTelefono())) {
+//				log.info("código de envío: " + codigoEnvio);
+//				sendSmsService.enviarSms(codigoEnvio, usuario.getContactos().get(0).getNumeroTelefonico());
+//			} else {
+//				log.info("numero incorrecto");
+//			}
+//		} else {
+//			log.info("usuario no registrado en la bd");
+//		}
+//		
+//		
+//		return "autenticacion/login";
+//	}
+	
+	@RequestMapping(value = "/recuperar-credencial", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> recuperarClavePost(HttpServletRequest r) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		log.info("Usuario controller: recuperar credencial POST");
 		
-		Usuario usuario = usuarioService.getUserByUsername(datos.getNombreUsuario());
+		String nombreUsuario = r.getParameter("nombreUsuario");
+		String numeroTelefono = r.getParameter("numeroTelefono");
+		
+		Usuario usuario = usuarioService.getUserByUsername(nombreUsuario);
 		
 		UUID uuid = UUID.randomUUID();
 		String randomId = uuid.toString();
 		
 		String codigoEnvio = randomId.substring(randomId.length() - 4).toUpperCase();
 		
+		String statusCode = "";
+		
 		if(usuario != null) {
-			log.info("usuario correcto");
-			if(usuario.getContactos().get(0).getNumeroTelefonico().equals(datos.getNumeroTelefono())) {
-				log.info("usuario y numeros correctos");
+			if(usuario.getContactos().get(0).getNumeroTelefonico().equals(numeroTelefono)) {
 				log.info("código de envío: " + codigoEnvio);
-				sendSmsService.enviarSms(codigoEnvio, usuario.getContactos().get(0).getNumeroTelefonico());
+				try {
+					//sendSmsService.enviarSms(codigoEnvio, usuario.getContactos().get(0).getNumeroTelefonico());
+					map.put("codigoEnvio", codigoEnvio);
+					map.put("statusCode", "1");
+				} catch (Exception e) {
+					map.put("statusCode", "4"); //no se envio correctamente
+					e.printStackTrace();
+				}
+				
 			} else {
 				log.info("numero incorrecto");
+				map.put("statusCode", "2");
 			}
 		} else {
 			log.info("usuario no registrado en la bd");
+			map.put("statusCode", "3");
 		}
-		
-		
-		return "autenticacion/login";
+		return map;
+	
+	}
+	
+	@RequestMapping(value = "/validar-codigo", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> validarCodigoPost(HttpServletRequest r) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		log.info("Usuario controller: validar codigo POST");
+		String codigo = r.getParameter("codigoVerificacion");
+		//nos quedamos aquí
+		return map;
+	
 	}
 	
 }
