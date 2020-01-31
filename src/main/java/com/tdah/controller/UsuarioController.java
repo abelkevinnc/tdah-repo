@@ -197,7 +197,7 @@ public class UsuarioController {
 //	}
 	
 	@RequestMapping(value = "/recuperar-credencial", method = RequestMethod.POST)
-	public @ResponseBody Map<String, Object> recuperarClavePost(HttpServletRequest r) {
+	public @ResponseBody Map<String, Object> recuperarClavePost(HttpServletRequest r, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		log.info("Usuario controller: recuperar credencial POST");
 		
@@ -217,11 +217,13 @@ public class UsuarioController {
 			if(usuario.getContactos().get(0).getNumeroTelefonico().equals(numeroTelefono)) {
 				log.info("código de envío: " + codigoEnvio);
 				try {
-					//sendSmsService.enviarSms(codigoEnvio, usuario.getContactos().get(0).getNumeroTelefonico());
+					sendSmsService.enviarSms(codigoEnvio, usuario.getContactos().get(0).getNumeroTelefonico());
+					session.setAttribute("codigoEnvio", codigoEnvio);
+					session.setAttribute("usuarioCambio", nombreUsuario);
 					map.put("codigoEnvio", codigoEnvio);
 					map.put("statusCode", "1");
 				} catch (Exception e) {
-					map.put("statusCode", "4"); //no se envio correctamente
+					map.put("statusCode", "4");
 					e.printStackTrace();
 				}
 				
@@ -238,13 +240,48 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping(value = "/validar-codigo", method = RequestMethod.POST)
-	public @ResponseBody Map<String, Object> validarCodigoPost(HttpServletRequest r) {
+	public @ResponseBody Map<String, Object> validarCodigoPost(HttpServletRequest r, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		log.info("Usuario controller: validar codigo POST");
-		String codigo = r.getParameter("codigoVerificacion");
-		//nos quedamos aquí
+		String codigoVerificacion = r.getParameter("codigoVerificacion");
+		
+		boolean status = false;
+		
+		if(session.getAttribute("codigoEnvio") != null) {
+			String codigoEnvio = (String) session.getAttribute("codigoEnvio");
+			if(codigoVerificacion.equals(codigoEnvio)) {
+				status = true;
+				log.info("CODIGO VALIDO");
+			}
+		}
+		map.put("status", status);
 		return map;
-	
+	}
+	@RequestMapping(value = "/cambiar-clave", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> cambiarClavePost(HttpServletRequest r, HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		log.info("Usuario controller: cambiar clave POST");
+		String nuevaClave = r.getParameter("nuevaClave");
+		
+		boolean status = false;
+		
+		if(session.getAttribute("usuarioCambio") != null) {
+			String username = (String) session.getAttribute("usuarioCambio");
+			Usuario usuario = usuarioService.getUserByUsername(username);
+			
+			String claveEncriptada = encoder.encode(nuevaClave);
+			usuario.setClave(claveEncriptada);
+			
+			usuarioService.saveOrUpdate(usuario);
+			status = true;
+		}
+
+		
+		map.put("status", status);
+		return map;
 	}
 	
+	
+	
 }
+ 
