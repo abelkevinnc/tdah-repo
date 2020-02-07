@@ -23,7 +23,7 @@ public class SendSmsServiceImpl implements ISendSmsService {
 		String ACCOUNT_SID = twilio.getAccountSid();
 		String AUTH_TOKEN = twilio.getAuthToken();
 		Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-		String mensaje = "Su código de verificación para recuperar su clave es: " + codigo;
+		String mensaje = "Su codigo de verificacion para recuperar su clave es: " + codigo;
 		Message message = Message.creator(new PhoneNumber("+51" + numeroTelefono), new PhoneNumber(twilio.getPhoneNumber()), mensaje).create();
 	}
 

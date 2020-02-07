@@ -74,37 +74,109 @@
         <div class="col-lg-6 col-md-8">
           <div class="card bg-secondary shadow border-0">
             <div class="card-body px-lg-5 py-lg-5">
-              <div class="text-center text-muted mb-4">
-                <small>Escriba los datos necesarios para recuperar su clave de acceso</small>
-              </div>
-              <form th:action="@{/usuario/recuperar-credencial}" th:object="${datos}" method="post">
-                <div class="form-group">
-                  <div class="input-group input-group-alternative mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-single-02"></i></span>
-                    </div>
-                    <input class="form-control" placeholder="Nombre de usuario" type="text" th:field="*{nombreUsuario}">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group input-group-alternative mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-mobile-button"></i></span>
-                    </div>
-                    <input class="form-control" placeholder="Número de celular" type="text" th:field="*{numeroTelefono}">
-                  </div>
-                </div>
-                
-                <div class="row my-4">
-                  <div class="col-12">
-                        <small class="text-muted"><a th:href="@{/autenticacion/login}">Iniciar sesión.</a></small>
+              <nav aria-label="...">
+                <ul class="pagination pagination-sm">
+                  <li class="page-item active" id="li_step1">
+                    <a class="page-link" href="#" tabindex="-1">1</a>
+                  </li>
+                  <li class="page-item disabled" id="li_step2"><a class="page-link" href="#">2</a></li>
+                </ul>
+              </nav>
 
+              <div class="alert alert-danger" role="alert" id="alert_danger" style="display: none">
+			    <strong id="message_danger"></strong>
+			  </div>
+              <div id="step1">
+
+                <div class="text-center text-muted mb-4">
+                  <small>Escriba los datos necesarios para recuperar su clave de acceso</small>
+                </div>
+                <form>
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                      </div>
+                      <input class="form-control" placeholder="Nombre de usuario" type="text" id="nombreUsuario">
+                    </div>
+                  </div>
+
+
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-mobile-button"></i></span>
+                      </div>
+                      <input class="form-control" placeholder="Número de celular" type="text" id="numeroTelefono">
+                    </div>
+                  </div>
+
+                </form>
+
+
+                <div class="form-group mt-4 col-12">
+                  <div class="text-center">
+                    <button class="btn btn-primary btn-lg btn-block mt-1" onclick="enviarDatos()">Recibir
+                      código</button>
                   </div>
                 </div>
-                <div class="text-center">
-                  <input type="submit" value="Recibir código" class="btn btn-primary mt-4" />
+
+
+                <div class="form-group mt-4" id="div_codigo" style="display: none">
+                  <div class="input-group input-group-alternative mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="INGRESAR EL CODIGO RECIBIDO" type="text"
+                      id="codigoVerificacion">
+                    <div class="text-center pb-1">
+                      <button class="btn btn-success mt-1" onclick="validarCodigo()">Validar</button>
+                    </div>
+                  </div>
                 </div>
-              </form>
+
+              </div>
+
+              <div id="step2" style="display: none">
+                <form>
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-key-25"></i></span>
+                      </div>
+                      <input class="form-control" placeholder="Escriba la nueva clave" type="password" id="nuevaClave1">
+                    </div>
+                  </div>
+
+
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-key-25"></i></span>
+                      </div>
+                      <input class="form-control" placeholder="Repetir clave" type="password" id="nuevaClave2">
+                    </div>
+                  </div>
+
+                </form>
+                <div class="form-group mt-4 col-12">
+                  <div class="text-center">
+                    <button class="btn btn-primary btn-lg btn-block mt-1" onclick="guardarCambios()">GUARDAR
+                      CAMBIOS</button>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="alert alert-success" role="alert" id="alert_success" style="display: none">
+			    <strong id="message_success"></strong>
+			</div>
+
+              <div class="row my-4">
+                <div class="col-12">
+                  <small class="text-muted"><a th:href="@{/autenticacion/login}">Regresar inicio</a></small>
+
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -145,9 +217,9 @@
   <script th:src="@{/assets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
   <!--   Argon JS   -->
   <script th:src="@{/assets/js/argon-dashboard.min.js?v=1.1.0}"></script>
-  
+
   <!--   Owner JS   -->
-  <script th:src="@{/js/autenticacion/login.js}"></script>
+  <script th:src="@{/js/usuario/recuperar-credencial.js}"></script>
 
 </body>
 
