@@ -173,7 +173,7 @@ public class LoadDataRestController {
 		for (int i = 0; i < 6; i++) {
 			Profesor prof = profesorService.saveOrUpdate(profesores1.get(i));
 			
-			int randomCantidadalumnos = new Random().nextInt(12 - 8) + 8;
+			int randomCantidadalumnos = new Random().nextInt(14 - 10) + 10;
 			List<Estudiante> estudiantes1 = dataEstudiante(randomCantidadalumnos, numeroOrden);
 			numeroOrden += randomCantidadalumnos;
 			for (int j = 0; j < randomCantidadalumnos; j++) {

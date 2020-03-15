@@ -95,7 +95,7 @@ public class ReporteController {
 				}
 			}
 			
-			int numEncuestados = encuesta.getDetalleEncuestas().size()/18;
+			int numEncuestados = encuesta.getDetalleEncuestas().size();
 //			String baseUrlheroku = "";
 			model.put("encuesta", encuesta);
 			model.put("numEncuestados", numEncuestados);

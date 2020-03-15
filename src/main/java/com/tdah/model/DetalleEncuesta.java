@@ -50,7 +50,7 @@ public class DetalleEncuesta implements Serializable{
 	@Temporal(TemporalType.DATE)
 	private Date fechaAplicacion;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name="cod_detalle_encuesta")
 	private List<ResultadoEncuesta> resultadoEncuestas;
 	

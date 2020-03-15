@@ -357,8 +357,8 @@ public class ReporteServiceImpl implements IReporteService{
 		pdfDoc.writeToFile(new File(pathTemp + "\\" + denominacionArchivo + ".pdf"));
 		
 		//enviar a azure
-		String storageConnectionString = "DefaultEndpointsProtocol=https;" + "AccountName=abelazure;"
-				+ "AccountKey=KWTYBQBfPAO7TCD26CDYSZ/4cinUducXKTiHomDcqUySl8wFGzVtf7+HsUlyuKtw21kbhl+rwXyl4Lep0erZfw==";
+		String storageConnectionString = "DefaultEndpointsProtocol=https;" + "AccountName=abelazure1;"
+				+ "AccountKey=Xv/27PedgNDVoUwjHPkuuy4BeTS/ZLM2yvvBowuL9WO9vQBhVI/3XEBlB+8wyG1tYEmHzIshvOjYgyyH+ZcZSg==";
 		try {
 			CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
 			CloudFileClient fileClient = storageAccount.createCloudFileClient();
