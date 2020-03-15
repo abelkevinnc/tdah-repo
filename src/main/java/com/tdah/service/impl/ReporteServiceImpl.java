@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -281,13 +282,23 @@ public class ReporteServiceImpl implements IReporteService{
 		//numero de alumnos
 		int numeroAlumnos = detalleEncuesta.size();
 		
+		List<Integer> puntajes = new ArrayList<>();
+		
 		for (int i = 0; i < numeroBarras; i++) {
 			for (int j = 0; j < numeroAlumnos; j++) {
 				List<ResultadoEncuesta> resultadoEncuestas = detalleEncuesta.get(j).getResultadoEncuestas();
 				Map<String, Integer> sumSintomas = sintomasSeleccionadasPorAlumno(resultadoEncuestas);
-				dataset.addValue(sumSintomas.get("sum"+utilSintoma.get("abreviacion")), utilSintoma.get("sintoma"), "N"+(j+1));	
+				
+				puntajes.add(sumSintomas.get("sum"+utilSintoma.get("abreviacion")));
+				//dataset.addValue(sumSintomas.get("sum"+utilSintoma.get("abreviacion")), utilSintoma.get("sintoma"), "E"+(j+1));	
 			}
 		}
+		Collections.sort(puntajes);
+		for (int i = 0; i < numeroAlumnos; i++) {
+			dataset.addValue(puntajes.get(i), utilSintoma.get("sintoma"), "E"+(i+1));	
+		}
+		
+		
 		exportPdf(dataset, utilSintoma);
 		
 	}

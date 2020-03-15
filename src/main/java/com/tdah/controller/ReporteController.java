@@ -55,9 +55,11 @@ public class ReporteController {
 			if(reportes.isEmpty()) {
 				// generar reportes
 				log.info("se procede a generar reportes");
+				reporteService.generarReporteSintomasIndividualesPorGrado();
 				reporteService.generarReporteSintomasPorGrado(codEncuesta);
-				reporteService.generarReporteSintomasPorGenero(codEncuesta);
-				reporteService.generarReporteSintomasPorTipoFamilia(codEncuesta);
+				//reporteService.generarReporteSintomasPorGenero(codEncuesta);
+				//reporteService.generarReporteSintomasPorTipoFamilia(codEncuesta);
+				
 				
 				//se debe eliminar la carpeta temporal
 				
