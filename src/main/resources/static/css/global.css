@@ -1,11 +1,11 @@
 #footer {
 	position: fixed;
-	height: 10px;
+	/*height: 10px;*/
 	bottom: 0px;
 	left: 255px;
 	right: 5px;
-	margin-bottom: 15px;
-	background-color: #F8F9FE;
+	/*margin-bottom: 15px;*/
+	background: #F6F7FC;
 	padding: 0px;
 }
 
