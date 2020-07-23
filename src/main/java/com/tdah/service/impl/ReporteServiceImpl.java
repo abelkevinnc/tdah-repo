@@ -118,8 +118,8 @@ public class ReporteServiceImpl implements IReporteService{
 	}
 	
 	@Override
-	public void generarReporteSintomasIndividualesPorGrado() {
-		Encuesta encuesta = encuestaService.findAll().get(0);
+	public void generarReporteSintomasIndividualesPorGrado(Integer codEncuesta) {
+		Encuesta encuesta = encuestaService.findById(codEncuesta);
 		List<DetalleEncuesta> detalleEncuestas = encuesta.getDetalleEncuestas();
 		
 		
@@ -134,7 +134,7 @@ public class ReporteServiceImpl implements IReporteService{
 			log.info("encuesta"+i);
 			List<DetalleEncuesta> detalleEncuesta = encuentas.get("encuesta"+i);
 			for (int j = 0; j < 3; j++) {
-				reportSumSintomas(detalleEncuesta, getSintoma(i,j)); //reporte sum sintomas
+				reportSumSintomas(detalleEncuesta, utilGetSintomaGrado(i,j,codEncuesta)); //reporte sum sintomas por grado
 			}
 		}
 		
@@ -230,7 +230,7 @@ public class ReporteServiceImpl implements IReporteService{
 		
 	}
 
-	private Map<String, String> getSintoma(int grado, int num) {
+	private Map<String, String> utilGetSintomaGrado(int grado, int num, int codEncuesta) {
 		
 		Map<String, String> utilSintoma = new HashMap<>();
 		
@@ -239,20 +239,78 @@ public class ReporteServiceImpl implements IReporteService{
 			utilSintoma.put("abreviacion", "DA");
 			utilSintoma.put("sintoma", "Deficit de atencion");
 			utilSintoma.put("titulo_pdf", "Reporte Deficit de atencion "+grado+ " grado");
-			utilSintoma.put("denominacion_archivo", "REPORTE_DA_GRADO_"+grado);
+			utilSintoma.put("denominacion_archivo", "REPORTE_DA_GRADO_"+grado+"_"+codEncuesta);
 			
 			break;
 		case 1:
 			utilSintoma.put("abreviacion", "H");
 			utilSintoma.put("sintoma", "Hiperactividad");
 			utilSintoma.put("titulo_pdf", "Reporte Hiperactividad "+grado+ " grado");
-			utilSintoma.put("denominacion_archivo", "REPORTE_H_GRADO_"+grado);
+			utilSintoma.put("denominacion_archivo", "REPORTE_H_GRADO_"+grado+"_"+codEncuesta);
 			break;
 		case 2:
 			utilSintoma.put("abreviacion", "I");
 			utilSintoma.put("sintoma", "Impulsividad");
 			utilSintoma.put("titulo_pdf", "Reporte Impulsividad "+grado+ " grado");
-			utilSintoma.put("denominacion_archivo", "REPORTE_I_GRADO_"+grado);
+			utilSintoma.put("denominacion_archivo", "REPORTE_I_GRADO_"+grado+"_"+codEncuesta);
+			break;
+		default:
+			break;
+		}
+		return utilSintoma;
+	}
+	private Map<String, String> utilGetSintomaGenero(String genero, int num, int codEncuesta) {
+		
+		Map<String, String> utilSintoma = new HashMap<>();
+		
+		switch (num) {
+		case 0:
+			utilSintoma.put("abreviacion", "DA");
+			utilSintoma.put("sintoma", "Deficit de atencion");
+			utilSintoma.put("titulo_pdf", "Reporte Deficit de atencion genero "+genero);
+			utilSintoma.put("denominacion_archivo", "REPORTE_DA_GENERO_"+genero+"_"+codEncuesta);
+			
+			break;
+		case 1:
+			utilSintoma.put("abreviacion", "H");
+			utilSintoma.put("sintoma", "Hiperactividad");
+			utilSintoma.put("titulo_pdf", "Reporte Hiperactividad genero "+genero);
+			utilSintoma.put("denominacion_archivo", "REPORTE_H_GENERO_"+genero+"_"+codEncuesta);
+			break;
+		case 2:
+			utilSintoma.put("abreviacion", "I");
+			utilSintoma.put("sintoma", "Impulsividad");
+			utilSintoma.put("titulo_pdf", "Reporte Impulsividad genero "+genero);
+			utilSintoma.put("denominacion_archivo", "REPORTE_I_GENERO_"+genero+"_"+codEncuesta);
+			break;
+		default:
+			break;
+		}
+		return utilSintoma;
+	}
+	
+	private Map<String, String> utilGetSintomaTF(String tf, int num, int codEncuesta) {
+Map<String, String> utilSintoma = new HashMap<>();
+		
+		switch (num) {
+		case 0:
+			utilSintoma.put("abreviacion", "DA");
+			utilSintoma.put("sintoma", "Deficit de atencion");
+			utilSintoma.put("titulo_pdf", "REPORTE DEFICIT DE ATENCION TIPO FAMILIA "+tf);
+			utilSintoma.put("denominacion_archivo", "REPORTE_DA_TF_"+tf+"_"+codEncuesta);
+			
+			break;
+		case 1:
+			utilSintoma.put("abreviacion", "H");
+			utilSintoma.put("sintoma", "Hiperactividad");
+			utilSintoma.put("titulo_pdf", "REPORTE HIPERACTIVIDAD TIPO FAMILIA "+tf);
+			utilSintoma.put("denominacion_archivo", "REPORTE_H_TF_"+tf+"_"+codEncuesta);
+			break;
+		case 2:
+			utilSintoma.put("abreviacion", "I");
+			utilSintoma.put("sintoma", "Impulsividad");
+			utilSintoma.put("titulo_pdf", "REPORTE IMPULSIVIDAD TIPO FAMILIA"+tf);
+			utilSintoma.put("denominacion_archivo", "REPORTE_I_TF_"+tf+"_"+codEncuesta);
 			break;
 		default:
 			break;
@@ -303,6 +361,35 @@ public class ReporteServiceImpl implements IReporteService{
 		
 	}
 	
+	private void reportSumSintomasGenero(List<DetalleEncuesta> detalleEncuesta, Map<String, String> utilSintoma) { //Todos los generos
+		final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		//numero de barras
+		int numeroBarras = 1;
+		
+		//numero de alumnos
+		int numeroAlumnos = detalleEncuesta.size();
+		
+		List<Integer> puntajes = new ArrayList<>();
+		
+		for (int i = 0; i < numeroBarras; i++) {
+			for (int j = 0; j < numeroAlumnos; j++) {
+				List<ResultadoEncuesta> resultadoEncuestas = detalleEncuesta.get(j).getResultadoEncuestas();
+				Map<String, Integer> sumSintomas = sintomasSeleccionadasPorAlumno(resultadoEncuestas);
+				
+				puntajes.add(sumSintomas.get("sum"+utilSintoma.get("abreviacion")));
+				//dataset.addValue(sumSintomas.get("sum"+utilSintoma.get("abreviacion")), utilSintoma.get("sintoma"), "E"+(j+1));	
+			}
+		}
+		Collections.sort(puntajes);
+		for (int i = 0; i < numeroAlumnos; i++) {
+			dataset.addValue(puntajes.get(i), utilSintoma.get("sintoma"), ""+(i+1));	
+		}
+		
+		
+		exportPdf(dataset, utilSintoma);
+		
+	}
+	
 	public Map<String, Integer> sintomasSeleccionadasPorAlumno(List<ResultadoEncuesta> resultadoEncuestas) {
 		Map<String, Integer> sumSintomas = new HashMap<>();
 		int sumDa = 0;
@@ -326,7 +413,7 @@ public class ReporteServiceImpl implements IReporteService{
 	}
 	
 	public void exportPdf(DefaultCategoryDataset dataset, Map<String, String> utilSintoma) {
-		JFreeChart barChart = ChartFactory.createBarChart(utilSintoma.get("titulo_pdf"), "Sintomas", "Puntaje", dataset,
+		JFreeChart barChart = ChartFactory.createBarChart(utilSintoma.get("titulo_pdf"), "Encuestados", "Puntaje", dataset,
 				PlotOrientation.VERTICAL, true, true, false);
 
 		/* Get instance of CategoryPlot */
@@ -368,24 +455,24 @@ public class ReporteServiceImpl implements IReporteService{
 		pdfDoc.writeToFile(new File(pathTemp + "\\" + denominacionArchivo + ".pdf"));
 		
 		//enviar a azure
-		String storageConnectionString = "DefaultEndpointsProtocol=https;" + "AccountName=abelazure1;"
-				+ "AccountKey=Xv/27PedgNDVoUwjHPkuuy4BeTS/ZLM2yvvBowuL9WO9vQBhVI/3XEBlB+8wyG1tYEmHzIshvOjYgyyH+ZcZSg==";
-		try {
-			CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
-			CloudFileClient fileClient = storageAccount.createCloudFileClient();
-			CloudFileShare share = fileClient.getShareReference("reportes");
-			CloudFileDirectory rootDir = share.getRootDirectoryReference();
-			
-			// Define the path to a local file.
-		    final String filePath = pathTemp + "\\" + denominacionArchivo + ".pdf";
-			
-			CloudFile cloudFile = rootDir.getFileReference(denominacionArchivo + ".pdf");
-		    cloudFile.uploadFromFile(filePath);
-			
-		} catch (InvalidKeyException | URISyntaxException | StorageException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		String storageConnectionString = "DefaultEndpointsProtocol=https;" + "AccountName=abelazure1;"
+//				+ "AccountKey=Xv/27PedgNDVoUwjHPkuuy4BeTS/ZLM2yvvBowuL9WO9vQBhVI/3XEBlB+8wyG1tYEmHzIshvOjYgyyH+ZcZSg==";
+//		try {
+//			CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
+//			CloudFileClient fileClient = storageAccount.createCloudFileClient();
+//			CloudFileShare share = fileClient.getShareReference("reportes");
+//			CloudFileDirectory rootDir = share.getRootDirectoryReference();
+//			
+//			// Define the path to a local file.
+//		    final String filePath = pathTemp + "\\" + denominacionArchivo + ".pdf";
+//			
+//			CloudFile cloudFile = rootDir.getFileReference(denominacionArchivo + ".pdf");
+//		    cloudFile.uploadFromFile(filePath);
+//			
+//		} catch (InvalidKeyException | URISyntaxException | StorageException | IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 	@Override
@@ -584,6 +671,54 @@ public class ReporteServiceImpl implements IReporteService{
 		encuentas.put("encuesta3", encuestadosC);
 		
 		return encuentas;
+	}
+
+	@Override
+	public void generarReporteSintomasIndividualesPorGenero(Integer codEncuesta) {
+		
+		Encuesta encuesta = encuestaService.findById(codEncuesta);
+		List<DetalleEncuesta> detalleEncuestas = encuesta.getDetalleEncuestas();
+		Map<String, List<DetalleEncuesta>> encuestasXGenero = dividirEncuestasPorGenero(detalleEncuestas);
+		
+		for (int i = 1; i <= 2; i++) {
+			List<DetalleEncuesta> detalleEncuesta = encuestasXGenero.get("encuesta"+(i));
+			for (int j = 0; j < 3; j++) {
+				reportSumSintomasGenero(detalleEncuesta,utilGetSintomaGenero((i==1)?"M":"F", j, codEncuesta));
+			}
+			
+		}
+
+		
+	}
+
+	@Override
+	public void generarReporteSintomasIndividualesTF(Integer codEncuesta) {
+		Encuesta encuesta = encuestaService.findById(codEncuesta);
+		List<DetalleEncuesta> detalleEncuestas = encuesta.getDetalleEncuestas();
+		Map<String, List<DetalleEncuesta>> encuestasXTipoFamilia = dividirEncuestasPorTipoFamilia(detalleEncuestas);
+		
+		for (int i = 1; i <= 3; i++) {
+			List<DetalleEncuesta> detalleEncuesta = encuestasXTipoFamilia.get("encuesta"+(i));
+			for (int j = 0; j < 3; j++) {
+				switch (i) {
+				case 1:
+					reportSumSintomasGenero(detalleEncuesta, utilGetSintomaTF("A", j, codEncuesta));
+					break;
+				case 2:
+					reportSumSintomasGenero(detalleEncuesta, utilGetSintomaTF("B", j, codEncuesta));
+					break;
+				case 3:
+					reportSumSintomasGenero(detalleEncuesta, utilGetSintomaTF("C", j, codEncuesta));
+					break;
+
+				default:
+					break;
+				}
+				
+			}
+			
+		}
+		
 	}
 
 	

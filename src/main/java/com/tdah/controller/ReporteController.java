@@ -55,31 +55,33 @@ public class ReporteController {
 			if(reportes.isEmpty()) {
 				// generar reportes
 				log.info("se procede a generar reportes");
-				reporteService.generarReporteSintomasIndividualesPorGrado();
+				reporteService.generarReporteSintomasIndividualesPorGrado(codEncuesta);
 				reporteService.generarReporteSintomasPorGrado(codEncuesta);
-				//reporteService.generarReporteSintomasPorGenero(codEncuesta);
-				//reporteService.generarReporteSintomasPorTipoFamilia(codEncuesta);
+				reporteService.generarReporteSintomasIndividualesPorGenero(codEncuesta);
+				reporteService.generarReporteSintomasIndividualesTF(codEncuesta);
+				reporteService.generarReporteSintomasPorGenero(codEncuesta);
+				reporteService.generarReporteSintomasPorTipoFamilia(codEncuesta);
 				
 				
 				//se debe eliminar la carpeta temporal
 				
 				
-				String pathTemp = "pathTemp";
-				
-				File directorio = new File(pathTemp);
-				if(directorio.exists()) {
-					log.info("El directorio existe.");
-					File[] ficheros = directorio.listFiles();
-					 
-					for (int x=0;x<ficheros.length;x++) {
-						ficheros[x].delete();
-					}				
-					 
-					if (directorio.delete())
-					 System.out.println("El fichero "+pathTemp+" ha sido borrado correctamente");
-					else
-					 System.out.println("El fichero no se ha podido borrar");
-				}	
+//				String pathTemp = "pathTemp";
+//				
+//				File directorio = new File(pathTemp);
+//				if(directorio.exists()) {
+//					log.info("El directorio existe.");
+//					File[] ficheros = directorio.listFiles();
+//					 
+//					for (int x=0;x<ficheros.length;x++) {
+//						ficheros[x].delete();
+//					}				
+//					 
+//					if (directorio.delete())
+//					 System.out.println("El fichero "+pathTemp+" ha sido borrado correctamente");
+//					else
+//					 System.out.println("El fichero no se ha podido borrar");
+//				}	
 				
 			}
 			
