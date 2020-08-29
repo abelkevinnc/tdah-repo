@@ -43,7 +43,7 @@ public class ReporteRestController {
 	public void verEncuestaPdf(@PathVariable(value = "codEncuesta") Integer codReporte, HttpServletResponse response) {
 		log.info("Reporte Rest Controller: Reporte "+ codReporte);
 		Reporte reporte = reporteService.findById(codReporte);
-		useFtp(reporte, response);
+		useAzure(reporte, response);
 	}
 	
 	protected void streamReport(HttpServletResponse response, byte[] data, String name)

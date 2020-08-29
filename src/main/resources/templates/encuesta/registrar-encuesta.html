@@ -116,54 +116,6 @@
         </div>
       </div>
       <hr class="mt-2">
-      <h5 class="heading-small text-muted">En proceso:</h5>
-      <div class="row mt-2" th:if="${not #lists.isEmpty(encuestasEnproceso)}">
-
-        <th:block th:each="encuestaEnproceso : ${encuestasEnproceso}">
-          <div class="col-xl-4 mt-2">
-            <div class="card shadow border-warning">
-              <div class="card-header bg-transparent">
-                <div class="row align-items-center">
-                  <div class="col">
-                    <h4 class="text-uppercase text-muted ls-1 mb-1"
-                      th:text="${'Encuesta '+encuestaEnproceso.denominacion}"></h4>
-                    <h4 class="mb-0">Detalles</h4>
-                  </div>
-                </div>
-              </div>
-              <div class="card-body text-center">
-              <table class="table">
-                      <tbody>
-
-                        <tr>
-                          <td>Institucion Educativa</td>
-                          <td th:text="${encuestaEnproceso.institucionEducativa.denominacion}"></td>
-                        </tr>
-                        <tr>
-                          <td>Fecha de creación: </td>
-                          <td th:text="${#dates.format(encuestaEnproceso.fechaCreacion, 'dd-MM-yyyy')}"></td>
-                        </tr>
-                        <tr>
-                          <td>N° de encuestados</td>
-                          <td th:text="${#lists.size(encuestaEnproceso.detalleEncuestas)}"></td>
-                        </tr>
-                        
-                      </tbody>
-                    </table>
-
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                      <a th:href="${'/encuesta/registrar-cuestionario/'+encuestaEnproceso.codEncuesta}" role="button" class="btn btn-sm btn-info">Encuestar</a>
-                      <button type="button" class="btn btn-sm btn-success" th:onclick="|operacionEncuesta(${encuestaEnproceso.codEncuesta},'FINALIZADO')|">Finalizar</button>
-                      <button type="button" class="btn btn-sm btn-danger" th:onclick="|operacionEncuesta(${encuestaEnproceso.codEncuesta},'BAJA')|">Dar de baja</button>
-                    </div>
-
-              </div>
-            </div>
-          </div>
-        </th:block>
-      </div>
-      
-      <br>
       <h5 class="heading-small text-muted">Finalizadas:</h5>
       <div class="row mt-2" th:if="${not #lists.isEmpty(encuestasFinalizadas)}">
 
@@ -212,9 +164,58 @@
           </div>
         </th:block>
       </div>
+
+      <br>
+      <h5 class="heading-small text-muted">En proceso:</h5>
+      <div class="row mt-2" th:if="${not #lists.isEmpty(encuestasEnproceso)}">
+
+        <th:block th:each="encuestaEnproceso : ${encuestasEnproceso}">
+          <div class="col-xl-4 mt-2">
+            <div class="card shadow border-warning">
+              <div class="card-header bg-transparent">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <h4 class="text-uppercase text-muted ls-1 mb-1"
+                        th:text="${'Encuesta '+encuestaEnproceso.denominacion}"></h4>
+                    <h4 class="mb-0">Detalles</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body text-center">
+                <table class="table">
+                  <tbody>
+
+                  <tr>
+                    <td>Institucion Educativa</td>
+                    <td th:text="${encuestaEnproceso.institucionEducativa.denominacion}"></td>
+                  </tr>
+                  <tr>
+                    <td>Fecha de creación: </td>
+                    <td th:text="${#dates.format(encuestaEnproceso.fechaCreacion, 'dd-MM-yyyy')}"></td>
+                  </tr>
+                  <tr>
+                    <td>N° de encuestados</td>
+                    <td th:text="${#lists.size(encuestaEnproceso.detalleEncuestas)}"></td>
+                  </tr>
+
+                  </tbody>
+                </table>
+
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <a th:href="${'/encuesta/registrar-cuestionario/'+encuestaEnproceso.codEncuesta}" role="button" class="btn btn-sm btn-info">Encuestar</a>
+                  <button type="button" class="btn btn-sm btn-success" th:onclick="|operacionEncuesta(${encuestaEnproceso.codEncuesta},'FINALIZADO')|">Finalizar</button>
+                  <button type="button" class="btn btn-sm btn-danger" th:onclick="|operacionEncuesta(${encuestaEnproceso.codEncuesta},'BAJA')|">Dar de baja</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </th:block>
+      </div>
       <!-- Footer -->
       <footer th:replace="fragments/footer :: footer"></footer>
       <!-- end footer -->
+      <div th:replace="fragments/sidebar :: profileUser"></div>
     </div>
   </div>
   <!--   Core   -->
@@ -225,6 +226,7 @@
 
   <!-- owner js-->
   <script th:src="@{/js/encuesta/registrar-encuesta.js}"></script>
+  <script th:src="@{/js/global.js}"></script>
   
 
 </body>

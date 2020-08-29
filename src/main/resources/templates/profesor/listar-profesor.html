@@ -162,6 +162,8 @@
       <!-- Footer -->
       <footer th:replace="fragments/footer :: footer"></footer>
       <!-- end footer -->
+
+      <div th:replace="fragments/sidebar :: profileUser"></div>
     </div>
   </div>
   <!--   Core   -->
@@ -178,6 +180,7 @@
 
   <!-- owner js-->
   <script th:src="@{/js/profesor/listar-profesor.js}"></script>
+  <script th:src="@{/js/global.js}"></script>
 </body>
 
 </html>

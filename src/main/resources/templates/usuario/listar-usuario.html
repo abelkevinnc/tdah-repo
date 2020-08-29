@@ -114,55 +114,7 @@
         </div>
       </div>
 
-      <!-- modal -->
-      <div class="col-md-4">
-        <div class="modal fade" id="modal-perfil-usuario" tabindex="-1" role="dialog"
-          aria-labelledby="modal-perfil-usuario" aria-hidden="true">
-          <div class="modal-dialog modal-lg modal-dialog-centered modal-" role="document">
-            <div class="modal-content">
-
-              <div class="modal-header">
-                <h6 class="modal-title" id="modal-title-default">PERFIL DEL USUARIO</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
-
-              <div class="modal-body">
-                <div class="card card-profile shadow">
-                  <div class="row justify-content-center">
-                    <div class="col-lg-3 order-lg-2">
-                      <div class="card-profile-image">
-                        <a href="#">
-                          <img src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-                    <div class="d-flex justify-content-between">
-                    </div>
-                  </div>
-                  <div class="card-body mt-5 pt-0 pt-md-4" id="perfilBody">
-
-                  </div>
-                </div>
-
-
-
-              </div>
-
-              <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-danger  ml-auto" data-dismiss="modal">Cerrar</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-
-      </div>
-      <!-- fin modal -->
+      <div th:replace="fragments/sidebar :: profileUser"></div>
       <!-- Footer -->
       <footer th:replace="fragments/footer :: footer"></footer>
       <!-- end footer -->
@@ -182,6 +134,7 @@
 
   <!-- owner js-->
   <script th:src="@{/js/usuario/listar-usuario.js}"></script>
+  <script th:src="@{/js/global.js}"></script>
 </body>
 
 </html>

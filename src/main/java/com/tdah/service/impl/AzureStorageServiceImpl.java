@@ -63,8 +63,8 @@ public class AzureStorageServiceImpl implements IAzureStorageService{
 	
 	
 	private CloudStorageAccount getConnection() {
-		String storageConnectionString = "DefaultEndpointsProtocol=https;" + "AccountName=abelazure1;"
-				+ "AccountKey=Xv/27PedgNDVoUwjHPkuuy4BeTS/ZLM2yvvBowuL9WO9vQBhVI/3XEBlB+8wyG1tYEmHzIshvOjYgyyH+ZcZSg==";
+		String storageConnectionString = "DefaultEndpointsProtocol=https;" + "AccountName=tdahalmacenamiento;"
+				+ "AccountKey=0vY5BBnZ6lciAqxP4WwbZJADjQCg/xtQeGAW+D0DIGm54LLN5obwWFlj5EHhzZe9d2Z9v+QmfUAuntoO8y/HCg==";
 		CloudStorageAccount storageAccount = null;
 		try {
 			storageAccount = CloudStorageAccount.parse(storageConnectionString);
