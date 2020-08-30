@@ -1,6 +1,4 @@
-console.log("ddd")
-
-function verPerfil(codUsuario) {
+function verPerfilUsuario(codUsuario) {
 	const data = new FormData();
 	data.append('codUsuario', codUsuario);
 
