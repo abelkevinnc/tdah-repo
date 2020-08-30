@@ -155,6 +155,7 @@
         <!-- Divider -->
         <hr class="my-3">
         <!-- Heading -->
+        <div th:if="${usuarioSesion.rol.rolUsuario == 'ROLE_ADMINISTRADOR'}">
         <h6 class="navbar-heading text-muted">PANEL ADMINISTRADOR</h6>
         <!-- Navigation -->
         <ul class="navbar-nav mb-md-3">
@@ -176,6 +177,7 @@
             </ul>
           </li>
         </ul>
+        </div>
       </div>
     </div>
   </nav>

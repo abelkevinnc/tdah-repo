@@ -101,36 +101,38 @@
 
                 </div>
                 <br>
-                <h4>POR FAVOR ELEGIR UNA RESPUESTA PARA CADA ITEM</h4>
-                <th:block th:each="resultadoEncuesta, itemStat : *{resultadoEncuestas}">
-                <section class="row">
-                  <div class="col-md-8" style="text-align:justify">
-                  <input type="hidden" th:field="*{resultadoEncuestas[__${itemStat.index}__].numeroItem}" />
-                    <p th:text="${resultadoEncuesta.numeroItem + '. ' +resultadoEncuesta.descripcionItem}"></p>
-                  </div>
-                  
-                  <div class="col-md-2 custom-control custom-radio">
-                    <input th:name="|resultadoEncuestas[${itemStat.index}].respuestaItem|" class="custom-control-input" th:id="${'radio1_'+resultadoEncuesta.numeroItem}" type="radio" value="SI">
-                    <label class="custom-control-label" th:for="${'radio1_'+resultadoEncuesta.numeroItem}">SI</label>
-                  </div>
-                  <div class="col-md-2 custom-control custom-radio">
-                    <input th:name="|resultadoEncuestas[${itemStat.index}].respuestaItem|" class="custom-control-input" th:id="${'radio2_'+resultadoEncuesta.numeroItem}" type="radio" value="NO">
-                    <label class="custom-control-label" th:for="${'radio2_'+resultadoEncuesta.numeroItem}">NO</label>
-                  </div>
-                  
-                </section>
-                <hr class="mt-1 mb-1">
-              </th:block>
-                
+                <div style="background-color: antiquewhite">
+                  <h4>POR FAVOR ELEGIR UNA RESPUESTA PARA CADA ITEM</h4>
+                  <th:block th:each="resultadoEncuesta, itemStat : *{resultadoEncuestas}">
+                  <section class="row">
+                    <div class="col-md-8" style="text-align:justify">
+                    <input type="hidden" th:field="*{resultadoEncuestas[__${itemStat.index}__].numeroItem}" />
+                      <p th:text="${resultadoEncuesta.numeroItem + '. ' +resultadoEncuesta.descripcionItem}"></p>
+                    </div>
+
+                    <div class="col-md-2 custom-control custom-radio">
+                      <input th:name="|resultadoEncuestas[${itemStat.index}].respuestaItem|" class="custom-control-input" th:id="${'radio1_'+resultadoEncuesta.numeroItem}" type="radio" value="SI">
+                      <label class="custom-control-label" th:for="${'radio1_'+resultadoEncuesta.numeroItem}">SI</label>
+                    </div>
+                    <div class="col-md-2 custom-control custom-radio">
+                      <input th:name="|resultadoEncuestas[${itemStat.index}].respuestaItem|" class="custom-control-input" th:id="${'radio2_'+resultadoEncuesta.numeroItem}" type="radio" value="NO">
+                      <label class="custom-control-label" th:for="${'radio2_'+resultadoEncuesta.numeroItem}">NO</label>
+                    </div>
+
+                  </section>
+
+                  <hr class="mt-1 mb-1">
+                  </th:block>
+                </div>
                 <div class="form-group row">
                   <div class="col-sm-6">
                     <input type="submit" value="Registrar" class="btn btn-sm btn-primary" />
                   </div>
                 </div>
               </form>
-              
+              <!--
               <button onclick="randomSelect()">cargar</button>
-
+              -->
             </div>
           </div>
         </div>

@@ -50,7 +50,7 @@
                     </div>
                   </div>
                   <p class="mt-3 mb-0 text-muted text-sm">
-                    <span class="text-nowrap">Último creado 11-11-2019</span>
+                    <span class="text-danger mr-2"><a th:href="@{/encuesta/registrar}">Ver</a></span>
                   </p>
                 </div>
               </div>
@@ -70,8 +70,7 @@
                     </div>
                   </div>
                   <p class="mt-3 mb-0 text-muted text-sm">
-                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 3.48%</span>
-                    <span class="text-nowrap">Since last week</span>
+                    <span class="text-danger mr-2"><a th:href="@{/estudiante/listar}">Ver Lista</a></span>
                   </p>
                 </div>
               </div>
@@ -91,8 +90,10 @@
                     </div>
                   </div>
                   <p class="mt-3 mb-0 text-muted text-sm">
-                    <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
-                    <span class="text-nowrap">Since yesterday</span>
+                    <span th:if="${usuarioSesion.rol.rolUsuario == 'ROLE_ADMINISTRADOR'}"
+                          class="text-warning mr-2">
+                      <a th:href="@{/usuario/listar}">Ver Lista</a>
+                    </span>
                   </p>
                 </div>
               </div>
@@ -112,8 +113,6 @@
                     </div>
                   </div>
                   <p class="mt-3 mb-0 text-muted text-sm">
-                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
-                    <span class="text-nowrap">Since last month</span>
                   </p>
                 </div>
               </div>
@@ -122,8 +121,32 @@
         </div>
       </div>
     </div>
-    <div class="container-fluid mt--7">
-	
+    <br>
+    <div class="container-fluid">
+      <div class="card shadow">
+        <div class="card-body">
+          <nav aria-label="breadcrumb" role="navigation">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item active" aria-current="page">INFOGRAFÍA</li>
+            </ol>
+          </nav>
+          <div class="row">
+            <div class="col-md-5" style="padding-top:19px">
+              <img th:src="@{/img/tdah-portada1.jpg}" style="display:flex; margin: 0 auto">
+            </div>
+            <div class="col-md-7">
+              <img th:src="@{/img/tdah-portada2.jpg}" style="display:flex; margin: 0 auto">
+            </div>
+            <br>
+            <br>
+            <div class="col-md-12">
+              <img th:src="@{/img/tdah-portada3.jpg}" style="display:flex; margin: 0 auto">
+            </div>
+          </div>
+
+        </div>
+      </div>
+
       <!-- Footer -->
       <footer th:replace="fragments/footer :: footer"></footer>
       <!-- end footer -->
