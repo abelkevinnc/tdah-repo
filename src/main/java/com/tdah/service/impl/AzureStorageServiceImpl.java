@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 
+import com.tdah.dao.ITiwilioDAO;
+import com.tdah.model.TiwilioAccout;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.microsoft.azure.storage.CloudStorageAccount;
@@ -17,7 +20,8 @@ import com.tdah.service.IAzureStorageService;
 @Service
 public class AzureStorageServiceImpl implements IAzureStorageService{
 	
-	
+	@Autowired
+	ITiwilioDAO tiwilioDAO;
 
 	@Override
 	public void uploadFile(String filePath, String nameFile) {
@@ -63,8 +67,10 @@ public class AzureStorageServiceImpl implements IAzureStorageService{
 	
 	
 	private CloudStorageAccount getConnection() {
-		String storageConnectionString = "DefaultEndpointsProtocol=https;" + "AccountName=tdahalmacenamiento;"
-				+ "AccountKey=0vY5BBnZ6lciAqxP4WwbZJADjQCg/xtQeGAW+D0DIGm54LLN5obwWFlj5EHhzZe9d2Z9v+QmfUAuntoO8y/HCg==";
+		TiwilioAccout tiwilioAccout = new TiwilioAccout();
+		tiwilioAccout = tiwilioDAO.findById(2).get();
+		String storageConnectionString = "DefaultEndpointsProtocol=https;" + "AccountName="+tiwilioAccout.getAccountSid()+";"
+				+ "AccountKey="+tiwilioAccout.getAuthToken();
 		CloudStorageAccount storageAccount = null;
 		try {
 			storageAccount = CloudStorageAccount.parse(storageConnectionString);
